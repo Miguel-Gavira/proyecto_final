@@ -1,15 +1,18 @@
-const userController = {};
+const companyController = {};
 
-const UserModel = require("../models/userModel");
+const CompanyModel = require("../models/companyModel");
 
-userController.add = (req, res) => {
+companyController.add = (req, res) => {
   const data = req.body;
-  const newUser = new UserModel({
-    username: data.username,
+  const newCompany = new CompanyModel({
+    companyName: data.companyName,
     password: data.password,
+    address: data.address,
+    telephone: data.telephone,
+    type: data.type,
     email: data.email
   });
-  newUser.save(err => {
+  newCompany.save(err => {
     if (err) {
       console.log("DAMMMMN! There was an error", err);
     } else {
@@ -18,14 +21,17 @@ userController.add = (req, res) => {
   });
 };
 
-userController.edit = (req, res) => {
+companyController.edit = (req, res) => {
   const data = req.body;
-  UserModel.updateOne(
+  CompanyModel.updateOne(
     { _id: req.params.id },
     {
       $set: {
-        ...(data.username && { username: data.username }),
+        ...(data.companyName && { companyName: data.companyName }),
         ...(data.password && { password: data.password }),
+        ...(data.address && { address: data.address }),
+        ...(data.telephone && { telephone: data.telephone }),
+        ...(data.type && { type: data.type }),
         ...(data.email && { email: data.email })
       }
     },
@@ -39,8 +45,8 @@ userController.edit = (req, res) => {
   );
 };
 
-userController.delete = (req, res) => {
-  UserModel.deleteOne({ _id: req.params.id }, (err, raw) => {
+companyController.delete = (req, res) => {
+  CompanyModel.deleteOne({ _id: req.params.id }, (err, raw) => {
     if (err) {
       console.error("DAMMMMN! There was an error", err);
     } else {
@@ -49,8 +55,8 @@ userController.delete = (req, res) => {
   });
 };
 
-userController.listOne = (req, res) => {
-  UserModel.find({ _id: req.params.id })
+companyController.listOne = (req, res) => {
+  CompanyModel.find({ _id: req.params.id })
     .then(result => {
       console.log(result[0]);
     })
@@ -59,4 +65,4 @@ userController.listOne = (req, res) => {
     });
 };
 
-module.exports = userController;
+module.exports = companyController;

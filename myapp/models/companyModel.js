@@ -1,13 +1,17 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const CompanyModel = new Schema({
-    name: String,
+const CompanyModel = new Schema(
+  {
+    companyName: String,
+    password: String,
     address: String,
     telephone: Number,
     type: String,
-    password: String
-}, {collection: 'companies'});
+    email: String
+  },
+  { collection: "companies" }
+);
 
-module.exports = mongoose.model('companyModel', CompanyModel);
+module.exports = mongoose.model("companyModel", CompanyModel);
