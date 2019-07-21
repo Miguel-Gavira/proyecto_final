@@ -14,9 +14,9 @@ appointmentController.add = (req, res) => {
   });
   newAppointment.save(err => {
     if (err) {
-      console.log("DAMMMMN! There was an error", err);
+      res.send("DAMMMMN! There was an error", err);
     } else {
-      console.log("Añadido correctamente");
+      res.send("Añadido correctamente");
     }
   });
 };
@@ -33,9 +33,9 @@ appointmentController.edit = (req, res) => {
     },
     (err, raw) => {
       if (err) {
-        console.error("DAMMMMN! There was an error", err);
+        res.send("DAMMMMN! There was an error", err);
       } else {
-        console.error("Modificado");
+        res.send("Modificado");
       }
     }
   );
@@ -44,9 +44,9 @@ appointmentController.edit = (req, res) => {
 appointmentController.delete = (req, res) => {
   AppointmentModel.deleteOne({ _id: req.params.id }, (err, raw) => {
     if (err) {
-      console.error("DAMMMMN! There was an error", err);
+      res.send("DAMMMMN! There was an error", err);
     } else {
-      console.error("Eliminado");
+      res.send("Eliminado");
     }
   });
 };
@@ -59,7 +59,7 @@ appointmentController.listOne = (req, res) => {
       res.send(result[0]);
     })
     .catch(err => {
-      console.log(err);
+      res.send(err);
     });
 };
 

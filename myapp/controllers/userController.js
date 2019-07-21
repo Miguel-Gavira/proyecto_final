@@ -1,3 +1,5 @@
+const sha256 = require('sha256');
+
 const userController = {};
 
 const UserModel = require("../models/userModel");
@@ -6,14 +8,14 @@ userController.add = (req, res) => {
   const data = req.body;
   const newUser = new UserModel({
     username: data.username,
-    password: data.password,
+    password: sha256(data.password),
     email: data.email
   });
   newUser.save(err => {
     if (err) {
-      console.log("DAMMMMN! There was an error", err);
+      res.send("DAMMMMN! There was an error", err);
     } else {
-      console.log("Añadido correctamente");
+      res.send("Añadido correctamente");
     }
   });
 };
@@ -25,15 +27,15 @@ userController.edit = (req, res) => {
     {
       $set: {
         ...(data.username && { username: data.username }),
-        ...(data.password && { password: data.password }),
+        ...(data.password && { password: sha256(data.password) }),
         ...(data.email && { email: data.email })
       }
     },
     (err, raw) => {
       if (err) {
-        console.error("DAMMMMN! There was an error", err);
+        res.send("DAMMMMN! There was an error", err);
       } else {
-        console.error("Modificado");
+        res.send("Modificado");
       }
     }
   );
@@ -42,20 +44,20 @@ userController.edit = (req, res) => {
 userController.delete = (req, res) => {
   UserModel.deleteOne({ _id: req.params.id }, (err, raw) => {
     if (err) {
-      console.error("DAMMMMN! There was an error", err);
+      res.send("DAMMMMN! There was an error", err);
     } else {
-      console.error("Eliminado");
+      res.send("Eliminado");
     }
   });
 };
 
 userController.listOne = (req, res) => {
-  UserModel.find({ _id: req.params.id })
+  UserModel.find({ _id: req.params.id }, {password:0})
     .then(result => {
-      console.log(result[0]);
+      res.send(result[0]);
     })
     .catch(err => {
-      console.log(err);
+      res.send(err);
     });
 };
 

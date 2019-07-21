@@ -4,6 +4,11 @@ var router = express.Router();
 const userController = require('../controllers/userController');
 const companyController = require('../controllers/companyController');
 const appointmentController = require('../controllers/appointmentController');
+const authController = require('../controllers/authController');
+
+//Auth
+router.post('/auth/user', authController.authUser);
+router.post('/auth/company', authController.authCompany);
 
 //CRUD User
 router.post('/user/add', userController.add);

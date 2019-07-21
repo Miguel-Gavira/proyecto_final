@@ -1,3 +1,5 @@
+const sha256 = require('sha256');
+
 const companyController = {};
 
 const CompanyModel = require("../models/companyModel");
@@ -6,7 +8,7 @@ companyController.add = (req, res) => {
   const data = req.body;
   const newCompany = new CompanyModel({
     companyName: data.companyName,
-    password: data.password,
+    password: sha256(data.password),
     address: data.address,
     telephone: data.telephone,
     type: data.type,
@@ -14,9 +16,9 @@ companyController.add = (req, res) => {
   });
   newCompany.save(err => {
     if (err) {
-      console.log("DAMMMMN! There was an error", err);
+      res.send("DAMMMMN! There was an error", err);
     } else {
-      console.log("Añadido correctamente");
+      res.send("Añadido correctamente");
     }
   });
 };
@@ -28,7 +30,7 @@ companyController.edit = (req, res) => {
     {
       $set: {
         ...(data.companyName && { companyName: data.companyName }),
-        ...(data.password && { password: data.password }),
+        ...(data.password && { password: sha256(data.password) }),
         ...(data.address && { address: data.address }),
         ...(data.telephone && { telephone: data.telephone }),
         ...(data.type && { type: data.type }),
@@ -37,9 +39,9 @@ companyController.edit = (req, res) => {
     },
     (err, raw) => {
       if (err) {
-        console.error("DAMMMMN! There was an error", err);
+        res.send("DAMMMMN! There was an error", err);
       } else {
-        console.error("Modificado");
+        res.send("Modificado");
       }
     }
   );
@@ -48,20 +50,20 @@ companyController.edit = (req, res) => {
 companyController.delete = (req, res) => {
   CompanyModel.deleteOne({ _id: req.params.id }, (err, raw) => {
     if (err) {
-      console.error("DAMMMMN! There was an error", err);
+      res.send("DAMMMMN! There was an error", err);
     } else {
-      console.error("Eliminado");
+      res.send("Eliminado");
     }
   });
 };
 
 companyController.listOne = (req, res) => {
-  CompanyModel.find({ _id: req.params.id })
+  CompanyModel.find({ _id: req.params.id }, {password:0})
     .then(result => {
-      console.log(result[0]);
+      res.send(result[0]);
     })
     .catch(err => {
-      console.log(err);
+      res.send(err);
     });
 };
 
