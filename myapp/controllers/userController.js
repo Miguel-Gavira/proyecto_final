@@ -61,4 +61,15 @@ userController.listOne = (req, res) => {
     });
 };
 
+userController.listAll = (req, res) => {
+  UserModel.find({ }, {password:0})
+    .then(result => {
+      res.send(result);
+    })
+    .catch(err => {
+      res.send(err);
+    });
+};
+
+
 module.exports = userController;
