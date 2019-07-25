@@ -52,19 +52,9 @@ userController.delete = (req, res) => {
 };
 
 userController.listOne = (req, res) => {
-  UserModel.find({ _id: req.params.id }, {password:0})
+  UserModel.find({ _id: req.params.id }, { password: 0 })
     .then(result => {
       res.send(result[0]);
-    })
-    .catch(err => {
-      res.send(err);
-    });
-};
-
-userController.listAll = (req, res) => {
-  UserModel.find({ }, {password:0})
-    .then(result => {
-      res.send(result);
     })
     .catch(err => {
       res.send(err);

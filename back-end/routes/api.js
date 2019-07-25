@@ -6,9 +6,6 @@ const companyController = require('../controllers/companyController');
 const appointmentController = require('../controllers/appointmentController');
 const authController = require('../controllers/authController');
 
-//solo para una práctica
-router.get('/user/list', userController.listAll)
-
 //Auth
 router.post('/auth/user', authController.authUser);
 router.post('/auth/company', authController.authCompany);
