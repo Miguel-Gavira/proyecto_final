@@ -1,33 +1,26 @@
-.App {
-  text-align: center;
+#wallpaper {
+  background-image: url('https://mybarbershopbroward.files.wordpress.com/2016/09/barber-wallpaper-23.jpg');
+  height: 100vh;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.LoginCard {
+  /* width: 30% !important; */
+  border-radius: 15px !important;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.LoginCard li, a:hover {
+  background-color: white !important;
 }
 
-.App-link {
-  color: #61dafb;
+.LoginCard a {
+  color: black;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.LoginCard input{
+  border-bottom: 1px solid #2BBBAD !important;
+  width: 80% !important;
 }
