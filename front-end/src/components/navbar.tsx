@@ -11,11 +11,6 @@ const Navbar: React.FC<IProps> = props => {
       <nav className="nav-extended">
         <div className="nav-wrapper">
           <a href="#" className="brand-logo">
-            <img
-              src="https://image.flaticon.com/icons/png/512/62/62834.png"
-              alt="logo"
-              width="50px"
-            />
             Reserva tu cita
           </a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">

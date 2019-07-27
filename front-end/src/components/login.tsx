@@ -1,9 +1,15 @@
 import React from "react";
+import * as actions from "../actions";
+import { connect } from "react-redux";
 const materialize = require("react-materialize");
 
 interface IProps {}
 
-const Login: React.FC<IProps> = props => {
+interface IPropsGlobal {
+  setToken: (token: string) => void;
+}
+
+const Login: React.FC<IProps & IPropsGlobal> = props => {
   const [inputUsername, setInputUsername] = React.useState("");
   const [inputPassword, setInputPassword] = React.useState("");
   const [errorLogin, setErrorLogin] = React.useState("");
@@ -30,7 +36,7 @@ const Login: React.FC<IProps> = props => {
       if (response.ok) {
         response.text().then(token => {
           sessionStorage.setItem("token", token);
-          //   props.setToken(token);
+            props.setToken(token);
           //   const decode = jwt.decode(token);
           //   if (decode !== null && typeof decode !== "string") {
           //     props.setUsername(decode.username);
@@ -113,4 +119,6 @@ const Login: React.FC<IProps> = props => {
   );
 };
 
-export default Login;
+const mapDispatchToProps = {setToken: actions.setToken};
+
+export default connect(null, mapDispatchToProps)(Login);
