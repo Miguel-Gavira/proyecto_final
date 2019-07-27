@@ -78,6 +78,7 @@ const Login: React.FC<IProps & IPropsGlobal> = props => {
             <i className="material-icons prefix">person</i>
             <input
               onChange={updateInputUsername}
+              value={inputUsername}
               type="text"
               name="username"
               id="username"
@@ -91,6 +92,7 @@ const Login: React.FC<IProps & IPropsGlobal> = props => {
             <i className="material-icons prefix">lock</i>
             <input
               onChange={updateInputPassword}
+              value={inputPassword}
               type="password"
               name="password"
               id="password"
