@@ -53,8 +53,8 @@ appointmentController.delete = (req, res) => {
 
 appointmentController.listOne = (req, res) => {
   AppointmentModel.find({ _id: req.params.id })
-  .populate("company")
-  .populate("user")
+  .populate("company", {password: 0})
+  .populate("user", {password: 0})
     .then(result => {
       res.send(result[0]);
     })

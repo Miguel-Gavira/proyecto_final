@@ -9,7 +9,8 @@ const CompanyModel = new Schema(
     address: String,
     telephone: Number,
     type: String,
-    email: {type: String, required:true}
+    email: {type: String, required:true},
+    appointmentDuration: Number
   },
   { collection: "companies" }
 );

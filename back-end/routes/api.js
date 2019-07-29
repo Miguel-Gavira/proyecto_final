@@ -5,6 +5,7 @@ const userController = require('../controllers/userController');
 const companyController = require('../controllers/companyController');
 const appointmentController = require('../controllers/appointmentController');
 const authController = require('../controllers/authController');
+const scheduleController = require('../controllers/scheduleController');
 
 //Auth
 router.post('/auth/user', authController.authUser);
@@ -28,6 +29,10 @@ router.put('/appointment/edit/:id', appointmentController.edit);
 router.delete('/appointment/delete/:id', appointmentController.delete);
 router.get('/appointment/:id', appointmentController.listOne);
 
-
+//CRUD Schedule
+router.post('/schedule/add/:companyId', scheduleController.add);
+router.put('/schedule/edit/:scheduleId', scheduleController.edit);
+router.delete('/schedule/delete/:scheduleId', scheduleController.delete);
+router.get('/schedule/:companyId/:weekday', scheduleController.listOne);
 
 module.exports = router;

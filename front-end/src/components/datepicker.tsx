@@ -1,103 +1,77 @@
 import React from "react";
+import { DateTime } from "luxon";
+import * as actions from "../actions";
+import { connect } from 'react-redux';
+import Timepicker from "./timepicker";
 
 interface IProps {}
 
-const Datepicker: React.FC<IProps> = props => {
-  const [day, setDay] = React.useState(new Date().getUTCDate());
-  const [month, setMonth] = React.useState(new Date().getUTCMonth());
-  const [year, setYear] = React.useState(new Date().getUTCFullYear());
+interface IPropsGlobal {
+  setAppointment: (appointment: DateTime) => void;
+}
 
-  const allMonth = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre"
-  ];
+const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
+  const [selectedDay, setSelectedDay] = React.useState(DateTime.local());
 
-  const currentMonth = allMonth[month];
-
-  const add = (n: number) => {
-    const date = new Date();
-    date.setUTCFullYear(year);
-    date.setUTCMonth(month);
-    date.setUTCDate(day + n);
-    setDay(date.getUTCDate());
-    setMonth(date.getUTCMonth());
-    setYear(date.getUTCFullYear());
+  const add = () => {
+    setSelectedDay(d => d.plus({ week: 1 }));
   };
 
-  const sub = (n: number) => {
-    const date = new Date();
-    date.setUTCFullYear(year);
-    date.setUTCMonth(month);
-    date.setUTCDate(day - n);
-    setDay(date.getUTCDate());
-    setMonth(date.getUTCMonth());
-    setYear(date.getUTCFullYear());
+  const sub = () => {
+    setSelectedDay(d => d.minus({ week: 1 }));
   };
 
-  const days = [];
+  const days = React.useMemo(() => {
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      days[i] = selectedDay.minus({
+        days: selectedDay.weekday - i - 1
+      });
+    }
+    return days;
+  }, [selectedDay.weekNumber]);
 
-  for (let i = 0; 8 > i; i++) {
-    let otherDay = new Date().setUTCDate(day + i);
-    let day2 = new Date(otherDay).getUTCDate();
-    days.push(day2);
-  }
+  React.useEffect(() => {
+    props.setAppointment(selectedDay)
+  }, [selectedDay]);
 
   return (
     <div>
       <div>
-        <h2>{year}</h2>
-        <h2>{currentMonth}</h2>
+            <h2>{selectedDay.year}</h2>
+            <h2>{selectedDay.monthLong}</h2>
       </div>
       <div className="col s12">
         <ul className="pagination">
-          <li onClick={() => sub(8)}>
+          <li onClick={sub}>
             <a href="#!">
               <i className="material-icons">chevron_left</i>
             </a>
           </li>
-          <li className="waves-effect">
-            <a href="#!">{days[0]}</a>
-          </li>
-          <li className="waves-effect">
-            <a href="#!">{days[1]}</a>
-          </li>
-          <li className="waves-effect">
-            <a href="#!">{days[2]}</a>
-          </li>
-          <li className="waves-effect">
-            <a href="#!">{days[3]}</a>
-          </li>
-          <li className="waves-effect">
-            <a href="#!">{days[4]}</a>
-          </li>
-          <li className="waves-effect">
-            <a href="#!">{days[5]}</a>
-          </li>
-          <li className="waves-effect">
-            <a href="#!">{days[6]}</a>
-          </li>
-          <li className="waves-effect">
-            <a href="#!">{days[7]}</a>
-          </li>
-          <li onClick={() => add(8)}>
+          {days.map(d => (
+            <li
+              onClick={() => setSelectedDay(d)}
+              className={`waves-effect ${selectedDay.day === d.day &&
+                "active"}`}
+            >
+              <a href="#!">{d.day}</a>
+            </li>
+          ))}
+          <li onClick={add}>
             <a href="#!">
               <i className="material-icons">chevron_right</i>
             </a>
           </li>
         </ul>
       </div>
+      <div><Timepicker/></div>
     </div>
   );
 };
 
-export default Datepicker;
+const mapDispatchToProps = {
+  setAppointment: actions.setAppointment
+};
+
+
+export default connect(null,mapDispatchToProps)(Datepicker);

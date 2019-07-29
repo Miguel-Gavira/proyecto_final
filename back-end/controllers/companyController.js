@@ -12,7 +12,8 @@ companyController.add = (req, res) => {
     address: data.address,
     telephone: data.telephone,
     type: data.type,
-    email: data.email
+    email: data.email,
+    appointmentDuration: data.appointmentDuration
   });
   newCompany.save(err => {
     if (err) {
@@ -34,7 +35,8 @@ companyController.edit = (req, res) => {
         ...(data.address && { address: data.address }),
         ...(data.telephone && { telephone: data.telephone }),
         ...(data.type && { type: data.type }),
-        ...(data.email && { email: data.email })
+        ...(data.email && { email: data.email }),
+        ...(data.appointmentDuration && { email: data.appointmentDuration })
       }
     },
     (err, raw) => {
