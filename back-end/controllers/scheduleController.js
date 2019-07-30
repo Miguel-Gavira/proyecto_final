@@ -4,16 +4,13 @@ const ScheduleModel = require("../models/scheduleModel");
 
 scheduleController.add = (req, res) => {
     const data = req.body;
-    console.log(data);
     const companyId = req.params.companyId;
-    console.log(companyId);
     const newSchedule = new ScheduleModel({
         weekday: data.weekday,
         startTime: data.startTime,
         finishTime: data.finishTime,
         company: companyId
     });
-    console.log(newSchedule);
     newSchedule.save(err => {
         if (err) {
             res.send("DAMMMMN! There was an error", err);
