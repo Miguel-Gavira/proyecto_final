@@ -53,10 +53,23 @@ appointmentController.delete = (req, res) => {
 
 appointmentController.listOne = (req, res) => {
   AppointmentModel.find({ _id: req.params.id })
-  .populate("company", {password: 0})
-  .populate("user", {password: 0})
+    .populate("company", { password: 0 })
+    .populate("user", { password: 0 })
     .then(result => {
       res.send(result[0]);
+    })
+    .catch(err => {
+      res.send(err);
+    });
+};
+
+appointmentController.listFromCompany = (req, res) => {
+  const today = new Date(req.params.day);
+  const tomorrow = new Date(req.params.day);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  AppointmentModel.find({ company: req.params.companyId, appointment: { $gte: today, $lt: tomorrow } })
+    .then(result => {
+      res.send(result);
     })
     .catch(err => {
       res.send(err);

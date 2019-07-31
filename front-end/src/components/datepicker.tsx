@@ -1,45 +1,41 @@
 import React from "react";
 import { DateTime } from "luxon";
 import * as actions from "../actions";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import Timepicker from "./timepicker";
+import { IGlobalState } from "../reducers/reducers";
 
 interface IProps {}
 
 interface IPropsGlobal {
+  appointment: DateTime;
   setAppointment: (appointment: DateTime) => void;
 }
 
 const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
-  const [selectedDay, setSelectedDay] = React.useState(DateTime.local());
-
   const add = () => {
-    setSelectedDay(d => d.plus({ week: 1 }));
+    props.setAppointment(props.appointment.plus({ week: 1 }));
   };
 
   const sub = () => {
-    setSelectedDay(d => d.minus({ week: 1 }));
+    props.setAppointment(props.appointment.minus({ week: 1 }));
   };
 
   const days = React.useMemo(() => {
     const days = [];
     for (let i = 0; i < 7; i++) {
-      days[i] = selectedDay.minus({
-        days: selectedDay.weekday - i - 1
+      days[i] = props.appointment.minus({
+        days: props.appointment.weekday - i - 1
       });
     }
     return days;
-  }, [selectedDay.weekNumber]);
-
-  React.useEffect(() => {
-    props.setAppointment(selectedDay)
-  }, [selectedDay]);
+  }, [props.appointment.weekNumber]);
 
   return (
     <div>
       <div>
-            <h2>{selectedDay.year}</h2>
-            <h2>{selectedDay.monthLong}</h2>
+        <h2>{props.appointment.year}</h2>
+        <h2>{props.appointment.monthLong}</h2>
       </div>
       <div className="col s12">
         <ul className="pagination">
@@ -50,8 +46,11 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
           </li>
           {days.map(d => (
             <li
-              onClick={() => setSelectedDay(d)}
-              className={`waves-effect ${selectedDay.day === d.day &&
+              key={d.day}
+              onClick={() =>
+                props.setAppointment(props.appointment.set({ day: d.day }))
+              }
+              className={`waves-effect ${props.appointment.day === d.day &&
                 "active"}`}
             >
               <a href="#!">{d.day}</a>
@@ -64,14 +63,22 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
           </li>
         </ul>
       </div>
-      <div><Timepicker/></div>
+      <div>
+        <Timepicker />
+      </div>
     </div>
   );
 };
+
+const mapStateToProps = (state: IGlobalState) => ({
+  appointment: state.appointment
+});
 
 const mapDispatchToProps = {
   setAppointment: actions.setAppointment
 };
 
-
-export default connect(null,mapDispatchToProps)(Datepicker);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Datepicker);

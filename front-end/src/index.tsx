@@ -5,12 +5,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import "materialize-css";
 import "materialize-css/dist/css/materialize.min.css";
+import { devToolsEnhancer } from 'redux-devtools-extension';
 
 import { Provider } from "react-redux";
 import { createStore } from 'redux';
 import { reducers } from "./reducers/reducers";
 
-const store = createStore(reducers);
+const store = createStore(reducers, devToolsEnhancer({}));
 
 ReactDOM.render(
   <Provider store={store}>

@@ -28,11 +28,12 @@ router.post('/appointment/add/:companyId/:userId', appointmentController.add);
 router.put('/appointment/edit/:id', appointmentController.edit);
 router.delete('/appointment/delete/:id', appointmentController.delete);
 router.get('/appointment/:id', appointmentController.listOne);
+router.get('/appointment/:companyId/:day', appointmentController.listFromCompany);
 
 //CRUD Schedule
 router.post('/schedule/add/:companyId', scheduleController.add);
 router.put('/schedule/edit/:scheduleId', scheduleController.edit);
 router.delete('/schedule/delete/:scheduleId', scheduleController.delete);
-router.get('/schedule/:companyId/:weekday', scheduleController.listOne);
+router.get('/schedule/:companyId/:weekday', scheduleController.list);
 
 module.exports = router;
