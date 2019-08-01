@@ -21,6 +21,7 @@ router.get('/user/:id', userController.listOne);
 router.post('/company/add', companyController.add);
 router.put('/company/edit/:id', companyController.edit);
 router.delete('/company/delete/:id', companyController.delete);
+router.get('/company/list', companyController.listAll);
 router.get('/company/:id', companyController.listOne);
 
 //CRUD Appointment

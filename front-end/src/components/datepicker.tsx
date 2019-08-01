@@ -21,6 +21,7 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
     props.setAppointment(props.appointment.minus({ week: 1 }));
   };
 
+  //El problema aparece cuando se selecciona un número menor en la semana y es de otro mes
   const days = React.useMemo(() => {
     const days = [];
     for (let i = 0; i < 7; i++) {
@@ -48,7 +49,7 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
             <li
               key={d.day}
               onClick={() =>
-                props.setAppointment(props.appointment.set({ day: d.day }))
+                props.setAppointment(props.appointment.set({ day: d.day, month:d.month }))
               }
               className={`waves-effect ${props.appointment.day === d.day &&
                 "active"}`}

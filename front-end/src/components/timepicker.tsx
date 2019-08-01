@@ -110,8 +110,6 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
     setFillSlots(s => [...s, ...aux]);
   }, []);
 
-  console.log(fillSlots);
-
   return (
     <div>
       <div>

@@ -69,4 +69,14 @@ companyController.listOne = (req, res) => {
     });
 };
 
+companyController.listAll = (req, res) => {
+  CompanyModel.find({}, {companyName: 1})
+  .then(result => {
+    res.send(result[0]);
+  })
+  .catch(err => {
+    res.send(err);
+  });
+};
+
 module.exports = companyController;
