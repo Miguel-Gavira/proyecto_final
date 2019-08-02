@@ -1,12 +1,16 @@
 import React from "react";
 import * as actions from "../actions";
 import { connect } from "react-redux";
+import { IUser } from "../IUser";
+import jwt from "jsonwebtoken";
+
 const materialize = require("react-materialize");
 
 interface IProps {}
 
 interface IPropsGlobal {
   setToken: (token: string) => void;
+  setUser: (user: IUser) => void;
 }
 
 const Login: React.FC<IProps & IPropsGlobal> = props => {
@@ -36,13 +40,20 @@ const Login: React.FC<IProps & IPropsGlobal> = props => {
       if (response.ok) {
         response.text().then(token => {
           sessionStorage.setItem("token", token);
-            props.setToken(token);
-          //   const decode = jwt.decode(token);
-          //   if (decode !== null && typeof decode !== "string") {
-          //     props.setUsername(decode.username);
-          //     props.setEmail(decode.email);
-          //     props.setId(decode.id);
-          //   }
+          props.setToken(token);
+          const decode = jwt.decode(token);
+          if (decode !== null && typeof decode !== "string") {
+            console.log(decode);
+            const dataUser = {
+              username: decode.username,
+              email: decode.email,
+              _id: decode._id,
+              companyName: decode.companyName,
+              companyId: decode.companyId
+            };
+            console.log(dataUser);
+            props.setUser(dataUser);
+          }
         });
       } else {
         setErrorLogin("Usuario o contraseña incorrecta");
@@ -52,15 +63,15 @@ const Login: React.FC<IProps & IPropsGlobal> = props => {
 
   return (
     <div>
-      <materialize.Dropdown 
+      <materialize.Modal
         trigger={<a className="waves-effect waves-light btn">Login</a>}
         className="LoginCard"
-        options={{closeOnClick: false, constrainWidth: false}}
-        // actions={
-        //   <materialize.Button waves="green" modal="close" flat>
-        //     Cerrar
-        //   </materialize.Button>
-        // }
+        options={{ closeOnClick: false, constrainWidth: false }}
+        actions={
+          <materialize.Button waves="green" modal="close" flat>
+            Cerrar
+          </materialize.Button>
+        }
       >
         <div className="row margin">
           <div className="col s12 m12 l12 center">
@@ -116,11 +127,17 @@ const Login: React.FC<IProps & IPropsGlobal> = props => {
             Recordar contraseña
           </a>
         </div>
-      </materialize.Dropdown >
+      </materialize.Modal>
     </div>
   );
 };
 
-const mapDispatchToProps = {setToken: actions.setToken};
+const mapDispatchToProps = {
+  setToken: actions.setToken,
+  setUser: actions.setUser
+};
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(
+  null,
+  mapDispatchToProps
+)(Login);

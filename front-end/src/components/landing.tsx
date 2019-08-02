@@ -4,7 +4,11 @@ const materialize = require("react-materialize");
 
 interface IProps {}
 
-const Landing: React.FC<IProps> = props => {
+interface IPropsGlobal {
+  token: string;
+}
+
+const Landing: React.FC<IProps & IPropsGlobal> = props => {
   return (
     <div>
       <Navbar />

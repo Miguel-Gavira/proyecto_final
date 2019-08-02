@@ -1,5 +1,3 @@
-const sha256 = require('sha256');
-
 const companyController = {};
 
 const CompanyModel = require("../models/companyModel");
@@ -8,7 +6,7 @@ companyController.add = (req, res) => {
   const data = req.body;
   const newCompany = new CompanyModel({
     companyName: data.companyName,
-    password: sha256(data.password),
+    owner: req.params.userId,
     address: data.address,
     telephone: data.telephone,
     type: data.type,
@@ -31,7 +29,7 @@ companyController.edit = (req, res) => {
     {
       $set: {
         ...(data.companyName && { companyName: data.companyName }),
-        ...(data.password && { password: sha256(data.password) }),
+        ...(data.owner && { owner: data.owner }),
         ...(data.address && { address: data.address }),
         ...(data.telephone && { telephone: data.telephone }),
         ...(data.type && { type: data.type }),
@@ -60,7 +58,7 @@ companyController.delete = (req, res) => {
 };
 
 companyController.listOne = (req, res) => {
-  CompanyModel.find({ _id: req.params.id }, {password:0})
+  CompanyModel.find({ _id: req.params.id })
     .then(result => {
       res.send(result[0]);
     })

@@ -9,7 +9,6 @@ const scheduleController = require('../controllers/scheduleController');
 
 //Auth
 router.post('/auth/user', authController.authUser);
-router.post('/auth/company', authController.authCompany);
 
 //CRUD User
 router.post('/user/add', userController.add);
@@ -18,7 +17,7 @@ router.delete('/user/delete/:id', userController.delete);
 router.get('/user/:id', userController.listOne);
 
 //CRUD Company
-router.post('/company/add', companyController.add);
+router.post('/company/add/:userId', companyController.add);
 router.put('/company/edit/:id', companyController.edit);
 router.delete('/company/delete/:id', companyController.delete);
 router.get('/company/list', companyController.listAll);

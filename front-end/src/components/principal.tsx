@@ -1,6 +1,7 @@
 import React from "react";
 import Login from "./login";
 import Sidenav from "./sidenav";
+import AddCompany from "./addCompany";
 
 const materialize = require("react-materialize");
 
@@ -21,12 +22,14 @@ const Principal: React.FC<IProps> = props => {
         sidenav={<Sidenav />}
       >
         <materialize.NavItem>
-          <Login />
+          <Login/>
         </materialize.NavItem>
       </materialize.Navbar>
       <div>
         <div className="introCompanies">
-          <h1 className="center eslogan container">Imagina poder atender a tus clientes las 24 horas</h1>
+          <h1 className="center eslogan container">
+            Imagina poder atender a tus clientes las 24 horas
+          </h1>
         </div>
         <div className="section white z-depth-5">
           <div className="row container">
@@ -41,12 +44,13 @@ const Principal: React.FC<IProps> = props => {
             <div className="col s7">
               <h3 className="grey-text text-darken-3 lighten-3">
                 Tus clientes podrán reservar las citas en tu empresa desde
-                cualquier dispositivo   
+                cualquier dispositivo
               </h3>
             </div>
           </div>
         </div>
       </div>
+        <AddCompany/>
     </div>
   );
 };

@@ -13,44 +13,26 @@ authController.authUser = (req, res) => {
   UserModel.find({ username: data.username, password: sha256(data.password) })
     .then(documents => {
       if (documents.length > 0) {
-        let token = jwt.sign(
-          {
-            _id: documents[0]._id,
-            username: documents[0].username
-          },
-          secret,
-          {
-            expiresIn: 3600
+        CompanyModel.find({ owner: documents[0]._id })
+          .then(companyDocuments => {
+            let token = jwt.sign(
+              {
+                _id: documents[0]._id,
+                username: documents[0].username,
+                email: documents[0].email,
+                companyName: companyDocuments[0].companyName,
+                companyId: companyDocuments[0]._id
+              },
+              secret
+            );
+            res.send(token);
+
           }
-        );
-        res.send(token);
+          )
       } else {
         res.status(400).send("Invalid credentials");
       }
     });
 };
-
-authController.authCompany = (req, res) => {
-    const data = req.body;
-    CompanyModel.find({ companyName: data.companyName, password: sha256(data.password) })
-      .then(documents => {
-        if (documents.length > 0) {
-          let token = jwt.sign(
-            {
-              _id: documents[0]._id,
-              companyName: documents[0].companyName
-            },
-            secret,
-            {
-              expiresIn: 3600
-            }
-          );
-          res.send(token);
-        } else {
-          res.status(400).send("Invalid credentials");
-        }
-      });
-  };
-  
 
 module.exports = authController;
