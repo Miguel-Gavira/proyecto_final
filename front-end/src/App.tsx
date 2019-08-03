@@ -12,7 +12,7 @@ const App: React.FC = () => {
       <div>
         <Switch>
           <Route path="/company/:companyId" exact component={Landing} />
-          <Route path="/" exact component={Principal} />
+          <Route path="/" component={Principal} />
         </Switch>
       </div>
     </BrowserRouter>
