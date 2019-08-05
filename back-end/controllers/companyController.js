@@ -4,15 +4,17 @@ const CompanyModel = require("../models/companyModel");
 
 companyController.add = (req, res) => {
   const data = req.body;
+  const user = req.params.userId
   const newCompany = new CompanyModel({
     companyName: data.companyName,
-    owner: req.params.userId,
+    owner: user,
     address: data.address,
     telephone: data.telephone,
     type: data.type,
     email: data.email,
     appointmentDuration: data.appointmentDuration
   });
+  console.log(newCompany);
   newCompany.save(err => {
     if (err) {
       res.send("DAMMMMN! There was an error", err);

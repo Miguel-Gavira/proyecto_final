@@ -26,9 +26,20 @@ authController.authUser = (req, res) => {
               secret
             );
             res.send(token);
-
           }
           )
+          .catch(err => {
+            let token = jwt.sign(
+              {
+                _id: documents[0]._id,
+                username: documents[0].username,
+                email: documents[0].email
+              },
+              secret
+            );
+            console.log(err);
+            res.send(token);
+            }); 
       } else {
         res.status(400).send("Invalid credentials");
       }

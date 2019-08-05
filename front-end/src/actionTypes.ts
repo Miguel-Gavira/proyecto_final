@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon';
 import { IUser } from './IUser';
+import { ICompany } from './ICompany';
 type TSetToken = {
   type: "SET_TOKEN";
   token: string;
@@ -15,4 +16,9 @@ type TSetUser = {
   user: IUser;
 }
 
-export type TAction = TSetToken | TSetAppointment | TSetUser;
+type TSetCompany = {
+  type: "SET_COMPANY";
+  company: ICompany;
+}
+
+export type TAction = TSetToken | TSetAppointment | TSetUser | TSetCompany;

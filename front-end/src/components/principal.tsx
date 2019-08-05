@@ -1,30 +1,14 @@
 import React from "react";
-import Login from "./login";
-import Sidenav from "./sidenav";
 import AddCompany from "./addCompany";
-
-const materialize = require("react-materialize");
+import { Route } from "react-router";
+import Navbar from "./navbar";
 
 interface IProps {}
 
 const Principal: React.FC<IProps> = props => {
   return (
     <div className="fondoCompanies">
-      <materialize.Navbar
-        className={"transparent z-depth-0"}
-        fixed={true}
-        brand={
-          <a href="#" className="brand-logo">
-            Reserva tu cita
-          </a>
-        }
-        alignLinks="right"
-        sidenav={<Sidenav />}
-      >
-        <materialize.NavItem>
-          <Login/>
-        </materialize.NavItem>
-      </materialize.Navbar>
+      <Navbar />
       <div>
         <div className="introCompanies">
           <h1 className="center eslogan container">
@@ -50,7 +34,7 @@ const Principal: React.FC<IProps> = props => {
           </div>
         </div>
       </div>
-        <AddCompany/>
+      <Route path="/addCompany" exact component={AddCompany} />
     </div>
   );
 };

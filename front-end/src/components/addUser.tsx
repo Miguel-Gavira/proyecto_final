@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import * as actions from "../actions";
 import { IUser } from "../IUser";
 import jwt from "jsonwebtoken";
-import { RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 
 interface IProps {}
@@ -13,9 +12,7 @@ interface IPropsGlobal {
   setUser: (user: IUser) => void;
 }
 
-const AddUser: React.FC<
-  IProps & IPropsGlobal & RouteComponentProps
-> = props => {
+const AddUser: React.FC<IProps & IPropsGlobal> = props => {
   const [inputUsername, setInputUsername] = React.useState("");
   const [inputPassword, setInputPassword] = React.useState("");
   const [inputEmail, setInputEmail] = React.useState("");
@@ -61,27 +58,14 @@ const AddUser: React.FC<
               props.setToken(token);
               const decode = jwt.decode(token);
               if (decode !== null && typeof decode !== "string") {
-                if (decode.companyId === null) {
-                  const dataUser = {
-                    username: decode.username,
-                    email: decode.email,
-                    _id: decode._id,
-                    companyName: "",
-                    companyId: ""
-                  };
-                  props.setUser(dataUser);
-                  props.history.push("/addCompany");
-                } else {
-                  const dataUser = {
-                    username: decode.username,
-                    email: decode.email,
-                    _id: decode._id,
-                    companyName: decode.companyName,
-                    companyId: decode.companyId
-                  };
-                  props.setUser(dataUser);
-                  props.history.push("/company/profile/:" + decode.companyId);
-                }
+                const dataUser = {
+                  username: decode.username,
+                  email: decode.email,
+                  _id: decode._id,
+                  companyName: "",
+                  companyId: ""
+                };
+                props.setUser(dataUser);
               }
             });
           }
@@ -112,22 +96,9 @@ const AddUser: React.FC<
             type="text"
             name="username"
             id="addUsername"
+            required
           />
           <label>Username</label>
-        </div>
-      </div>
-
-      <div className="col m12 l12">
-        <div className="input-field">
-          <i className="material-icons prefix">lock</i>
-          <input
-            onChange={updateInputEmail}
-            value={inputEmail}
-            type="email"
-            name="email"
-            id="addEmail"
-          />
-          <label>Email</label>
         </div>
       </div>
 
@@ -140,8 +111,24 @@ const AddUser: React.FC<
             type="password"
             name="password"
             id="addPassword"
+            required
           />
           <label>Password</label>
+        </div>
+      </div>
+
+      <div className="col m12 l12">
+        <div className="input-field">
+          <i className="material-icons prefix">lock</i>
+          <input
+            onChange={updateInputEmail}
+            value={inputEmail}
+            type="email"
+            name="email"
+            id="addEmail"
+            required
+          />
+          <label>Email</label>
         </div>
       </div>
 
@@ -150,16 +137,17 @@ const AddUser: React.FC<
           Enviar
         </button>
       </div>
-      <br/>
+      <br />
       <div className="switch center">
-          <label>
-            Tengo cuenta
-            <Link to="/"><input type="checkbox"/></Link>
-            <span className="lever" />
-            Soy nuevo
-          </label>
-        </div>
-
+        <label>
+          Tengo cuenta
+          <Link to="/">
+            <input type="checkbox" />
+          </Link>
+          <span className="lever" />
+          Soy nuevo
+        </label>
+      </div>
     </div>
   );
 };

@@ -1,14 +1,11 @@
 import React from "react";
 import Navbar from "./navbar";
+import Datepicker from "./datepicker";
 const materialize = require("react-materialize");
 
 interface IProps {}
 
-interface IPropsGlobal {
-  token: string;
-}
-
-const Landing: React.FC<IProps & IPropsGlobal> = props => {
+const Landing: React.FC<IProps> = props => {
   return (
     <div>
       <Navbar />
@@ -22,6 +19,20 @@ const Landing: React.FC<IProps & IPropsGlobal> = props => {
           }
         />
         <div className="section white z-depth-5">
+          <materialize.Modal
+            header="Reserva tu cita"
+            trigger={
+              <a className="waves-effect waves-light btn">Reservar cita</a>
+            }
+            actions={
+              <materialize.Button waves="green" modal="close" flat>
+                Cerrar
+              </materialize.Button>
+            }
+          >
+            <Datepicker />
+          </materialize.Modal>
+
           <div className="row container">
             <h2 className="header">Reserva tu cita</h2>
             <p className="grey-text text-darken-3 lighten-3">

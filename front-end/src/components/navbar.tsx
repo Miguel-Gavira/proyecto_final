@@ -1,5 +1,4 @@
 import React from "react";
-import Datepicker from "../components/datepicker";
 import Login from "./login";
 import Sidenav from "./sidenav";
 const materialize = require("react-materialize");
@@ -7,6 +6,8 @@ const materialize = require("react-materialize");
 interface IProps {}
 
 const Navbar: React.FC<IProps> = props => {
+
+  
   return (
     <div>
       <materialize.Navbar
@@ -21,19 +22,6 @@ const Navbar: React.FC<IProps> = props => {
         sidenav={<Sidenav />}
       >
         <materialize.NavItem>
-          <materialize.Modal
-            header="Reserva tu cita"
-            trigger={
-              <a className="waves-effect waves-light btn">Reservar cita</a>
-            }
-            actions={
-              <materialize.Button waves="green" modal="close" flat>
-                Cerrar
-              </materialize.Button>
-            }
-          >
-            <Datepicker />
-          </materialize.Modal>
         </materialize.NavItem>
         <materialize.NavItem>
           <Login />

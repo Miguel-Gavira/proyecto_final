@@ -3,10 +3,8 @@ import * as actions from "../actions";
 import { connect } from "react-redux";
 import { IUser } from "../IUser";
 import jwt from "jsonwebtoken";
-import { Link, Route, Switch } from "react-router-dom";
-import addUser from "./addUser";
-
-const materialize = require("react-materialize");
+import { RouteComponentProps } from "react-router";
+import { Link } from "react-router-dom";
 
 interface IProps {}
 
@@ -15,7 +13,9 @@ interface IPropsGlobal {
   setUser: (user: IUser) => void;
 }
 
-const LoginUser: React.FC<IProps & IPropsGlobal> = props => {
+const LoginUser: React.FC<
+  IProps & IPropsGlobal & RouteComponentProps
+> = props => {
   const [inputUsername, setInputUsername] = React.useState("");
   const [inputPassword, setInputPassword] = React.useState("");
   const [errorLogin, setErrorLogin] = React.useState("");
@@ -44,15 +44,29 @@ const LoginUser: React.FC<IProps & IPropsGlobal> = props => {
           sessionStorage.setItem("token", token);
           props.setToken(token);
           const decode = jwt.decode(token);
-          if (decode !== null && typeof decode !== "string") {
-            const dataUser = {
-              username: decode.username,
-              email: decode.email,
-              _id: decode._id,
-              companyName: decode.companyName,
-              companyId: decode.companyId
-            };
-            props.setUser(dataUser);
+          console.log(decode, typeof decode);
+          if (decode !== null && typeof decode === "object") {
+            if (decode.companyId === undefined) {
+              const dataUser = {
+                username: decode.username,
+                email: decode.email,
+                _id: decode._id,
+                companyName: "",
+                companyId: ""
+              };
+              props.setUser(dataUser);
+              props.history.push("/addCompany");
+            } else {
+              const dataUser = {
+                username: decode.username,
+                email: decode.email,
+                _id: decode._id,
+                companyName: decode.companyName,
+                companyId: decode.companyId
+              };
+              props.setUser(dataUser);
+              props.history.push("/company/profile/" + decode.companyId);
+            }
           }
         });
       } else {
@@ -63,60 +77,64 @@ const LoginUser: React.FC<IProps & IPropsGlobal> = props => {
 
   return (
     <div>
-        <div className="row margin">
-          <div className="col s12 m12 l12 center">
-            <img
-              src="https://png.pngtree.com/svg/20161113/ef1b24279e.png"
-              alt="logo"
-              className="responsive-img circle"
-              width="100px"
-            />
-          </div>
+      <div className="row margin">
+        <div className="col s12 m12 l12 center">
+          <img
+            src="https://png.pngtree.com/svg/20161113/ef1b24279e.png"
+            alt="logo"
+            className="responsive-img circle"
+            width="100px"
+          />
         </div>
+      </div>
 
-        <div className="col s12 m12 l12">
-          <div className="input-field">
-            <i className="material-icons prefix">person</i>
-            <input
-              onChange={updateInputUsername}
-              value={inputUsername}
-              type="text"
-              name="username"
-              id="username"
-            />
-            <label>Username</label>
-          </div>
+      <div className="col s12 m12 l12">
+        <div className="input-field">
+          <i className="material-icons prefix">person</i>
+          <input
+            onChange={updateInputUsername}
+            value={inputUsername}
+            type="text"
+            name="username"
+            id="username"
+            required
+          />
+          <label>Username</label>
         </div>
+      </div>
 
-        <div className="col m12 l12">
-          <div className="input-field">
-            <i className="material-icons prefix">lock</i>
-            <input
-              onChange={updateInputPassword}
-              value={inputPassword}
-              type="password"
-              name="password"
-              id="password"
-            />
-            <label>Password</label>
-          </div>
+      <div className="col m12 l12">
+        <div className="input-field">
+          <i className="material-icons prefix">lock</i>
+          <input
+            onChange={updateInputPassword}
+            value={inputPassword}
+            type="password"
+            name="password"
+            id="password"
+            required
+          />
+          <label>Password</label>
         </div>
+      </div>
 
-        <div className="center">
-          <h3>{errorLogin}</h3>
-          <button onClick={submit} className="btn waves-effect waves-light ">
-            Enviar
-          </button>
-        </div>
-        <br/> 
-        <div className="switch center">
-          <label>
-            Tengo cuenta
-            <Link to="/add"><input type="checkbox" /></Link>
-            <span className="lever" />
-            Soy nuevo
-          </label>
-        </div>
+      <div className="center">
+        <h3>{errorLogin}</h3>
+        <button onClick={submit} className="btn waves-effect waves-light ">
+          Enviar
+        </button>
+      </div>
+      <br />
+      <div className="switch center">
+        <label>
+          Tengo cuenta
+          <Link to="/add">
+            <input type="checkbox" />
+          </Link>
+          <span className="lever" />
+          Soy nuevo
+        </label>
+      </div>
     </div>
   );
 };
