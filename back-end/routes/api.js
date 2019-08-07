@@ -17,7 +17,7 @@ router.delete('/user/delete/:id', userController.delete);
 router.get('/user/:id', userController.listOne);
 
 //CRUD Company
-router.post('/company/add', companyController.add);
+router.post('/company/add/:userId', companyController.add);
 router.put('/company/edit/:id', companyController.edit);
 router.delete('/company/delete/:id', companyController.delete);
 router.get('/company/list', companyController.listAll);
@@ -32,6 +32,7 @@ router.get('/appointment/:companyId/:day', appointmentController.listFromCompany
 
 //CRUD Schedule
 router.post('/schedule/add/:companyId', scheduleController.add);
+router.post('/schedule/multipleAdd/:companyId', scheduleController.multipleAdd)
 router.put('/schedule/edit/:scheduleId', scheduleController.edit);
 router.delete('/schedule/delete/:scheduleId', scheduleController.delete);
 router.get('/schedule/:companyId/:weekday', scheduleController.list);

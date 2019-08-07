@@ -125,16 +125,6 @@ const LoginUser: React.FC<
         </button>
       </div>
       <br />
-      <div className="switch center">
-        <label>
-          Tengo cuenta
-          <Link to="/add">
-            <input type="checkbox" />
-          </Link>
-          <span className="lever" />
-          Soy nuevo
-        </label>
-      </div>
     </div>
   );
 };

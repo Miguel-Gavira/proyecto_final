@@ -138,16 +138,6 @@ const AddUser: React.FC<IProps & IPropsGlobal> = props => {
         </button>
       </div>
       <br />
-      <div className="switch center">
-        <label>
-          Tengo cuenta
-          <Link to="/">
-            <input type="checkbox" />
-          </Link>
-          <span className="lever" />
-          Soy nuevo
-        </label>
-      </div>
     </div>
   );
 };

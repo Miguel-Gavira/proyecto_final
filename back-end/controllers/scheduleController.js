@@ -20,6 +20,34 @@ scheduleController.add = (req, res) => {
   });
 };
 
+scheduleController.multipleAdd = (req, res) => {
+  const data = req.body;
+  const companyId = req.params.companyId;
+  let err = null;
+  data.map(d => {
+    if (!err) {
+      const newSchedule = new ScheduleModel({
+        weekday: d.weekday,
+        startTime: d.startTime,
+        finishTime: d.finishTime,
+        company: companyId
+      });
+      if (newSchedule.startTime && newSchedule.finishTime) {
+        newSchedule.save(e => {
+          if (e) {
+            err = e;
+          }
+        });
+      }
+    }
+  })
+  if (err) {
+    res.send("ERROR " + err);
+  } else {
+    res.sendStatus(200);
+  }
+}
+
 scheduleController.edit = (req, res) => {
   const data = req.body;
   ScheduleModel.updateOne(

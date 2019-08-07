@@ -1,58 +1,30 @@
 import React from "react";
+import { IGlobalState } from "../reducers/reducers";
+import { connect } from "react-redux";
+import { IUser } from '../IUser';
+import { Link } from 'react-router-dom';
 
 interface IProps {}
 
-const Aside: React.FC<IProps> = props => {
+interface IPropsGlobal {
+  user: IUser;
+}
+
+const Aside: React.FC<IProps & IPropsGlobal> = props => {
   return (
-    <div>
-      <ul className="collection">
-        <li className="collection-item avatar">
-          <img src="images/yuna.jpg" alt="" className="circle" />
-          <span className="title">Title</span>
-          <p>
-            First Line <br />
-            Second Line
-          </p>
-          <a href="#!" className="secondary-content">
-            <i className="material-icons">grade</i>
-          </a>
-        </li>
-        <li className="collection-item avatar">
-          <i className="material-icons circle">folder</i>
-          <span className="title">Title</span>
-          <p>
-            First Line <br />
-            Second Line
-          </p>
-          <a href="#!" className="secondary-content">
-            <i className="material-icons">grade</i>
-          </a>
-        </li>
-        <li className="collection-item avatar">
-          <i className="material-icons circle green">insert_chart</i>
-          <span className="title">Title</span>
-          <p>
-            First Line <br />
-            Second Line
-          </p>
-          <a href="#!" className="secondary-content">
-            <i className="material-icons">grade</i>
-          </a>
-        </li>
-        <li className="collection-item avatar">
-          <i className="material-icons circle red">play_arrow</i>
-          <span className="title">Title</span>
-          <p>
-            First Line <br />
-            Second Line
-          </p>
-          <a href="#!" className="secondary-content">
-            <i className="material-icons">grade</i>
-          </a>
-        </li>
-      </ul>{" "}
-    </div>
+    <ul className="collection with-header">
+      <li className="collection-header">
+        <h5>{props.user.companyName}</h5>
+      </li>
+      <li className="collection-item">Mis citas</li>
+      <li className="collection-item">Datos de la empresa</li>
+      <Link to="/company/profile/5d4a8a19ea85041e8c91b7dc/schedule"><li className="collection-item">Mi horario</li></Link> 
+    </ul>
   );
 };
 
-export default Aside;
+const mapStateToProps = (state: IGlobalState) => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(Aside);

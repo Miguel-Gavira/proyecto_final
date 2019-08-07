@@ -14,7 +14,6 @@ const App: React.FC = () => {
         <Switch>
           <Route
             path="/company/profile/:companyId"
-            exact
             component={CompanyProfile}
           />
           <Route path="/company/:companyId" exact component={Landing} />

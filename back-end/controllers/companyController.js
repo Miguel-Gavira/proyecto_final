@@ -4,7 +4,7 @@ const CompanyModel = require("../models/companyModel");
 
 companyController.add = (req, res) => {
   const data = req.body;
-  const user = req.params.userId
+  const user = req.params.userId;
   const newCompany = new CompanyModel({
     companyName: data.companyName,
     owner: user,
@@ -14,12 +14,11 @@ companyController.add = (req, res) => {
     email: data.email,
     appointmentDuration: data.appointmentDuration
   });
-  console.log(newCompany);
   newCompany.save(err => {
     if (err) {
-      res.send("DAMMMMN! There was an error", err);
+      res.send("DAMMMMN! There was an error: " + err);
     } else {
-      res.send("Añadido correctamente");
+      res.status(200).send("Añadido correctamente");
     }
   });
 };
@@ -70,13 +69,13 @@ companyController.listOne = (req, res) => {
 };
 
 companyController.listAll = (req, res) => {
-  CompanyModel.find({}, {companyName: 1})
-  .then(result => {
-    res.send(result[0]);
-  })
-  .catch(err => {
-    res.send(err);
-  });
+  CompanyModel.find({}, { companyName: 1 })
+    .then(result => {
+      res.send(result[0]);
+    })
+    .catch(err => {
+      res.send(err);
+    });
 };
 
 module.exports = companyController;

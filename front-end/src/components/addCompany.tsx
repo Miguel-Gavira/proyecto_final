@@ -69,7 +69,7 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
           schedule: [
             {
               _id: "",
-              weekday: 0,
+              weekday: "",
               startTime: "",
               finishTime: ""
             }

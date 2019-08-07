@@ -13,7 +13,7 @@ const initialState: ICompany = {
   schedule: [
     {
       _id: "",
-      weekday: 0,
+      weekday: "",
       startTime: "",
       finishTime: ""
     }

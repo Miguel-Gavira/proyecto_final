@@ -1,13 +1,12 @@
 import React from "react";
 import Login from "./login";
 import Sidenav from "./sidenav";
+import { Route } from "react-router-dom";
 const materialize = require("react-materialize");
 
 interface IProps {}
 
 const Navbar: React.FC<IProps> = props => {
-
-  
   return (
     <div>
       <materialize.Navbar
@@ -21,10 +20,9 @@ const Navbar: React.FC<IProps> = props => {
         alignLinks="right"
         sidenav={<Sidenav />}
       >
+        <materialize.NavItem />
         <materialize.NavItem>
-        </materialize.NavItem>
-        <materialize.NavItem>
-          <Login />
+          <Route component={Login} />
         </materialize.NavItem>
       </materialize.Navbar>
     </div>

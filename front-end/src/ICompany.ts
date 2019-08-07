@@ -10,7 +10,7 @@ export interface ICompany {
   schedule: [
     {
       _id: string;
-      weekday: number;
+      weekday: string;
       startTime: string;
       finishTime: string;
     }
