@@ -20,10 +20,10 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
   const [finishTimeMorning, setFinishTimeMorning] = React.useState("");
   const [startTimeAfternoon, setStartTimeAfternoon] = React.useState("");
   const [finishTimeAfternoon, setFinishTimeAfternoon] = React.useState("");
-  const [afternoon, setAfternoon] = React.useState(false);
+  const [checked, setChecked] = React.useState(Boolean(startTimeAfternoon));
 
-  const updateAfternoon = () => {
-    setAfternoon(s => !s);
+  const updateChecked = () => {
+    setChecked(c => !c);
   };
 
   const updateStartTimeMorning = (
@@ -86,24 +86,26 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
 
   React.useEffect(() => {
     fetch(
-        "http://localhost:8080/api/schedule/5d4a8a19ea85041e8c91b7dc/" + props.weekday,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
+      "http://localhost:8080/api/schedule/5d4a8a19ea85041e8c91b7dc/" +
+        props.weekday,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
         }
+      }
     ).then(response => {
-        if(response.ok){
-            response.json().then(documents => {
-                setStartTimeMorning(documents[0].startTime);
-                setFinishTimeMorning(documents[0].finishTime);
-                (documents[1]) && setStartTimeAfternoon(documents[1].startTime);
-                (documents[1]) && setFinishTimeAfternoon(documents[1].finishTime);
-            })
-        }
-    })
-  },[])
+      if (response.ok) {
+        response.json().then(documents => {
+          setStartTimeMorning(documents[0].startTime);
+          setFinishTimeMorning(documents[0].finishTime);
+          documents[1] && setStartTimeAfternoon(documents[1].startTime);
+          documents[1] && setChecked(Boolean(documents[1].startTime));
+          documents[1] && setFinishTimeAfternoon(documents[1].finishTime);
+        });
+      }
+    });
+  }, []);
 
   const slots = React.useMemo(() => {
     return [
@@ -152,9 +154,10 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
       <p>
         <label>
           <input
+            checked={checked}
             type="checkbox"
             className="filled-in"
-            onClick={updateAfternoon}
+            onChange={updateChecked}
           />
           <span>¿Tienes jornada partida?</span>
         </label>
@@ -172,7 +175,9 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
               ¿A qué hora abres?
             </option>
             {slots.map(s => (
-              <option value={s}>{s}</option>
+              <option value={s} key={s}>
+                {s}
+              </option>
             ))}
           </materialize.Select>
         </li>
@@ -192,11 +197,13 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
                   ).milliseconds > 0
               )
               .map(s => (
-                <option value={s}>{s}</option>
+                <option value={s} key={s}>
+                  {s}
+                </option>
               ))}
           </materialize.Select>
         </li>
-        {afternoon && (
+        {checked && (
           <>
             <li>
               <h5>Horario de tarde</h5>
@@ -215,7 +222,9 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
                       ).milliseconds > 0
                   )
                   .map(s => (
-                    <option value={s}>{s}</option>
+                    <option value={s} key={s}>
+                      {s}
+                    </option>
                   ))}
               </materialize.Select>
             </li>
@@ -235,7 +244,9 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
                       ).milliseconds > 0
                   )
                   .map(s => (
-                    <option value={s}>{s}</option>
+                    <option value={s} key={s}>
+                      {s}
+                    </option>
                   ))}
               </materialize.Select>
             </li>

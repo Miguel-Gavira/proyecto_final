@@ -1,4 +1,7 @@
 const sha256 = require('sha256');
+const jwt = require("jsonwebtoken");
+
+const secret = "mysecret";
 
 const userController = {};
 
@@ -11,11 +14,20 @@ userController.add = (req, res) => {
     password: sha256(data.password),
     email: data.email
   });
-  newUser.save(err => {
+  newUser.save((err, row) => {
     if (err) {
       res.send("DAMMMMN! There was an error", err);
     } else {
-      res.send("Añadido correctamente");
+      console.log(row);
+      let token = jwt.sign(
+        {
+          _id: row._id,
+          username: row.username,
+          email: row.email
+        },
+        secret
+      );
+      res.status(200).send(token);
     }
   });
 };

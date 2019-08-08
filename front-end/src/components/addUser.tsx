@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import * as actions from "../actions";
 import { IUser } from "../IUser";
 import jwt from "jsonwebtoken";
-import { Link } from "react-router-dom";
+import { RouteComponentProps } from "react-router";
 
 interface IProps {}
 
@@ -12,7 +12,7 @@ interface IPropsGlobal {
   setUser: (user: IUser) => void;
 }
 
-const AddUser: React.FC<IProps & IPropsGlobal> = props => {
+const AddUser: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
   const [inputUsername, setInputUsername] = React.useState("");
   const [inputPassword, setInputPassword] = React.useState("");
   const [inputEmail, setInputEmail] = React.useState("");
@@ -42,32 +42,20 @@ const AddUser: React.FC<IProps & IPropsGlobal> = props => {
       })
     }).then(response => {
       if (response.ok) {
-        fetch("http://localhost:8080/api/auth/user", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            username: inputUsername,
-            password: inputPassword
-          })
-        }).then(response => {
-          if (response.ok) {
-            response.text().then(token => {
-              sessionStorage.setItem("token", token);
-              props.setToken(token);
-              const decode = jwt.decode(token);
-              if (decode !== null && typeof decode !== "string") {
-                const dataUser = {
-                  username: decode.username,
-                  email: decode.email,
-                  _id: decode._id,
-                  companyName: "",
-                  companyId: ""
-                };
-                props.setUser(dataUser);
-              }
-            });
+        response.text().then(token => {
+          sessionStorage.setItem("token", token);
+          props.setToken(token);
+          const decode = jwt.decode(token);
+          if (decode !== null && typeof decode !== "string") {
+            const dataUser = {
+              username: decode.username,
+              email: decode.email,
+              _id: decode._id,
+              companyName: "",
+              companyId: ""
+            };
+            props.setUser(dataUser);
+            props.history.push("/addCompany");
           }
         });
       }

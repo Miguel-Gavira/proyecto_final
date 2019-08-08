@@ -16,9 +16,9 @@ const Aside: React.FC<IProps & IPropsGlobal> = props => {
       <li className="collection-header">
         <h5>{props.user.companyName}</h5>
       </li>
-      <li className="collection-item">Mis citas</li>
-      <li className="collection-item">Datos de la empresa</li>
-      <Link to="/company/profile/5d4a8a19ea85041e8c91b7dc/schedule"><li className="collection-item">Mi horario</li></Link> 
+      <Link to={"/company/profile/appointment/" + props.user.companyId}><li className="collection-item">Mis citas</li></Link>
+      <Link to={"/company/profile/info/" + props.user.companyId}><li className="collection-item">Datos de la empresa</li></Link>
+      <Link to={"/company/profile/schedule/" + props.user.companyId}><li className="collection-item">Mi horario</li></Link> 
     </ul>
   );
 };

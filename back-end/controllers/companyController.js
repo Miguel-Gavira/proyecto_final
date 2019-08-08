@@ -14,11 +14,11 @@ companyController.add = (req, res) => {
     email: data.email,
     appointmentDuration: data.appointmentDuration
   });
-  newCompany.save(err => {
+  newCompany.save((err, raw) => {
     if (err) {
       res.send("DAMMMMN! There was an error: " + err);
     } else {
-      res.status(200).send("Añadido correctamente");
+      res.status(200).send(raw);
     }
   });
 };
@@ -35,14 +35,14 @@ companyController.edit = (req, res) => {
         ...(data.telephone && { telephone: data.telephone }),
         ...(data.type && { type: data.type }),
         ...(data.email && { email: data.email }),
-        ...(data.appointmentDuration && { email: data.appointmentDuration })
+        ...(data.appointmentDuration && { appointmentDuration: data.appointmentDuration })
       }
     },
     (err, raw) => {
       if (err) {
         res.send("DAMMMMN! There was an error", err);
       } else {
-        res.send("Modificado");
+        res.status(200).send(raw);
       }
     }
   );

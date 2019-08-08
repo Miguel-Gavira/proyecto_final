@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { IUser } from "../IUser";
 import jwt from "jsonwebtoken";
 import { RouteComponentProps } from "react-router";
-import { Link } from "react-router-dom";
 
 interface IProps {}
 

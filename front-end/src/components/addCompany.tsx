@@ -2,8 +2,9 @@ import React from "react";
 import { IGlobalState } from "../reducers/reducers";
 import { connect } from "react-redux";
 import { IUser } from "../IUser";
-import { ICompany } from '../ICompany';
-import * as actions from '../actions';
+import { ICompany } from "../ICompany";
+import * as actions from "../actions";
+import { RouteComponentProps } from "react-router";
 
 interface IProps {}
 
@@ -12,12 +13,23 @@ interface IPropsGlobal {
   setCompany: (company: ICompany) => void;
 }
 
-const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
+const AddCompany: React.FC<
+  IProps & IPropsGlobal & RouteComponentProps
+> = props => {
   const [inputCompanyName, setInputCompanyName] = React.useState("");
   const [inputAddress, setInputAddress] = React.useState("");
   const [inputTelephone, setInputTelephone] = React.useState("");
   const [inputType, setInputType] = React.useState("");
   const [inputEmail, setInputEmail] = React.useState("");
+  const [
+    inputAppointmentDuration,
+    setInputAppointmentDuration
+  ] = React.useState("");
+  const [editMode, setEditMode] = React.useState(false);
+
+  const updateEditMode = () => {
+    setEditMode(e => !e);
+  };
 
   const updateInputCompanyName = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -41,44 +53,116 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
     setInputEmail(event.target.value);
   };
 
+  const updateInputAppointmentDuration = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setInputAppointmentDuration(event.target.value);
+  };
+
   const submit = () => {
-    fetch("http://localhost:8080/api/company/add/" + props.user._id, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        companyName: inputCompanyName,
-        address: inputAddress,
-        telephone: inputTelephone,
-        type: inputType,
-        email: inputEmail,
-        appointmentDuration: 0
-      })
-    }).then(response => {
-      if (response.ok) {
-        const dataCompany: ICompany = {
-          _id: "",
+    if (!props.user.companyId) {
+      fetch("http://localhost:8080/api/company/add/" + props.user._id, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
           companyName: inputCompanyName,
-          owner: props.user._id,
           address: inputAddress,
           telephone: +inputTelephone,
           type: inputType,
-          email: "",
-          appointmentDuration: 0,
-          schedule: [
-            {
+          email: inputEmail,
+          appointmentDuration: +inputAppointmentDuration
+        })
+      }).then(response => {
+        if (response.ok) {
+          response.json().then(d => {
+            const dataCompany: ICompany = {
               _id: "",
-              weekday: "",
-              startTime: "",
-              finishTime: ""
-            }
-          ]        
+              companyName: d.companyName,
+              owner: d.owner,
+              address: d.address,
+              telephone: d.telephone,
+              type: d.type,
+              email: d.email,
+              appointmentDuration: d.appointmentDuration,
+              schedule: [
+                {
+                  _id: "",
+                  weekday: "",
+                  startTime: "",
+                  finishTime: ""
+                }
+              ]
+            };
+            props.setCompany(dataCompany);
+          });
         }
-        props.setCompany(dataCompany);
-      }
-    });
+      });
+    } else {
+      fetch("http://localhost:8080/api/company/edit/" + props.user.companyId, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          companyName: inputCompanyName,
+          address: inputAddress,
+          telephone: inputTelephone,
+          type: inputType,
+          email: inputEmail,
+          appointmentDuration: inputAppointmentDuration
+        })
+      }).then(response => {
+        if (response.ok) {
+          response.json().then(d => {
+            const dataCompany: ICompany = {
+              _id: "",
+              companyName: d.companyName,
+              owner: d.owner,
+              address: d.address,
+              telephone: d.telephone,
+              type: d.type,
+              email: d.email,
+              appointmentDuration: d.appointmentDuration,
+              schedule: [
+                {
+                  _id: "",
+                  weekday: "",
+                  startTime: "",
+                  finishTime: ""
+                }
+              ]
+            };
+            props.setCompany(dataCompany);
+            updateEditMode();
+          });
+        }
+      });
+    }
   };
+
+  React.useEffect(() => {
+    if (props.user.companyId) {
+      fetch("http://localhost:8080/api/company/" + props.user.companyId, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(response => {
+        if (response.ok) {
+          response.json().then(documents => {
+            setInputCompanyName(documents.companyName);
+            setInputAddress(documents.address);
+            setInputTelephone(documents.telephone);
+            setInputType(documents.type);
+            setInputEmail(documents.email);
+            setInputAppointmentDuration(documents.appointmentDuration);
+          });
+        }
+      });
+    }
+  }, [props.user]);
 
   return (
     <div className="SignInCompanies">
@@ -100,9 +184,12 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
             onChange={updateInputCompanyName}
             value={inputCompanyName}
             type="text"
+            disabled={Boolean(inputCompanyName) && !editMode}
             required
           />
-          <label>Nombre de la empresa</label>
+          <label className={inputCompanyName && " active"}>
+            Nombre de la empresa
+          </label>
         </div>
       </div>
 
@@ -113,9 +200,10 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
             onChange={updateInputAddress}
             value={inputAddress}
             type="text"
+            disabled={Boolean(inputAddress) && !editMode}
             required
           />
-          <label>Dirección</label>
+          <label className={inputAddress && " active"}>Dirección</label>
         </div>
       </div>
 
@@ -126,9 +214,10 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
             onChange={updateInputTelephone}
             value={inputTelephone}
             type="number"
+            disabled={Boolean(inputTelephone) && !editMode}
             required
           />
-          <label>Telefono</label>
+          <label className={inputTelephone && " active"}>Telefono</label>
         </div>
       </div>
 
@@ -139,9 +228,10 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
             onChange={updateInputType}
             value={inputType}
             type="text"
+            disabled={Boolean(inputType) && !editMode}
             required
           />
-          <label>Sector</label>
+          <label className={inputType && " active"}>Sector</label>
         </div>
       </div>
 
@@ -152,17 +242,47 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
             onChange={updateInputEmail}
             value={inputEmail}
             type="text"
+            disabled={Boolean(inputEmail) && !editMode}
             required
           />
-          <label>Email</label>
+          <label className={inputEmail && " active"}>Email</label>
         </div>
       </div>
 
-      <div className="center">
-        <button onClick={submit} className="btn waves-effect waves-light ">
-          Enviar
-        </button>
+      <div className="col m12 l12">
+        <div className="input-field">
+          <i className="material-icons prefix">lock</i>
+          <input
+            onChange={updateInputAppointmentDuration}
+            value={inputAppointmentDuration}
+            type="number"
+            disabled={Boolean(inputAppointmentDuration) && !editMode}
+            required
+          />
+          <label className={inputAppointmentDuration && " active"}>
+            Duración de una cita
+          </label>
+        </div>
       </div>
+
+      {editMode && (
+        <div className="center">
+          <button onClick={submit} className="btn waves-effect waves-light">
+            Enviar
+          </button>
+        </div>
+      )}
+
+      {!editMode && (
+        <div className="center">
+          <button
+            onClick={updateEditMode}
+            className="btn waves-effect waves-light "
+          >
+            Editar
+          </button>
+        </div>
+      )}
     </div>
   );
 };
@@ -175,5 +295,7 @@ const mapDispatchToProps = {
   setCompany: actions.setCompany
 };
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddCompany);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddCompany);

@@ -3,10 +3,19 @@ import Navbar from "./navbar";
 import Aside from "./aside";
 import { Route, Switch } from "react-router-dom";
 import Schedule from "./schedule";
+import addCompany from "./addCompany";
+import { connect } from "react-redux";
+import { IGlobalState } from "../reducers/reducers";
+import { IUser } from "../IUser";
+import datepicker from "./datepicker";
 
 interface IProps {}
 
-const CompanyProfile: React.FC<IProps> = props => {
+interface IPropsGlobal {
+  user: IUser;
+}
+
+const CompanyProfile: React.FC<IProps & IPropsGlobal> = props => {
   return (
     <div>
       <Navbar />
@@ -17,7 +26,15 @@ const CompanyProfile: React.FC<IProps> = props => {
         <div className="col s9">
           <Switch>
             <Route
-              path="/company/profile/5d4a8a19ea85041e8c91b7dc/schedule"
+              path={"/company/profile/appointment/" + props.user.companyId}
+              component={datepicker}
+            />
+            <Route
+              path={"/company/profile/info/" + props.user.companyId}
+              component={addCompany}
+            />
+            <Route
+              path={"/company/profile/schedule/" + props.user.companyId}
               component={Schedule}
             />
           </Switch>
@@ -27,4 +44,8 @@ const CompanyProfile: React.FC<IProps> = props => {
   );
 };
 
-export default CompanyProfile;
+const mapStateToProps = (state: IGlobalState) => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(CompanyProfile);
