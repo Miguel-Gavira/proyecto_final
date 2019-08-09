@@ -1,12 +1,19 @@
 import React from "react";
 import Login from "./login";
 import Sidenav from "./sidenav";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
+import { IUser } from "../IUser";
+import { IGlobalState } from "../reducers/reducers";
+import { connect } from "react-redux";
 const materialize = require("react-materialize");
 
 interface IProps {}
 
-const Navbar: React.FC<IProps> = props => {
+interface IPropsGlobal {
+  user: IUser;
+}
+
+const Navbar: React.FC<IProps & IPropsGlobal> = props => {
   return (
     <div>
       <materialize.Navbar
@@ -21,6 +28,15 @@ const Navbar: React.FC<IProps> = props => {
         sidenav={<Sidenav />}
       >
         <materialize.NavItem />
+        <Link to={"/company/profile/appointment/" + props.user.companyId}>
+          <materialize.NavItem>Mis citas</materialize.NavItem>
+        </Link>
+        <Link to={"/company/profile/info/" + props.user.companyId}>
+          <materialize.NavItem>Datos de la empresa</materialize.NavItem>
+        </Link>
+        <Link to={"/company/profile/schedule/" + props.user.companyId}>
+          <materialize.NavItem>Mi horario</materialize.NavItem>
+        </Link>
         <materialize.NavItem>
           <Route component={Login} />
         </materialize.NavItem>
@@ -29,4 +45,8 @@ const Navbar: React.FC<IProps> = props => {
   );
 };
 
-export default Navbar;
+const mapStateToProps = (state: IGlobalState) => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(Navbar);

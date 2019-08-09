@@ -8,25 +8,25 @@ const Schedule: React.FC<IProps> = props => {
     <div>
       <ul>
         <li>
-          Lunes <ScheduleTimepicker weekday={"monday"} />
+          Lunes <ScheduleTimepicker weekday={"1"} />
         </li>
         <li>
-          Martes <ScheduleTimepicker weekday={"tuesday"} />
+          Martes <ScheduleTimepicker weekday={"2"} />
         </li>
         <li>
-          Miércoles <ScheduleTimepicker weekday={"wednesday"} />
+          Miércoles <ScheduleTimepicker weekday={"3"} />
         </li>
         <li>
-          Jueves <ScheduleTimepicker weekday={"thursday"} />
+          Jueves <ScheduleTimepicker weekday={"4"} />
         </li>
         <li>
-          Viernes <ScheduleTimepicker weekday={"friday"} />
+          Viernes <ScheduleTimepicker weekday={"5"} />
         </li>
         <li>
-          Sábado <ScheduleTimepicker weekday={"saturday"} />
+          Sábado <ScheduleTimepicker weekday={"6"} />
         </li>
         <li>
-          Domingo <ScheduleTimepicker weekday={"sunday"} />
+          Domingo <ScheduleTimepicker weekday={"7"} />
         </li>
       </ul>
     </div>

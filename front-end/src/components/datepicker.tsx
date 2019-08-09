@@ -46,9 +46,11 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
           </li>
           {days.map(d => (
             <li
-              key={d.day}
+              key={d.day + "-" + d.month + "-" + d.year}
               onClick={() =>
-                props.setAppointment(props.appointment.set({ day: d.day, month:d.month }))
+                props.setAppointment(
+                  props.appointment.set({ day: d.day, month: d.month })
+                )
               }
               className={`waves-effect ${props.appointment.day === d.day &&
                 "active"}`}

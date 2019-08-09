@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { IUser } from "../IUser";
 import { ICompany } from "../ICompany";
 import * as actions from "../actions";
-import { RouteComponentProps } from "react-router";
 
 interface IProps {}
 
@@ -13,9 +12,7 @@ interface IPropsGlobal {
   setCompany: (company: ICompany) => void;
 }
 
-const AddCompany: React.FC<
-  IProps & IPropsGlobal & RouteComponentProps
-> = props => {
+const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
   const [inputCompanyName, setInputCompanyName] = React.useState("");
   const [inputAddress, setInputAddress] = React.useState("");
   const [inputTelephone, setInputTelephone] = React.useState("");
@@ -108,10 +105,10 @@ const AddCompany: React.FC<
         body: JSON.stringify({
           companyName: inputCompanyName,
           address: inputAddress,
-          telephone: inputTelephone,
+          telephone: +inputTelephone,
           type: inputType,
           email: inputEmail,
-          appointmentDuration: inputAppointmentDuration
+          appointmentDuration: +inputAppointmentDuration
         })
       }).then(response => {
         if (response.ok) {

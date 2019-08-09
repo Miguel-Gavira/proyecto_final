@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { IGlobalState } from "../reducers/reducers";
 import * as actions from "../actions";
 import { DateTime } from "luxon";
+import { IUser } from "../IUser";
 const materialize = require("react-materialize");
 
 interface IProps {
@@ -11,6 +12,7 @@ interface IProps {
 }
 
 interface IPropsGlobal {
+  user: IUser;
   company: ICompany;
   setCompany: (company: ICompany) => void;
 }
@@ -58,7 +60,7 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
 
   const submit = () => {
     fetch(
-      "http://localhost:8080/api/schedule/multipleAdd/5d4a8a19ea85041e8c91b7dc",
+      "http://localhost:8080/api/schedule/multipleAdd/" + props.user.companyId,
       {
         method: "POST",
         headers: {
@@ -86,7 +88,7 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
 
   React.useEffect(() => {
     fetch(
-      "http://localhost:8080/api/schedule/5d4a8a19ea85041e8c91b7dc/" +
+      "http://localhost:8080/api/schedule/" + props.user.companyId + "/" +
         props.weekday,
       {
         method: "GET",
@@ -97,8 +99,8 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
     ).then(response => {
       if (response.ok) {
         response.json().then(documents => {
-          setStartTimeMorning(documents[0].startTime);
-          setFinishTimeMorning(documents[0].finishTime);
+          documents[0] && setStartTimeMorning(documents[0].startTime);
+          documents[0] && setFinishTimeMorning(documents[0].finishTime);
           documents[1] && setStartTimeAfternoon(documents[1].startTime);
           documents[1] && setChecked(Boolean(documents[1].startTime));
           documents[1] && setFinishTimeAfternoon(documents[1].finishTime);
@@ -259,7 +261,7 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
 };
 
 const mapStateToProps = (state: IGlobalState) => ({
-  company: state.company
+  company: state.company, user: state.user
 });
 
 const mapDispatchToProps = {

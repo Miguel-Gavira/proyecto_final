@@ -2,8 +2,6 @@ import { TAction } from "../actionTypes";
 import { DateTime } from "luxon";
 
 const initialState: DateTime = DateTime.local().set({
-  hour: 0,
-  minute: 0,
   second: 0,
   millisecond: 0
 });

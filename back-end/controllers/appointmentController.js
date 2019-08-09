@@ -68,6 +68,7 @@ appointmentController.listFromCompany = (req, res) => {
   const tomorrow = new Date(req.params.day);
   tomorrow.setDate(tomorrow.getDate() + 1);
   AppointmentModel.find({ company: req.params.companyId, appointment: { $gte: today, $lt: tomorrow } })
+    // .populate("user", { username: 1 })
     .then(result => {
       res.send(result);
     })
