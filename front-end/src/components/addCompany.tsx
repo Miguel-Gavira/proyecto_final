@@ -4,15 +4,19 @@ import { connect } from "react-redux";
 import { IUser } from "../IUser";
 import { ICompany } from "../ICompany";
 import * as actions from "../actions";
+import { RouteComponentProps } from "react-router";
 
 interface IProps {}
 
 interface IPropsGlobal {
   user: IUser;
+  setUser: (user: IUser) => void;
   setCompany: (company: ICompany) => void;
 }
 
-const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
+const AddCompany: React.FC<
+  IProps & IPropsGlobal & RouteComponentProps
+> = props => {
   const [inputCompanyName, setInputCompanyName] = React.useState("");
   const [inputAddress, setInputAddress] = React.useState("");
   const [inputTelephone, setInputTelephone] = React.useState("");
@@ -92,7 +96,22 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
                 }
               ]
             };
+            console.log(props.user);
+            const dataUser: IUser = {
+              username: props.user.username,
+              email: props.user.email,
+              _id: props.user._id,
+              companyName: d.companyName,
+              companyId: d._id
+            };
+            console.log(dataUser);
+            console.log(props.user);
+            props.setUser(dataUser);  
             props.setCompany(dataCompany);
+            console.log(props.user);
+            window.location.pathname === "/addCompany"
+              ? props.history.push("/company/profile/" + props.user.companyId)
+              : updateEditMode();
           });
         }
       });
@@ -181,7 +200,11 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
             onChange={updateInputCompanyName}
             value={inputCompanyName}
             type="text"
-            disabled={Boolean(inputCompanyName) && !editMode}
+            disabled={
+              Boolean(inputCompanyName) &&
+              !editMode &&
+              window.location.pathname !== "/addCompany"
+            }
             required
           />
           <label className={inputCompanyName && " active"}>
@@ -197,7 +220,11 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
             onChange={updateInputAddress}
             value={inputAddress}
             type="text"
-            disabled={Boolean(inputAddress) && !editMode}
+            disabled={
+              Boolean(inputAddress) &&
+              !editMode &&
+              window.location.pathname !== "/addCompany"
+            }
             required
           />
           <label className={inputAddress && " active"}>Dirección</label>
@@ -211,7 +238,11 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
             onChange={updateInputTelephone}
             value={inputTelephone}
             type="number"
-            disabled={Boolean(inputTelephone) && !editMode}
+            disabled={
+              Boolean(inputTelephone) &&
+              !editMode &&
+              window.location.pathname !== "/addCompany"
+            }
             required
           />
           <label className={inputTelephone && " active"}>Telefono</label>
@@ -225,7 +256,11 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
             onChange={updateInputType}
             value={inputType}
             type="text"
-            disabled={Boolean(inputType) && !editMode}
+            disabled={
+              Boolean(inputType) &&
+              !editMode &&
+              window.location.pathname !== "/addCompany"
+            }
             required
           />
           <label className={inputType && " active"}>Sector</label>
@@ -239,7 +274,11 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
             onChange={updateInputEmail}
             value={inputEmail}
             type="text"
-            disabled={Boolean(inputEmail) && !editMode}
+            disabled={
+              Boolean(inputEmail) &&
+              !editMode &&
+              window.location.pathname !== "/addCompany"
+            }
             required
           />
           <label className={inputEmail && " active"}>Email</label>
@@ -253,7 +292,11 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
             onChange={updateInputAppointmentDuration}
             value={inputAppointmentDuration}
             type="number"
-            disabled={Boolean(inputAppointmentDuration) && !editMode}
+            disabled={
+              Boolean(inputAppointmentDuration) &&
+              !editMode &&
+              window.location.pathname !== "/addCompany"
+            }
             required
           />
           <label className={inputAppointmentDuration && " active"}>
@@ -262,15 +305,15 @@ const AddCompany: React.FC<IProps & IPropsGlobal> = props => {
         </div>
       </div>
 
-      {editMode && (
-        <div className="center">
-          <button onClick={submit} className="btn waves-effect waves-light">
-            Enviar
-          </button>
-        </div>
-      )}
+      {(editMode || window.location.pathname === "/addCompany") && (
+          <div className="center">
+            <button onClick={submit} className="btn waves-effect waves-light">
+              Enviar
+            </button>
+          </div>
+        )}
 
-      {!editMode && (
+      {!editMode && window.location.pathname !== "/addCompany" && (
         <div className="center">
           <button
             onClick={updateEditMode}
@@ -289,7 +332,8 @@ const mapStateToProps = (state: IGlobalState) => ({
 });
 
 const mapDispatchToProps = {
-  setCompany: actions.setCompany
+  setCompany: actions.setCompany,
+  setUser: actions.setUser
 };
 
 export default connect(
