@@ -43,7 +43,6 @@ const LoginUser: React.FC<
           sessionStorage.setItem("token", token);
           props.setToken(token);
           const decode = jwt.decode(token);
-          console.log(decode, typeof decode);
           if (decode !== null && typeof decode === "object") {
             if (decode.companyId === undefined) {
               const dataUser = {

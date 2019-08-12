@@ -152,7 +152,8 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
   }, []);
 
   return (
-    <div>
+    <div className="scheduleCard">
+      <div>
       <p>
         <label>
           <input
@@ -164,11 +165,11 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
           <span>¿Tienes jornada partida?</span>
         </label>
       </p>
-      <ul>
-        <li>
+      </div>
+        <div>
           <h5>Horario de mañana</h5>
-        </li>
-        <li>
+        </div>
+        <div>
           <materialize.Select
             value={startTimeMorning}
             onChange={updateStartTimeMorning}
@@ -182,14 +183,14 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
               </option>
             ))}
           </materialize.Select>
-        </li>
-        <li>
+        </div>
+        <div>
           <materialize.Select
             value={finishTimeMorning}
             onChange={updateFinishTimeMorning}
           >
             <option value="" disabled>
-              ¿A qué hora cierras por la mañana?
+              ¿A qué hora cierras?
             </option>
             {slots
               .filter(
@@ -204,10 +205,10 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
                 </option>
               ))}
           </materialize.Select>
-        </li>
+        </div>
         {checked && (
           <>
-            <li>
+            <div>
               <h5>Horario de tarde</h5>
               <materialize.Select
                 value={startTimeAfternoon}
@@ -229,8 +230,8 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
                     </option>
                   ))}
               </materialize.Select>
-            </li>
-            <li>
+            </div>
+            <div>
               <materialize.Select
                 value={finishTimeAfternoon}
                 onChange={updateFinishTimeAfternoon}
@@ -251,11 +252,12 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
                     </option>
                   ))}
               </materialize.Select>
-            </li>
+            </div>
           </>
         )}
-        <button onClick={submit}>Guardar</button>
-      </ul>
+        <div className="center">
+        <button className="waves-effect waves-light btn" onClick={submit}>Guardar</button>
+        </div>
     </div>
   );
 };

@@ -79,7 +79,7 @@ const AddCompany: React.FC<
         if (response.ok) {
           response.json().then(d => {
             const dataCompany: ICompany = {
-              _id: "",
+              _id: d._id,
               companyName: d.companyName,
               owner: d.owner,
               address: d.address,
@@ -104,14 +104,12 @@ const AddCompany: React.FC<
               companyName: d.companyName,
               companyId: d._id
             };
-            console.log(dataUser);
-            console.log(props.user);
-            props.setUser(dataUser);  
+            props.setUser(dataUser);
             props.setCompany(dataCompany);
-            console.log(props.user);
-            window.location.pathname === "/addCompany"
-              ? props.history.push("/company/profile/" + props.user.companyId)
-              : updateEditMode();
+            if (window.location.pathname === "/addCompany") {
+              console.log(props.user.companyId);
+              props.history.push("/company/profile/" + props.user.companyId);
+            }
           });
         }
       });
@@ -133,7 +131,7 @@ const AddCompany: React.FC<
         if (response.ok) {
           response.json().then(d => {
             const dataCompany: ICompany = {
-              _id: "",
+              _id: d._id,
               companyName: d.companyName,
               owner: d.owner,
               address: d.address,
@@ -182,130 +180,131 @@ const AddCompany: React.FC<
 
   return (
     <div className="SignInCompanies">
-      <div className="row margin">
-        <div className="col s12 m12 l12 center">
-          <img
-            src="https://png.pngtree.com/svg/20161113/ef1b24279e.png"
-            alt="logo"
-            className="responsive-img circle"
-            width="100px"
-          />
+      <div className="formCompany hoverable">
+        <div className="row   margin">
+          <div className="col s12 m12 l12 center">
+            <img
+              src="https://png.pngtree.com/svg/20161113/ef1b24279e.png"
+              alt="logo"
+              className="responsive-img circle"
+              width="100px"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="col s12 m12 l12">
-        <div className="input-field">
-          <i className="material-icons prefix">person</i>
-          <input
-            onChange={updateInputCompanyName}
-            value={inputCompanyName}
-            type="text"
-            disabled={
-              Boolean(inputCompanyName) &&
-              !editMode &&
-              window.location.pathname !== "/addCompany"
-            }
-            required
-          />
-          <label className={inputCompanyName && " active"}>
-            Nombre de la empresa
-          </label>
+        <div className="col s12 m12 l12">
+          <div className="input-field">
+            <i className="material-icons prefix">person</i>
+            <input
+              onChange={updateInputCompanyName}
+              value={inputCompanyName}
+              type="text"
+              disabled={
+                Boolean(inputCompanyName) &&
+                !editMode &&
+                window.location.pathname !== "/addCompany"
+              }
+              required
+            />
+            <label className={inputCompanyName && " active"}>
+              Nombre de la empresa
+            </label>
+          </div>
         </div>
-      </div>
 
-      <div className="col m12 l12">
-        <div className="input-field">
-          <i className="material-icons prefix">lock</i>
-          <input
-            onChange={updateInputAddress}
-            value={inputAddress}
-            type="text"
-            disabled={
-              Boolean(inputAddress) &&
-              !editMode &&
-              window.location.pathname !== "/addCompany"
-            }
-            required
-          />
-          <label className={inputAddress && " active"}>Dirección</label>
+        <div className="col m12 l12">
+          <div className="input-field">
+            <i className="material-icons prefix">lock</i>
+            <input
+              onChange={updateInputAddress}
+              value={inputAddress}
+              type="text"
+              disabled={
+                Boolean(inputAddress) &&
+                !editMode &&
+                window.location.pathname !== "/addCompany"
+              }
+              required
+            />
+            <label className={inputAddress && " active"}>Dirección</label>
+          </div>
         </div>
-      </div>
 
-      <div className="col m12 l12">
-        <div className="input-field">
-          <i className="material-icons prefix">lock</i>
-          <input
-            onChange={updateInputTelephone}
-            value={inputTelephone}
-            type="number"
-            disabled={
-              Boolean(inputTelephone) &&
-              !editMode &&
-              window.location.pathname !== "/addCompany"
-            }
-            required
-          />
-          <label className={inputTelephone && " active"}>Telefono</label>
+        <div className="col m12 l12">
+          <div className="input-field">
+            <i className="material-icons prefix">lock</i>
+            <input
+              onChange={updateInputTelephone}
+              value={inputTelephone}
+              type="number"
+              disabled={
+                Boolean(inputTelephone) &&
+                !editMode &&
+                window.location.pathname !== "/addCompany"
+              }
+              required
+            />
+            <label className={inputTelephone && " active"}>Telefono</label>
+          </div>
         </div>
-      </div>
 
-      <div className="col m12 l12">
-        <div className="input-field">
-          <i className="material-icons prefix">lock</i>
-          <input
-            onChange={updateInputType}
-            value={inputType}
-            type="text"
-            disabled={
-              Boolean(inputType) &&
-              !editMode &&
-              window.location.pathname !== "/addCompany"
-            }
-            required
-          />
-          <label className={inputType && " active"}>Sector</label>
+        <div className="col m12 l12">
+          <div className="input-field">
+            <i className="material-icons prefix">lock</i>
+            <input
+              onChange={updateInputType}
+              value={inputType}
+              type="text"
+              disabled={
+                Boolean(inputType) &&
+                !editMode &&
+                window.location.pathname !== "/addCompany"
+              }
+              required
+            />
+            <label className={inputType && " active"}>Sector</label>
+          </div>
         </div>
-      </div>
 
-      <div className="col m12 l12">
-        <div className="input-field">
-          <i className="material-icons prefix">lock</i>
-          <input
-            onChange={updateInputEmail}
-            value={inputEmail}
-            type="text"
-            disabled={
-              Boolean(inputEmail) &&
-              !editMode &&
-              window.location.pathname !== "/addCompany"
-            }
-            required
-          />
-          <label className={inputEmail && " active"}>Email</label>
+        <div className="col m12 l12">
+          <div className="input-field">
+            <i className="material-icons prefix">lock</i>
+            <input
+              onChange={updateInputEmail}
+              value={inputEmail}
+              type="text"
+              disabled={
+                Boolean(inputEmail) &&
+                !editMode &&
+                window.location.pathname !== "/addCompany"
+              }
+              required
+            />
+            <label className={inputEmail && " active"}>Email</label>
+          </div>
         </div>
-      </div>
 
-      <div className="col m12 l12">
-        <div className="input-field">
-          <i className="material-icons prefix">lock</i>
-          <input
-            onChange={updateInputAppointmentDuration}
-            value={inputAppointmentDuration}
-            type="number"
-            disabled={
-              Boolean(inputAppointmentDuration) &&
-              !editMode &&
-              window.location.pathname !== "/addCompany"
-            }
-            required
-          />
-          <label className={inputAppointmentDuration && " active"}>
-            Duración de una cita
-          </label>
+        <div className="col m12 l12">
+          <div className="input-field">
+            <i className="material-icons prefix">lock</i>
+            <input
+              onChange={updateInputAppointmentDuration}
+              value={inputAppointmentDuration}
+              type="number"
+              disabled={
+                Boolean(inputAppointmentDuration) &&
+                !editMode &&
+                window.location.pathname !== "/addCompany"
+              }
+              required
+            />
+            <label className={inputAppointmentDuration && " active"}>
+              Duración de una cita
+            </label>
+          </div>
         </div>
-      </div>
 
-      {(editMode || window.location.pathname === "/addCompany") && (
+        {(editMode || window.location.pathname === "/addCompany") && (
           <div className="center">
             <button onClick={submit} className="btn waves-effect waves-light">
               Enviar
@@ -313,16 +312,17 @@ const AddCompany: React.FC<
           </div>
         )}
 
-      {!editMode && window.location.pathname !== "/addCompany" && (
-        <div className="center">
-          <button
-            onClick={updateEditMode}
-            className="btn waves-effect waves-light "
-          >
-            Editar
-          </button>
-        </div>
-      )}
+        {!editMode && window.location.pathname !== "/addCompany" && (
+          <div className="center">
+            <button
+              onClick={updateEditMode}
+              className="btn waves-effect waves-light "
+            >
+              Editar
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

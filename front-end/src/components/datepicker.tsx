@@ -32,41 +32,43 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
   }, [props.appointment.weekNumber]);
 
   return (
-    <div>
+    <div className="datepickerCompany">
       <div>
-        <h2>{props.appointment.year}</h2>
-        <h2>{props.appointment.monthLong}</h2>
-      </div>
-      <div className="col s12">
-        <ul className="pagination">
-          <li onClick={sub}>
-            <a href="#!">
-              <i className="material-icons">chevron_left</i>
-            </a>
-          </li>
-          {days.map(d => (
-            <li
-              key={d.day + "-" + d.month + "-" + d.year}
-              onClick={() =>
-                props.setAppointment(
-                  props.appointment.set({ day: d.day, month: d.month })
-                )
-              }
-              className={`waves-effect ${props.appointment.day === d.day &&
-                "active"}`}
-            >
-              <a href="#!">{d.day}</a>
+        <div>
+          <h2>{props.appointment.year}</h2>
+          <h2>{props.appointment.monthLong}</h2>
+        </div>
+        <div className="col s12">
+          <ul className="pagination">
+            <li onClick={sub}>
+              <a href="#!">
+                <i className="material-icons">chevron_left</i>
+              </a>
             </li>
-          ))}
-          <li onClick={add}>
-            <a href="#!">
-              <i className="material-icons">chevron_right</i>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <Timepicker />
+            {days.map(d => (
+              <li
+                key={d.day + "-" + d.month + "-" + d.year}
+                onClick={() =>
+                  props.setAppointment(
+                    props.appointment.set({ day: d.day, month: d.month })
+                  )
+                }
+                className={`waves-effect ${props.appointment.day === d.day &&
+                  "active"}`}
+              >
+                <a href="#!">{d.day}</a>
+              </li>
+            ))}
+            <li onClick={add}>
+              <a href="#!">
+                <i className="material-icons">chevron_right</i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <Timepicker />
+        </div>
       </div>
     </div>
   );
