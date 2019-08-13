@@ -88,7 +88,9 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
 
   React.useEffect(() => {
     fetch(
-      "http://localhost:8080/api/schedule/" + props.user.companyId + "/" +
+      "http://localhost:8080/api/schedule/" +
+        props.user.companyId +
+        "/" +
         props.weekday,
       {
         method: "GET",
@@ -108,6 +110,46 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
       }
     });
   }, []);
+
+  React.useEffect(() => {
+    if (
+      startTimeMorning === "Borrar horario" ||
+      finishTimeMorning === "Borrar horario" ||
+      startTimeAfternoon === "Borrar horario" ||
+      finishTimeAfternoon === "Borrar horario"
+    ) {
+      fetch(
+        "http://localhost:8080/api/schedule/delete/" +
+          props.user.companyId +
+          "/" +
+          props.weekday,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      setStartTimeMorning("");
+      setFinishTimeMorning("");
+      setStartTimeAfternoon("");
+      setFinishTimeAfternoon("");
+    } else {
+      submit();
+    }
+  }, [
+    startTimeMorning,
+    finishTimeMorning,
+    startTimeAfternoon,
+    finishTimeAfternoon
+  ]);
+
+  React.useEffect(() => {
+    if (!checked) {
+      setStartTimeAfternoon("");
+      setFinishTimeAfternoon("");
+    }
+  }, [checked]);
 
   const slots = React.useMemo(() => {
     return [
@@ -147,123 +189,125 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
       "22:30",
       "23:00",
       "23:30",
-      "00:00"
+      "00:00",
+      "Borrar horario"
     ];
   }, []);
 
   return (
     <div className="scheduleCard">
       <div>
-      <p>
-        <label>
-          <input
-            checked={checked}
-            type="checkbox"
-            className="filled-in"
-            onChange={updateChecked}
-          />
-          <span>¿Tienes jornada partida?</span>
-        </label>
-      </p>
+        <p>
+          <label>
+            <input
+              checked={checked}
+              type="checkbox"
+              className="filled-in"
+              onChange={updateChecked}
+            />
+            <span>¿Tienes jornada partida?</span>
+          </label>
+        </p>
       </div>
-        <div>
-          <h5>Horario de mañana</h5>
-        </div>
-        <div>
-          <materialize.Select
-            value={startTimeMorning}
-            onChange={updateStartTimeMorning}
-          >
-            <option value="" disabled>
-              ¿A qué hora abres?
+      <div>
+        <h5>Horario de mañana</h5>
+      </div>
+      <div>
+        <materialize.Select
+          value={startTimeMorning}
+          onChange={updateStartTimeMorning}
+        >
+          <option value="" disabled>
+            ¿A qué hora abres?
+          </option>
+          {slots.map(s => (
+            <option value={s} key={s}>
+              {s}
             </option>
-            {slots.map(s => (
+          ))}
+        </materialize.Select>
+      </div>
+      <div>
+      {console.log(startTimeMorning)}
+        <materialize.Select
+          value={finishTimeMorning}
+          onChange={updateFinishTimeMorning}
+          disabled={startTimeMorning === ""}
+        >
+          <option value="" disabled>
+            ¿A qué hora cierras?
+          </option>
+          {slots
+            .filter(
+              s =>
+                DateTime.fromFormat(s, "HH:mm").diff(
+                  DateTime.fromFormat(startTimeMorning, "HH:mm")
+                ).milliseconds > 0 || s === "Borrar horario"
+            )
+            .map(s => (
               <option value={s} key={s}>
                 {s}
               </option>
             ))}
-          </materialize.Select>
-        </div>
-        <div>
-          <materialize.Select
-            value={finishTimeMorning}
-            onChange={updateFinishTimeMorning}
-          >
-            <option value="" disabled>
-              ¿A qué hora cierras?
-            </option>
-            {slots
-              .filter(
-                s =>
-                  DateTime.fromFormat(s, "HH:mm").diff(
-                    DateTime.fromFormat(startTimeMorning, "HH:mm")
-                  ).milliseconds > 0
-              )
-              .map(s => (
-                <option value={s} key={s}>
-                  {s}
-                </option>
-              ))}
-          </materialize.Select>
-        </div>
-        {checked && (
-          <>
-            <div>
-              <h5>Horario de tarde</h5>
-              <materialize.Select
-                value={startTimeAfternoon}
-                onChange={updateStartTimeAfternoon}
-              >
-                <option value="" disabled>
-                  ¿A qué hora abres por la tarde?
-                </option>
-                {slots
-                  .filter(
-                    s =>
-                      DateTime.fromFormat(s, "HH:mm").diff(
-                        DateTime.fromFormat(finishTimeMorning, "HH:mm")
-                      ).milliseconds > 0
-                  )
-                  .map(s => (
-                    <option value={s} key={s}>
-                      {s}
-                    </option>
-                  ))}
-              </materialize.Select>
-            </div>
-            <div>
-              <materialize.Select
-                value={finishTimeAfternoon}
-                onChange={updateFinishTimeAfternoon}
-              >
-                <option value="" disabled>
-                  ¿A qué hora cierras por la tarde?
-                </option>
-                {slots
-                  .filter(
-                    s =>
-                      DateTime.fromFormat(s, "HH:mm").diff(
-                        DateTime.fromFormat(startTimeAfternoon, "HH:mm")
-                      ).milliseconds > 0
-                  )
-                  .map(s => (
-                    <option value={s} key={s}>
-                      {s}
-                    </option>
-                  ))}
-              </materialize.Select>
-            </div>
-          </>
-        )}
-        <div className="center">
-        <button className="waves-effect waves-light btn" onClick={submit}>Guardar</button>
-        </div>
+        </materialize.Select>
+      </div>
+      {checked && (
+        <>
+          <div>
+            <h5>Horario de tarde</h5>
+            <materialize.Select
+              value={startTimeAfternoon}
+              onChange={updateStartTimeAfternoon}
+            >
+              <option value="" disabled>
+                ¿A qué hora abres?
+              </option>
+              {slots
+                .filter(
+                  s =>
+                    DateTime.fromFormat(s, "HH:mm").diff(
+                      DateTime.fromFormat(finishTimeMorning, "HH:mm")
+                    ).milliseconds > 0 || s === "Borrar horario"
+                )
+                .map(s => (
+                  <option value={s} key={s}>
+                    {s}
+                  </option>
+                ))}
+            </materialize.Select>
+          </div>
+          <div>
+            <materialize.Select
+              value={finishTimeAfternoon}
+              onChange={updateFinishTimeAfternoon}
+              disabled={startTimeAfternoon === ""}
+            >
+              <option value="" disabled>
+                ¿A qué hora cierras?
+              </option>
+              {slots
+                .filter(
+                  s =>
+                    DateTime.fromFormat(s, "HH:mm").diff(
+                      DateTime.fromFormat(startTimeAfternoon, "HH:mm")
+                    ).milliseconds > 0 || s === "Borrar horario"
+                )
+                .map(s => (
+                  <option value={s} key={s}>
+                    {s}
+                  </option>
+                ))}
+            </materialize.Select>
+          </div>
+        </>
+      )}
     </div>
   );
 };
 
 const mapStateToProps = (state: IGlobalState) => ({
-  company: state.company, user: state.user
+  company: state.company,
+  user: state.user
 });
 
 const mapDispatchToProps = {

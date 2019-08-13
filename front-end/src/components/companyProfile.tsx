@@ -1,6 +1,4 @@
 import React from "react";
-import Navbar from "./navbar";
-import Aside from "./aside";
 import { Route, Switch } from "react-router-dom";
 import Schedule from "./schedule";
 import addCompany from "./addCompany";
@@ -33,21 +31,21 @@ const CompanyProfile: React.FC<IProps & IPropsGlobal> = props => {
               name: "John Doe"
             }}
           />
-          <materialize.SideNavItem icon="cloud">
+          <materialize.SideNavItem waves icon="cloud">
             <Link to={"/company/profile/appointment/" + props.user.companyId}>
-              <li className="collection-item">Mis citas</li>
+              <p className="collection-item">Mis citas</p>
             </Link>
           </materialize.SideNavItem>
-          <materialize.SideNavItem href="#!second">
+          <materialize.SideNavItem waves>
             <Link to={"/company/profile/info/" + props.user.companyId}>
-              <li className="collection-item">Datos de la empresa</li>
+              <p className="collection-item">Datos de la empresa</p>
             </Link>
           </materialize.SideNavItem>
           <materialize.SideNavItem divider />
           <materialize.SideNavItem subheader>Subheader</materialize.SideNavItem>
-          <materialize.SideNavItem waves href="#!third">
+          <materialize.SideNavItem waves>
             <Link to={"/company/profile/schedule/" + props.user.companyId}>
-              <li className="collection-item">Mi horario</li>
+              <p className="collection-item">Mi horario</p>
             </Link>
           </materialize.SideNavItem>
         </materialize.SideNav>

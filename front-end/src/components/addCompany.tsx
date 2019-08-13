@@ -108,7 +108,7 @@ const AddCompany: React.FC<
             props.setCompany(dataCompany);
             if (window.location.pathname === "/addCompany") {
               console.log(props.user.companyId);
-              props.history.push("/company/profile/" + props.user.companyId);
+              props.history.push("/company/profile/" + d._id);
             }
           });
         }
@@ -176,7 +176,7 @@ const AddCompany: React.FC<
         }
       });
     }
-  }, [props.user]);
+  }, [props.user, editMode]);
 
   return (
     <div className="SignInCompanies">
@@ -308,6 +308,15 @@ const AddCompany: React.FC<
           <div className="center">
             <button onClick={submit} className="btn waves-effect waves-light">
               Enviar
+            </button>
+          </div>
+        )}
+
+        {(editMode && window.location.pathname !== "/addCompany") && (
+          <div className="center">
+            <br/>
+            <button onClick={updateEditMode} className="btn red waves-effect waves-light">
+              Cancelar
             </button>
           </div>
         )}

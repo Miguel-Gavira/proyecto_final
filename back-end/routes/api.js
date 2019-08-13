@@ -33,8 +33,8 @@ router.get('/appointment/:companyId/:day', appointmentController.listFromCompany
 //CRUD Schedule
 router.post('/schedule/add/:companyId', scheduleController.add);
 router.post('/schedule/multipleAdd/:companyId', scheduleController.multipleAdd)
-router.put('/schedule/edit/:scheduleId', scheduleController.edit);
-router.delete('/schedule/delete/:scheduleId', scheduleController.delete);
+// router.put('/schedule/edit/:scheduleId', scheduleController.edit);
+router.delete('/schedule/delete/:companyId/:weekday', scheduleController.delete);
 router.get('/schedule/:companyId/:weekday', scheduleController.list);
 
 module.exports = router;

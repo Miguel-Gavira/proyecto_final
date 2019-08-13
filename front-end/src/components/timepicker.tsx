@@ -1,11 +1,13 @@
-import React, { useState, useCallback } from "react";
-import { DateTime, Duration, Interval } from "luxon";
+import React, { useState } from "react";
+import { DateTime, Interval } from "luxon";
 import { IGlobalState } from "../reducers/reducers";
 import { connect } from "react-redux";
 import * as actions from "../actions";
-import { IUser } from '../IUser';
+import { IUser } from "../IUser";
 
-interface IProps {}
+interface IProps {
+  isToday: Boolean;
+}
 
 interface IPropsGlobal {
   user: IUser;
@@ -16,7 +18,6 @@ interface IPropsGlobal {
 const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
   const [slots, setSlots] = useState<string[]>([]);
   const [fillSlots, setFillSlots] = useState<string[]>([]);
-  const [pastTime, setPastTime] = useState(false);
 
   const setTime = (slot: string) => {
     const [h, m] = slot.split(":");
@@ -26,7 +27,11 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
 
   const submit = () => {
     fetch(
-      "http://localhost:8080/api/appointment/add" + "/" + props.user.companyId + "/" + props.user._id,
+      "http://localhost:8080/api/appointment/add" +
+        "/" +
+        props.user.companyId +
+        "/" +
+        props.user._id,
       {
         method: "POST",
         headers: {
@@ -66,35 +71,26 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
           });
         }
       });
-      fetch(
-        "http://localhost:8080/api/appointment/" +
-          props.user.companyId +
-          "/" +
-          props.appointment.toISODate(),
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json"
-          }
+    fetch(
+      "http://localhost:8080/api/appointment/" +
+        props.user.companyId +
+        "/" +
+        props.appointment.toISODate(),
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
         }
-      )
-        .then(response => response.json())
-        .then(reservedAppointments => {
-          if (reservedAppointments) {
-            setFillSlots([]);
-            calcFillsSlots(reservedAppointments);
-          }
-        });
-        if (props.appointment < DateTime.local()){
-          setPastTime(true);
-          console.log(props.appointment);
-          console.log(DateTime.local())
-        } else if (props.appointment > DateTime.local()){
-          setPastTime(false);
+      }
+    )
+      .then(response => response.json())
+      .then(reservedAppointments => {
+        if (reservedAppointments) {
+          setFillSlots([]);
+          calcFillsSlots(reservedAppointments);
         }
+      });
   }, [props.appointment]);
-
-
 
   const calcSlots = React.useCallback(
     (startTime: string, finishTime: string, duration_minutes: number) => {
@@ -116,22 +112,21 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
     setFillSlots(s => [...s, ...aux]);
   }, []);
 
-  
   return (
     <div>
       <div>
         {slots.map(slot => (
           <p key={slot + "-" + props.appointment}>
-            {console.log(props.appointment.weekday, pastTime)}
-            {console.log(slot)}
-            {console.log(DateTime.local().toFormat("HH:mm"))}
             <label>
               <input
-                disabled={fillSlots.includes(slot) || pastTime}
+                disabled={
+                  fillSlots.includes(slot) ||
+                  (props.isToday && slot < DateTime.local().toFormat("HH:mm"))
+                }
                 name="group1"
                 type="radio"
                 checked={props.appointment.toFormat("HH:mm") === slot}
-                onClick={() => setTime(slot)}
+                onChange={() => setTime(slot)}
               />
               <span>{slot}</span>
             </label>
@@ -146,7 +141,8 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
 };
 
 const mapStateToProps = (state: IGlobalState) => ({
-  appointment: state.appointment, user: state.user
+  appointment: state.appointment,
+  user: state.user
 });
 
 const mapDispatchToProps = {

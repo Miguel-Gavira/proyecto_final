@@ -33,7 +33,60 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
 
   return (
     <div className="datepickerCompany">
-      <div>
+      <table className="centered backgroundCards container hoverable">
+        <thead>
+          <tr>
+            <th colSpan={9}>{props.appointment.year}</th>
+          </tr>
+          <tr>
+            <th colSpan={9}>{props.appointment.monthLong}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td onClick={sub} className="colDatepicker waves-effect">
+              <i className="material-icons">chevron_left</i>
+            </td>
+            {days.map(d => (
+              <td
+                key={d.day + "-" + d.month + "-" + d.year}
+                onClick={() =>
+                  props.setAppointment(
+                    props.appointment.set({
+                      day: d.day,
+                      month: d.month,
+                      hour: 0
+                    })
+                  )
+                }
+                className={`waves-effect colDatepicker ${props.appointment.day === d.day &&
+                  "red"}`}
+              >
+                <p>{d.day}</p>
+              </td>
+            ))}
+            <td onClick={add}  className="colDatepicker waves-effect">
+              <i className="material-icons">chevron_right</i>
+            </td>
+          </tr>
+          <tr>
+            <td colSpan={9}>
+              {DateTime.local().toFormat("yyyy LLL dd") >
+              props.appointment.toFormat("yyyy LLL dd") ? (
+                <p>No puedes reservar citas anteriores a la fecha actual</p>
+              ) : (
+                <Timepicker
+                  isToday={
+                    props.appointment.toFormat("yyyy LLL dd") ===
+                    DateTime.local().toFormat("yyyy LLL dd")
+                  }
+                />
+              )}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      {/* <div>
         <div>
           <h2>{props.appointment.year}</h2>
           <h2>{props.appointment.monthLong}</h2>
@@ -50,7 +103,11 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
                 key={d.day + "-" + d.month + "-" + d.year}
                 onClick={() =>
                   props.setAppointment(
-                    props.appointment.set({ day: d.day, month: d.month })
+                    props.appointment.set({
+                      day: d.day,
+                      month: d.month,
+                      hour: 0
+                    })
                   )
                 }
                 className={`waves-effect ${props.appointment.day === d.day &&
@@ -67,9 +124,19 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
           </ul>
         </div>
         <div>
-          <Timepicker />
+          {DateTime.local().toFormat("yyyy LLL dd") >
+          props.appointment.toFormat("yyyy LLL dd") ? (
+            <p>No puedes reservar citas anteriores a la fecha actual</p>
+          ) : (
+            <Timepicker
+              isToday={
+                props.appointment.toFormat("yyyy LLL dd") ===
+                DateTime.local().toFormat("yyyy LLL dd")
+              }
+            />
+          )}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

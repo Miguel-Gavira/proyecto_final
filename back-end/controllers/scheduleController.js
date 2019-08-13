@@ -33,6 +33,12 @@ scheduleController.multipleAdd = (req, res) => {
         company: companyId
       });
       if (newSchedule.startTime && newSchedule.finishTime) {
+        console.log(newSchedule.startTime,newSchedule.finishTime);
+        ScheduleModel.deleteMany({ company: companyId, weekday: d.weekday }, function (err) {
+          if (err) {
+            res.status(400).send('Error');
+          }
+        });
         newSchedule.save(e => {
           if (e) {
             err = e;
@@ -48,29 +54,31 @@ scheduleController.multipleAdd = (req, res) => {
   }
 }
 
-scheduleController.edit = (req, res) => {
-  const data = req.body;
-  ScheduleModel.updateOne(
-    { _id: req.params.id },
-    {
-      $set: {
-        ...(data.weekday && { weekday: data.weekday }),
-        ...(data.startTime && { startTime: data.startTime }),
-        ...(data.finishTime && { finishTime: data.finishTime })
-      }
-    },
-    (err, raw) => {
-      if (err) {
-        res.send("DAMMMMN! There was an error", err);
-      } else {
-        res.send("Modificado");
-      }
-    }
-  );
-};
+// scheduleController.edit = (req, res) => {
+//   const data = req.body;
+//   ScheduleModel.updateOne(
+//     { _id: req.params.id },
+//     {
+//       $set: {
+//         ...(data.weekday && { weekday: data.weekday }),
+//         ...(data.startTime && { startTime: data.startTime }),
+//         ...(data.finishTime && { finishTime: data.finishTime })
+//       }
+//     },
+//     (err, raw) => {
+//       if (err) {
+//         res.send("DAMMMMN! There was an error", err);
+//       } else {
+//         res.send("Modificado");
+//       }
+//     }
+//   );
+// };
 
 scheduleController.delete = (req, res) => {
-  ScheduleModel.deleteOne({ _id: req.params.id }, (err, raw) => {
+  const companyId = req.params.companyId;
+  const weekday = req.params.weekday;
+  ScheduleModel.deleteOne({  company: companyId, weekday: weekday }, (err, raw) => {
     if (err) {
       res.send("DAMMMMN! There was an error", err);
     } else {
