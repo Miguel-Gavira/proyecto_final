@@ -10,6 +10,7 @@ interface IProps {
 }
 
 interface IPropsGlobal {
+  token: string;
   user: IUser;
   appointment: DateTime;
   setAppointment: (appointment: DateTime) => void;
@@ -35,7 +36,8 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + props.token
         },
         body: JSON.stringify({
           appointment: props.appointment,
@@ -58,7 +60,8 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       {
         method: "GET",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + props.token
         }
       }
     )
@@ -79,7 +82,8 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       {
         method: "GET",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + props.token
         }
       }
     )
@@ -142,7 +146,8 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
 
 const mapStateToProps = (state: IGlobalState) => ({
   appointment: state.appointment,
-  user: state.user
+  user: state.user,
+  token: state.token
 });
 
 const mapDispatchToProps = {

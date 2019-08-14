@@ -5,10 +5,12 @@ import { IUser } from "../IUser";
 import { ICompany } from "../ICompany";
 import * as actions from "../actions";
 import { RouteComponentProps } from "react-router";
+const materialize = require("react-materialize");
 
 interface IProps {}
 
 interface IPropsGlobal {
+  token: string;
   user: IUser;
   setUser: (user: IUser) => void;
   setCompany: (company: ICompany) => void;
@@ -65,7 +67,8 @@ const AddCompany: React.FC<
       fetch("http://localhost:8080/api/company/add/" + props.user._id, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + props.token
         },
         body: JSON.stringify({
           companyName: inputCompanyName,
@@ -117,7 +120,8 @@ const AddCompany: React.FC<
       fetch("http://localhost:8080/api/company/edit/" + props.user.companyId, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + props.token
         },
         body: JSON.stringify({
           companyName: inputCompanyName,
@@ -127,32 +131,36 @@ const AddCompany: React.FC<
           email: inputEmail,
           appointmentDuration: +inputAppointmentDuration
         })
-      }).then(response => {
-        if (response.ok) {
-          response.json().then(d => {
-            const dataCompany: ICompany = {
-              _id: d._id,
-              companyName: d.companyName,
-              owner: d.owner,
-              address: d.address,
-              telephone: d.telephone,
-              type: d.type,
-              email: d.email,
-              appointmentDuration: d.appointmentDuration,
-              schedule: [
-                {
-                  _id: "",
-                  weekday: "",
-                  startTime: "",
-                  finishTime: ""
-                }
-              ]
-            };
-            props.setCompany(dataCompany);
-            updateEditMode();
-          });
-        }
-      });
+      })
+        .then(response => {
+          if (response.ok) {
+            response.json().then(d => {
+              const dataCompany: ICompany = {
+                _id: d._id,
+                companyName: d.companyName,
+                owner: d.owner,
+                address: d.address,
+                telephone: d.telephone,
+                type: d.type,
+                email: d.email,
+                appointmentDuration: d.appointmentDuration,
+                schedule: [
+                  {
+                    _id: "",
+                    weekday: "",
+                    startTime: "",
+                    finishTime: ""
+                  }
+                ]
+              };
+              props.setCompany(dataCompany);
+              updateEditMode();
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   };
 
@@ -161,7 +169,8 @@ const AddCompany: React.FC<
       fetch("http://localhost:8080/api/company/" + props.user.companyId, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + props.token
         }
       }).then(response => {
         if (response.ok) {
@@ -288,9 +297,8 @@ const AddCompany: React.FC<
           <div className="input-field">
             <i className="material-icons prefix">lock</i>
             <input
-              onChange={updateInputAppointmentDuration}
-              value={inputAppointmentDuration}
-              type="number"
+              value={inputAppointmentDuration + " minutos"}
+              type="text"
               disabled={
                 Boolean(inputAppointmentDuration) &&
                 !editMode &&
@@ -302,6 +310,21 @@ const AddCompany: React.FC<
               Duración de una cita
             </label>
           </div>
+          <div>
+            <materialize.Range
+              min="5"
+              max="120"
+              step="5"
+              name="points"
+              onChange={updateInputAppointmentDuration}
+              value={inputAppointmentDuration}
+              disabled={
+                Boolean(inputAppointmentDuration) &&
+                !editMode &&
+                window.location.pathname !== "/addCompany"
+              }
+            />
+          </div>
         </div>
 
         {(editMode || window.location.pathname === "/addCompany") && (
@@ -312,10 +335,13 @@ const AddCompany: React.FC<
           </div>
         )}
 
-        {(editMode && window.location.pathname !== "/addCompany") && (
+        {editMode && window.location.pathname !== "/addCompany" && (
           <div className="center">
-            <br/>
-            <button onClick={updateEditMode} className="btn red waves-effect waves-light">
+            <br />
+            <button
+              onClick={updateEditMode}
+              className="btn red waves-effect waves-light"
+            >
               Cancelar
             </button>
           </div>
@@ -337,7 +363,8 @@ const AddCompany: React.FC<
 };
 
 const mapStateToProps = (state: IGlobalState) => ({
-  user: state.user
+  user: state.user,
+  token: state.token
 });
 
 const mapDispatchToProps = {

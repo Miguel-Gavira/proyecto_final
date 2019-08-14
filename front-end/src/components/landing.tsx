@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "./navbar";
 import Datepicker from "./datepicker";
+import { Route } from "react-router-dom";
 const materialize = require("react-materialize");
 
 interface IProps {}
@@ -8,7 +9,7 @@ interface IProps {}
 const Landing: React.FC<IProps> = props => {
   return (
     <div>
-      <Navbar />
+      <Route component={Navbar} />
       <div>
         <materialize.Parallax
           image={

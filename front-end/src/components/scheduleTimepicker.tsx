@@ -13,6 +13,7 @@ interface IProps {
 
 interface IPropsGlobal {
   user: IUser;
+  token: string;
   company: ICompany;
   setCompany: (company: ICompany) => void;
 }
@@ -64,7 +65,8 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + props.token
         },
         body: JSON.stringify([
           {
@@ -95,7 +97,8 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
       {
         method: "GET",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + props.token
         }
       }
     ).then(response => {
@@ -126,7 +129,8 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
         {
           method: "DELETE",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + props.token
           }
         }
       );
@@ -228,7 +232,6 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
         </materialize.Select>
       </div>
       <div>
-      {console.log(startTimeMorning)}
         <materialize.Select
           value={finishTimeMorning}
           onChange={updateFinishTimeMorning}
@@ -307,7 +310,8 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
 
 const mapStateToProps = (state: IGlobalState) => ({
   company: state.company,
-  user: state.user
+  user: state.user,
+  token: state.token
 });
 
 const mapDispatchToProps = {

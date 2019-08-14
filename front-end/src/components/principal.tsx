@@ -8,7 +8,7 @@ interface IProps {}
 const Principal: React.FC<IProps> = props => {
   return (
     <div className="fondoCompanies">
-      <Navbar />
+      <Route component={Navbar} />
       <div>
         <div className="introCompanies">
           <h1 className="center eslogan container">

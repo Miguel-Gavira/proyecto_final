@@ -1,12 +1,11 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, RouteComponentProps, Redirect } from 'react-router-dom';
 import Schedule from "./schedule";
 import addCompany from "./addCompany";
 import { connect } from "react-redux";
 import { IGlobalState } from "../reducers/reducers";
 import { IUser } from "../IUser";
 import datepicker from "./datepicker";
-import { Link } from "react-router-dom";
 const materialize = require("react-materialize");
 
 interface IProps {}
@@ -15,7 +14,27 @@ interface IPropsGlobal {
   user: IUser;
 }
 
-const CompanyProfile: React.FC<IProps & IPropsGlobal> = props => {
+const CompanyProfile: React.FC<
+  IProps & IPropsGlobal & RouteComponentProps
+> = props => {
+  const closeNavAppointment = () => {
+    const aux: any = document.getElementsByClassName("sidenav-overlay")[0];
+    aux.click();
+    props.history.push("/company/profile/appointment/" + props.user.companyId);
+  };
+
+  const closeNavDataCompany = () => {
+    const aux: any = document.getElementsByClassName("sidenav-overlay")[0];
+    aux.click();
+    props.history.push("/company/profile/info/" + props.user.companyId);
+  };
+
+  const closeNavSchedule = () => {
+    const aux: any = document.getElementsByClassName("sidenav-overlay")[0];
+    aux.click();
+    props.history.push("/company/profile/schedule/" + props.user.companyId);
+  };
+
   return (
     <div>
       <div className="sidenavCompany">
@@ -27,26 +46,25 @@ const CompanyProfile: React.FC<IProps & IPropsGlobal> = props => {
             userView
             user={{
               background: "https://placeimg.com/640/480/tech",
-              image: "static/media/react-materialize-logo.824c6ea3.svg",
-              name: "John Doe"
+              image: "https://png.pngtree.com/svg/20161113/ef1b24279e.png",
+              name: props.user.companyName
             }}
+            href={null}
           />
-          <materialize.SideNavItem waves icon="cloud">
-            <Link to={"/company/profile/appointment/" + props.user.companyId}>
-              <p className="collection-item">Mis citas</p>
-            </Link>
+          <materialize.SideNavItem href={null} waves icon="cloud">
+            <p onClick={closeNavAppointment} className="collection-item">
+              Mis citas
+            </p>
           </materialize.SideNavItem>
-          <materialize.SideNavItem waves>
-            <Link to={"/company/profile/info/" + props.user.companyId}>
-              <p className="collection-item">Datos de la empresa</p>
-            </Link>
+          <materialize.SideNavItem href={null} waves icon="cloud">
+            <p onClick={closeNavDataCompany} className="collection-item">
+              Datos de la empresa
+            </p>
           </materialize.SideNavItem>
-          <materialize.SideNavItem divider />
-          <materialize.SideNavItem subheader>Subheader</materialize.SideNavItem>
-          <materialize.SideNavItem waves>
-            <Link to={"/company/profile/schedule/" + props.user.companyId}>
-              <p className="collection-item">Mi horario</p>
-            </Link>
+          <materialize.SideNavItem href={null} waves icon="cloud">
+            <p onClick={closeNavSchedule} className="collection-item">
+              Mi horario
+            </p>
           </materialize.SideNavItem>
         </materialize.SideNav>
       </div>
@@ -54,14 +72,17 @@ const CompanyProfile: React.FC<IProps & IPropsGlobal> = props => {
         <Switch>
           <Route
             path={"/company/profile/appointment/" + props.user.companyId}
+            exact
             component={datepicker}
           />
           <Route
             path={"/company/profile/info/" + props.user.companyId}
+            exact
             component={addCompany}
           />
           <Route
             path={"/company/profile/schedule/" + props.user.companyId}
+            exact
             component={Schedule}
           />
         </Switch>
