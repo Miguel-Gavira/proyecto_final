@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, RouteComponentProps, Redirect } from 'react-router-dom';
+import { Route, Switch, RouteComponentProps, Redirect } from "react-router-dom";
 import Schedule from "./schedule";
 import addCompany from "./addCompany";
 import { connect } from "react-redux";
@@ -36,35 +36,41 @@ const CompanyProfile: React.FC<
   };
 
   return (
-    <div>
+    <div className="companyProfile">
       <div className="sidenavCompany">
         <materialize.SideNav
           trigger={<button className="btn sidenavButton">Menú</button>}
-          options={{ closeOnClick: true }}
+          options={{ closeOnClick: true, draggable: true }}
         >
+          <materialize.SideNavItem className="collection-header" href={null}>
+            {props.user.companyName}
+          </materialize.SideNavItem>
           <materialize.SideNavItem
-            userView
-            user={{
-              background: "https://placeimg.com/640/480/tech",
-              image: "https://png.pngtree.com/svg/20161113/ef1b24279e.png",
-              name: props.user.companyName
-            }}
+            className="collection-item"
+            onClick={closeNavAppointment}
             href={null}
-          />
-          <materialize.SideNavItem href={null} waves icon="cloud">
-            <p onClick={closeNavAppointment} className="collection-item">
-              Mis citas
-            </p>
+            waves
+            icon="event_available"
+          >
+            Mis citas
           </materialize.SideNavItem>
-          <materialize.SideNavItem href={null} waves icon="cloud">
-            <p onClick={closeNavDataCompany} className="collection-item">
-              Datos de la empresa
-            </p>
+          <materialize.SideNavItem
+            className="collection-item"
+            onClick={closeNavDataCompany}
+            href={null}
+            waves
+            icon="edit"
+          >
+            Datos de la empresa
           </materialize.SideNavItem>
-          <materialize.SideNavItem href={null} waves icon="cloud">
-            <p onClick={closeNavSchedule} className="collection-item">
-              Mi horario
-            </p>
+          <materialize.SideNavItem
+            onClick={closeNavSchedule}
+            className="collection-item"
+            href={null}
+            waves
+            icon="alarm_on"
+          >
+            Mi horario
           </materialize.SideNavItem>
         </materialize.SideNav>
       </div>

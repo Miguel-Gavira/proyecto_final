@@ -4,6 +4,45 @@ body {
   padding: 0px !important;
 }
 
+body::-webkit-scrollbar,
+.scheduleCompany::-webkit-scrollbar,
+.SignInCompanies::-webkit-scrollbar,
+.datepickerCompany::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+}
+
+body::-webkit-scrollbar-thumb,
+.scheduleCompany::-webkit-scrollbar-thumb,
+.SignInCompanies::-webkit-scrollbar-thumb,
+.datepickerCompany::-webkit-scrollbar-thumb {
+  background: #ccc !important;
+  border-radius: 4px !important;
+}
+
+body::-webkit-scrollbar-thumb:hover,
+.scheduleCompany::-webkit-scrollbar-thumb:hover,
+.SignInCompanies::-webkit-scrollbar-thumb:hover,
+.datepickerCompany::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3 !important;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2) !important;
+}
+
+body::-webkit-scrollbar-thumb:active,
+.scheduleCompany::-webkit-scrollbar-thumb:active,
+.SignInCompanies::-webkit-scrollbar-thumb:active,
+.datepickerCompany::-webkit-scrollbar-thumb:active {
+  background-color: #999999 !important;
+}
+
+body::-webkit-scrollbar-track,
+.scheduleCompany::-webkit-scrollbar-track,
+.SignInCompanies::-webkit-scrollbar-track,
+.datepickerCompany::-webkit-scrollbar-track {
+  background: transparent !important;
+  border-radius: 4px !important;
+}
+
 .red:hover {
   background-color: #e57373 !important;
 }
@@ -18,9 +57,15 @@ body {
 }
 
 .LoginCard {
-  width: 30% !important;
+  width: 500px !important;
   border-radius: 15px !important;
 }
+
+@media only screen and (max-width: 1000px) {
+  .LoginCard {
+    width: 80% !important;
+  }
+  }
 
 .LoginCard a {
   color: black;
@@ -60,7 +105,7 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  top:0;
+  top: 0;
   bottom: 0;
   right: 0;
   left: 0;
@@ -102,6 +147,20 @@ body {
   z-index: 99999 !important;
 }
 
+.sidenav {
+  margin-top: 8% !important;
+  border-radius: 0 25px 25px 0;
+  height: 300px !important;
+  background-image: url("/images/19950.jpg");
+  background-position-y: center;
+  background-size: cover;
+}
+
+.sidenav p {
+  font-size: 18px;
+  font-family: "Montserrat", sans-serif;
+}
+
 .sidenavButton {
   position: fixed;
   z-index: 998 !important;
@@ -128,4 +187,3 @@ body {
 .colDatepicker {
   width: 11% !important;
 }
-

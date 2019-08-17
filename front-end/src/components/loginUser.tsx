@@ -118,7 +118,7 @@ const LoginUser: React.FC<
 
       <div className="center">
         <h3>{errorLogin}</h3>
-        <button onClick={submit} className="btn waves-effect waves-light ">
+        <button onTouchStart={submit} onClick={submit} className="btn waves-effect waves-light ">
           Enviar
         </button>
       </div>
