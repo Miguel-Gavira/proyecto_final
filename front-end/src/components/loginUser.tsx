@@ -93,8 +93,6 @@ const LoginUser: React.FC<
             onChange={updateInputUsername}
             value={inputUsername}
             type="text"
-            name="username"
-            id="username"
             required
           />
           <label>Username</label>
@@ -108,8 +106,6 @@ const LoginUser: React.FC<
             onChange={updateInputPassword}
             value={inputPassword}
             type="password"
-            name="password"
-            id="password"
             required
           />
           <label>Password</label>

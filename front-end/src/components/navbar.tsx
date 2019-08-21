@@ -6,6 +6,8 @@ import { IUser } from "../IUser";
 import { IGlobalState } from "../reducers/reducers";
 import { connect } from "react-redux";
 import { ICompany } from "../ICompany";
+import AddCompany from "./addCompany";
+
 const materialize = require("react-materialize");
 
 interface IProps {}
@@ -19,6 +21,9 @@ interface IPropsGlobal {
 }
 
 const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
+  
+
+  
   const logout = () => {
     sessionStorage.clear();
     const dataUser: IUser = {
@@ -49,9 +54,15 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
     props.setUser(dataUser);
     props.setCompany(dataCompany);
     props.setToken("");
+  };
 
-    
-  }
+  React.useEffect(() => {
+    if(props.token && !props.user.companyId){
+      const aux: any = document.getElementsByClassName("open")[0];
+      aux.click();
+    }    
+  },[props.token, props.user]);
+
   return (
     <div>
       <materialize.Navbar
@@ -65,45 +76,101 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
         alignLinks="right"
       >
         <materialize.NavItem />
-        <materialize.NavItem
-          onClick={() =>
-            props.history.push(
-              "/company/profile/appointment/" + props.user.companyId
-            )
-          }
-        >
-          Mis citas
-        </materialize.NavItem>
-        <materialize.NavItem
-          onClick={() =>
-            props.history.push("/company/profile/info/" + props.user.companyId)
-          }
-        >
-          Datos de la empresa
-        </materialize.NavItem>
-        <materialize.NavItem
-          onClick={() =>
-            props.history.push(
-              "/company/profile/schedule/" + props.user.companyId
-            )
-          }
-        >
-          Mi horario
-        </materialize.NavItem>
-        <materialize.NavItem >
-          {!props.token && <Route component={Login} />}
-          {(props.token && props.user.companyId) && "Ir al perfil de mi empresa"}
-        </materialize.NavItem>
-        {props.token && <materialize.NavItem onClick={logout}>
-          <i className="material-icons">exit_to_app</i>
-        </materialize.NavItem>}
+        {props.token && !props.user.companyId && (
+          <materialize.NavItem>
+            <materialize.Modal
+              options={{ inDuration: 1000, outDuration: 1000 }}
+              className="newCompany"
+              bottomSheet
+              fixedFooter={true}
+              trigger={
+                <button className="waves-effect waves-light btn open">
+                  Crear empresa
+                </button>
+              }
+              actions={
+                <materialize.Button
+                  className="red waves-effect waves-light btn"
+                  modal="close"
+                >
+                  Cerrar
+                </materialize.Button>
+              }
+            >
+              <Route path="/" exact component={AddCompany} />
+            </materialize.Modal>
+          </materialize.NavItem>
+        )}
+        {props.token &&
+          props.user.companyId &&
+          props.location.pathname !== "/" && (
+            <materialize.NavItem
+              onClick={() =>
+                props.history.push(
+                  "/company/profile/appointment/" + props.user.companyId
+                )
+              }
+            >
+              Mis citas
+            </materialize.NavItem>
+          )}
+        {props.token &&
+          props.user.companyId &&
+          props.location.pathname !== "/" && (
+            <materialize.NavItem
+              onClick={() =>
+                props.history.push(
+                  "/company/profile/info/" + props.user.companyId
+                )
+              }
+            >
+              Datos de la empresa
+            </materialize.NavItem>
+          )}
+        {props.token &&
+          props.user.companyId &&
+          props.location.pathname !== "/" && (
+            <materialize.NavItem
+              onClick={() =>
+                props.history.push(
+                  "/company/profile/schedule/" + props.user.companyId
+                )
+              }
+            >
+              Mi horario
+            </materialize.NavItem>
+          )}
+        {props.token &&
+          props.user.companyId &&
+          props.location.pathname === "/" && (
+            <materialize.NavItem
+              className="waves-effect waves-light btn"
+              onClick={() =>
+                props.history.push("/company/profile/" + props.user.companyId)
+              }
+            >
+              Ir a mi empresa
+            </materialize.NavItem>
+          )}
+
+        {!props.token && (
+          <materialize.NavItem>
+            <Route component={Login} />
+          </materialize.NavItem>
+        )}
+        {props.token && (
+          <materialize.NavItem onClick={logout}>
+            <i className="material-icons">exit_to_app</i>
+          </materialize.NavItem>
+        )}
       </materialize.Navbar>
     </div>
   );
 };
 
 const mapStateToProps = (state: IGlobalState) => ({
-  user: state.user, token: state.token
+  user: state.user,
+  token: state.token
 });
 
 const mapDispatchToProps = {
@@ -112,4 +179,7 @@ const mapDispatchToProps = {
   setToken: actions.setToken
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Navbar);

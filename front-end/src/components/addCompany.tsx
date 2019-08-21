@@ -27,7 +27,7 @@ const AddCompany: React.FC<
   const [
     inputAppointmentDuration,
     setInputAppointmentDuration
-  ] = React.useState("");
+  ] = React.useState("0");
   const [editMode, setEditMode] = React.useState(false);
 
   const updateEditMode = () => {
@@ -109,7 +109,7 @@ const AddCompany: React.FC<
             };
             props.setUser(dataUser);
             props.setCompany(dataCompany);
-            if (window.location.pathname === "/addCompany") {
+            if (window.location.pathname === "/") {
               console.log(props.user.companyId);
               props.history.push("/company/profile/" + d._id);
             }
@@ -211,7 +211,7 @@ const AddCompany: React.FC<
               disabled={
                 Boolean(inputCompanyName) &&
                 !editMode &&
-                window.location.pathname !== "/addCompany"
+                window.location.pathname !== "/"
               }
               required
             />
@@ -231,7 +231,7 @@ const AddCompany: React.FC<
               disabled={
                 Boolean(inputAddress) &&
                 !editMode &&
-                window.location.pathname !== "/addCompany"
+                window.location.pathname !== "/"
               }
               required
             />
@@ -249,7 +249,7 @@ const AddCompany: React.FC<
               disabled={
                 Boolean(inputTelephone) &&
                 !editMode &&
-                window.location.pathname !== "/addCompany"
+                window.location.pathname !== "/"
               }
               required
             />
@@ -267,7 +267,7 @@ const AddCompany: React.FC<
               disabled={
                 Boolean(inputType) &&
                 !editMode &&
-                window.location.pathname !== "/addCompany"
+                window.location.pathname !== "/"
               }
               required
             />
@@ -285,7 +285,7 @@ const AddCompany: React.FC<
               disabled={
                 Boolean(inputEmail) &&
                 !editMode &&
-                window.location.pathname !== "/addCompany"
+                window.location.pathname !== "/"
               }
               required
             />
@@ -299,11 +299,7 @@ const AddCompany: React.FC<
             <input
               value={inputAppointmentDuration + " minutos"}
               type="text"
-              disabled={
-                Boolean(inputAppointmentDuration) &&
-                !editMode &&
-                window.location.pathname !== "/addCompany"
-              }
+              disabled={true}
               required
             />
             <label className={inputAppointmentDuration && " active"}>
@@ -321,13 +317,13 @@ const AddCompany: React.FC<
               disabled={
                 Boolean(inputAppointmentDuration) &&
                 !editMode &&
-                window.location.pathname !== "/addCompany"
+                window.location.pathname !== "/"
               }
             />
           </div>
         </div>
 
-        {(editMode || window.location.pathname === "/addCompany") && (
+        {(editMode || window.location.pathname === "/") && (
           <div className="center">
             <button onClick={submit} className="btn waves-effect waves-light">
               Enviar
@@ -335,7 +331,7 @@ const AddCompany: React.FC<
           </div>
         )}
 
-        {editMode && window.location.pathname !== "/addCompany" && (
+        {editMode && window.location.pathname !== "/" && (
           <div className="center">
             <br />
             <button
@@ -347,7 +343,7 @@ const AddCompany: React.FC<
           </div>
         )}
 
-        {!editMode && window.location.pathname !== "/addCompany" && (
+        {!editMode && window.location.pathname !== "/" && (
           <div className="center">
             <button
               onClick={updateEditMode}

@@ -82,8 +82,6 @@ const AddUser: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => 
             onChange={updateInputUsername}
             value={inputUsername}
             type="text"
-            name="username"
-            id="addUsername"
             required
           />
           <label>Username</label>
@@ -97,8 +95,6 @@ const AddUser: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => 
             onChange={updateInputPassword}
             value={inputPassword}
             type="password"
-            name="password"
-            id="addPassword"
             required
           />
           <label>Password</label>
@@ -112,8 +108,6 @@ const AddUser: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => 
             onChange={updateInputEmail}
             value={inputEmail}
             type="email"
-            name="email"
-            id="addEmail"
             required
           />
           <label>Email</label>

@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { IGlobalState } from "../reducers/reducers";
 import { IUser } from "../IUser";
 import datepicker from "./datepicker";
+import Navbar from "./navbar";
 const materialize = require("react-materialize");
 
 interface IProps {}
@@ -37,7 +38,8 @@ const CompanyProfile: React.FC<
 
   return (
     <div className="companyProfile">
-      <div className="sidenavCompany">
+        <Route component={Navbar} />
+      {/* <div className="sidenavCompany">
         <materialize.SideNav
           trigger={<button className="btn sidenavButton">Menú</button>}
           options={{ closeOnClick: true, draggable: true }}
@@ -73,7 +75,7 @@ const CompanyProfile: React.FC<
             Mi horario
           </materialize.SideNavItem>
         </materialize.SideNav>
-      </div>
+      </div> */}
       <div>
         <Switch>
           <Route

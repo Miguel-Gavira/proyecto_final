@@ -53,8 +53,7 @@ const App: React.FC<IPropsGlobal> = props => {
           <Route path="/company/profile/" component={CompanyProfile} />
         )}
         <Route path="/company/:companyId" exact component={Landing} />
-        <Route path="/addCompany" exact component={Principal} />{" "}
-        <Route path="/add" exact component={Principal} />{" "}
+        <Route path="/add" exact component={Principal} />
         <Route path="/" exact component={Principal} />
         <Redirect to="/" />
       </Switch>

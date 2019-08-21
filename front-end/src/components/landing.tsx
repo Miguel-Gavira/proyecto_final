@@ -23,7 +23,7 @@ const Landing: React.FC<IProps> = props => {
           <materialize.Modal
             header="Reserva tu cita"
             trigger={
-              <a className="waves-effect waves-light btn">Reservar cita</a>
+              <button className="waves-effect waves-light btn">Reservar cita</button>
             }
             actions={
               <materialize.Button waves="green" modal="close" flat>
