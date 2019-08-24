@@ -59,6 +59,7 @@ body::-webkit-scrollbar-track,
 .LoginCard {
   width: 500px !important;
   border-radius: 15px !important;
+  max-height: min-content !important;
 }
 
 @media only screen and (max-width: 1000px) {

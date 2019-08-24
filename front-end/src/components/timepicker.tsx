@@ -119,7 +119,8 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
   return (
     <div>
       <div>
-        {slots.map(slot => (
+        {slots.length === 0 && "Estamos cerrados"}
+        {slots.length > 0 && slots.map(slot => (
           <p key={slot + "-" + props.appointment}>
             <label>
               <input
@@ -137,9 +138,9 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
           </p>
         ))}
       </div>
-      <button onClick={submit} className="btn waves-effect waves-light ">
+      {slots.length > 0 && <button onClick={submit} className="btn waves-effect waves-light ">
         Reservar
-      </button>
+      </button>}
     </div>
   );
 };

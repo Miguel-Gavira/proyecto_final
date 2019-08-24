@@ -12,7 +12,9 @@ interface IPropsGlobal {
   setUser: (user: IUser) => void;
 }
 
-const AddUser: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
+const AddUser: React.FC<
+  IProps & IPropsGlobal & RouteComponentProps
+> = props => {
   const [inputUsername, setInputUsername] = React.useState("");
   const [inputPassword, setInputPassword] = React.useState("");
   const [inputEmail, setInputEmail] = React.useState("");
@@ -67,10 +69,10 @@ const AddUser: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => 
       <div className="row margin">
         <div className="col s12 m12 l12 center">
           <img
-            src="https://png.pngtree.com/svg/20161113/ef1b24279e.png"
+            src="images/Reserva-tu-cita.png"
             alt="logo"
             className="responsive-img circle"
-            width="100px"
+            width="150px"
           />
         </div>
       </div>

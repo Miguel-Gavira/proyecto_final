@@ -194,13 +194,13 @@ const AddCompany: React.FC<
       }
     >
       <div className="formCompany hoverable">
-        <div className="row   margin">
+        <div className="row margin">
           <div className="col s12 m12 l12 center">
             <img
-              src="https://png.pngtree.com/svg/20161113/ef1b24279e.png"
+              src="images/Reserva-tu-cita.png"
               alt="logo"
               className="responsive-img circle"
-              width="100px"
+              width="150px"
             />
           </div>
         </div>
@@ -227,7 +227,7 @@ const AddCompany: React.FC<
 
         <div className="col m12 l12">
           <div className="input-field">
-            <i className="material-icons prefix">lock</i>
+            <i className="material-icons prefix">location_on</i>
             <input
               onChange={updateInputAddress}
               value={inputAddress}
@@ -245,7 +245,7 @@ const AddCompany: React.FC<
 
         <div className="col m12 l12">
           <div className="input-field">
-            <i className="material-icons prefix">lock</i>
+            <i className="material-icons prefix">local_phone</i>
             <input
               onChange={updateInputTelephone}
               value={inputTelephone}
@@ -263,7 +263,7 @@ const AddCompany: React.FC<
 
         <div className="col m12 l12">
           <div className="input-field">
-            <i className="material-icons prefix">lock</i>
+            <i className="material-icons prefix">shopping_basket</i>
             <input
               onChange={updateInputType}
               value={inputType}
@@ -281,7 +281,7 @@ const AddCompany: React.FC<
 
         <div className="col m12 l12">
           <div className="input-field">
-            <i className="material-icons prefix">lock</i>
+            <i className="material-icons prefix">email</i>
             <input
               onChange={updateInputEmail}
               value={inputEmail}
@@ -299,7 +299,7 @@ const AddCompany: React.FC<
 
         <div className="col m12 l12">
           <div className="input-field">
-            <i className="material-icons prefix">lock</i>
+            <i className="material-icons prefix">alarm</i>
             <input
               value={inputAppointmentDuration + " minutos"}
               type="text"

@@ -39,7 +39,7 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
             <th colSpan={9}>{props.appointment.year}</th>
           </tr>
           <tr>
-            <th colSpan={9}>{props.appointment.monthLong}</th>
+            <th colSpan={9}>{props.appointment.monthLong.toLocaleUpperCase()}</th>
           </tr>
         </thead>
         <tbody>
@@ -62,6 +62,7 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
                 className={`waves-effect colDatepicker ${props.appointment.day === d.day &&
                   "red"}`}
               >
+                <p>{d.weekdayLong.toLocaleUpperCase()}</p>
                 <p>{d.day}</p>
               </td>
             ))}

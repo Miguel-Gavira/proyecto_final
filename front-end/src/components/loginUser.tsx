@@ -78,10 +78,10 @@ const LoginUser: React.FC<
       <div className="row margin">
         <div className="col s12 m12 l12 center">
           <img
-            src="https://png.pngtree.com/svg/20161113/ef1b24279e.png"
+            src="images/Reserva-tu-cita.png"
             alt="logo"
             className="responsive-img circle"
-            width="100px"
+            width="150px"
           />
         </div>
       </div>
