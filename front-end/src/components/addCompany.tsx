@@ -188,7 +188,11 @@ const AddCompany: React.FC<
   }, [props.user, editMode]);
 
   return (
-    <div className="SignInCompanies">
+    <div
+      className={
+        props.location.pathname === "/" ? "addCompany" : "SignInCompanies"
+      }
+    >
       <div className="formCompany hoverable">
         <div className="row   margin">
           <div className="col s12 m12 l12 center">

@@ -33,7 +33,6 @@ scheduleController.multipleAdd = (req, res) => {
         company: companyId
       });
       if (newSchedule.startTime && newSchedule.finishTime) {
-        console.log(newSchedule.startTime,newSchedule.finishTime);
         ScheduleModel.deleteMany({ company: companyId, weekday: d.weekday }, function (err) {
           if (err) {
             res.status(400).send('Error');
