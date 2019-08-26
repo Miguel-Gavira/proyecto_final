@@ -24,7 +24,7 @@ const Login: React.FC<IProps & RouteComponentProps> = props => {
   return (
     <div>
       <materialize.Modal
-        trigger={<button className="waves-effect waves-light btn">Login</button>}
+        trigger={<button className="waves-effect waves-light btn cyan darken-1">Login</button>}
         className="LoginCard"
         options={{ closeOnClick: false, constrainWidth: false }}
         actions={

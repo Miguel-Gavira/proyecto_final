@@ -21,9 +21,6 @@ interface IPropsGlobal {
 }
 
 const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
-  
-
-  
   const logout = () => {
     sessionStorage.clear();
     const dataUser: IUser = {
@@ -57,21 +54,27 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
   };
 
   React.useEffect(() => {
-    if(props.token && !props.user.companyId){
+    if (props.token && !props.user.companyId) {
       const aux: any = document.getElementsByClassName("open")[0];
       aux.click();
-    }    
-  },[props.token, props.user]);
+    }
+  }, [props.token, props.user]);
 
   return (
     <div>
       <materialize.Navbar
-        className={"grey darken-4"}
+        className={"grey darken-4 myNavbar"}
         fixed={true}
         brand={
-          <Link to={"/"} className="brand-logo">
-            Reserva tu cita
-          </Link>
+          props.user.companyName && props.location.pathname !== "/" ? (
+            <Link to={"/company/profile/" + props.user.companyId}>
+              {props.user.companyName}
+            </Link>
+          ) : (
+            <Link to={"/"} className="brand-logo">
+              Reserva tu cita
+            </Link>
+          )
         }
         alignLinks="right"
       >

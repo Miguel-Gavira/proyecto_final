@@ -9,7 +9,6 @@ interface IProps {}
 const Landing: React.FC<IProps> = props => {
   return (
     <div>
-      <Route component={Navbar} />
       <div>
         <materialize.Parallax
           image={

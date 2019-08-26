@@ -9,8 +9,8 @@ interface IProps {}
 
 const Principal: React.FC<IProps> = props => {
   return (
+    <>
     <div className="fondoCompanies">
-      <Route component={Navbar} />
       <div className="principal">
         <div className="introCompanies">
           <h1 className="center eslogan container">
@@ -126,6 +126,7 @@ const Principal: React.FC<IProps> = props => {
       </div>
       <Footer />
     </div>
+    </>
   );
 };
 

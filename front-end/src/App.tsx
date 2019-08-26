@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import Navbar from "./components/navbar";
 import Landing from "./components/landing";
 import * as actions from "./actions";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
@@ -48,6 +49,7 @@ const App: React.FC<IPropsGlobal> = props => {
 
   return (
     <BrowserRouter>
+        <Route component={Navbar} />
       <Switch>
         {props.token && (
           <Route path="/company/profile/" component={CompanyProfile} />

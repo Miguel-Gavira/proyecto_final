@@ -36,10 +36,7 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
       <table className="centered backgroundCards container hoverable">
         <thead>
           <tr>
-            <th colSpan={9}>{props.appointment.year}</th>
-          </tr>
-          <tr>
-            <th colSpan={9}>{props.appointment.monthLong.toLocaleUpperCase()}</th>
+            <th colSpan={9}>{props.appointment.monthLong.toLocaleUpperCase()} - {props.appointment.year}</th>
           </tr>
         </thead>
         <tbody>
@@ -59,14 +56,14 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
                     })
                   )
                 }
-                className={`waves-effect colDatepicker ${props.appointment.day === d.day &&
-                  "red"}`}
+                className={`waves-effect colDatepicker ${props.appointment
+                  .day === d.day && "teal lighten-2 circle"}`}
               >
                 <p>{d.weekdayLong.toLocaleUpperCase()}</p>
                 <p>{d.day}</p>
               </td>
             ))}
-            <td onClick={add}  className="colDatepicker waves-effect">
+            <td onClick={add} className="colDatepicker waves-effect">
               <i className="material-icons">chevron_right</i>
             </td>
           </tr>
@@ -87,57 +84,6 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
           </tr>
         </tbody>
       </table>
-      {/* <div>
-        <div>
-          <h2>{props.appointment.year}</h2>
-          <h2>{props.appointment.monthLong}</h2>
-        </div>
-        <div className="col s12">
-          <ul className="pagination">
-            <li onClick={sub}>
-              <a href="#!">
-                <i className="material-icons">chevron_left</i>
-              </a>
-            </li>
-            {days.map(d => (
-              <li
-                key={d.day + "-" + d.month + "-" + d.year}
-                onClick={() =>
-                  props.setAppointment(
-                    props.appointment.set({
-                      day: d.day,
-                      month: d.month,
-                      hour: 0
-                    })
-                  )
-                }
-                className={`waves-effect ${props.appointment.day === d.day &&
-                  "active"}`}
-              >
-                <a href="#!">{d.day}</a>
-              </li>
-            ))}
-            <li onClick={add}>
-              <a href="#!">
-                <i className="material-icons">chevron_right</i>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div>
-          {DateTime.local().toFormat("yyyy LLL dd") >
-          props.appointment.toFormat("yyyy LLL dd") ? (
-            <p>No puedes reservar citas anteriores a la fecha actual</p>
-          ) : (
-            <Timepicker
-              isToday={
-                props.appointment.toFormat("yyyy LLL dd") ===
-                DateTime.local().toFormat("yyyy LLL dd")
-              }
-            />
-          )}
-        </div>
-      </div> */}
     </div>
   );
 };

@@ -105,7 +105,7 @@ const AddUser: React.FC<
 
       <div className="col m12 l12">
         <div className="input-field">
-          <i className="material-icons prefix">lock</i>
+          <i className="material-icons prefix">email</i>
           <input
             onChange={updateInputEmail}
             value={inputEmail}

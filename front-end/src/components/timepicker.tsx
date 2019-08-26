@@ -120,27 +120,29 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
     <div>
       <div>
         {slots.length === 0 && "Estamos cerrados"}
-        {slots.length > 0 && slots.map(slot => (
-          <p key={slot + "-" + props.appointment}>
-            <label>
-              <input
-                disabled={
-                  fillSlots.includes(slot) ||
-                  (props.isToday && slot < DateTime.local().toFormat("HH:mm"))
-                }
-                name="group1"
-                type="radio"
-                checked={props.appointment.toFormat("HH:mm") === slot}
-                onChange={() => setTime(slot)}
-              />
-              <span>{slot}</span>
-            </label>
-          </p>
-        ))}
+        {slots.length > 0 &&
+          slots.map(slot => (
+            <p key={slot + "-" + props.appointment}>
+              <label>
+                <input
+                  disabled={
+                    fillSlots.includes(slot) ||
+                    (props.isToday && slot < DateTime.local().toFormat("HH:mm"))
+                  }
+                  type="radio"
+                  checked={props.appointment.toFormat("HH:mm") === slot}
+                  onChange={() => setTime(slot)}
+                />
+                <span>{slot}</span>
+              </label>
+            </p>
+          ))}
       </div>
-      {slots.length > 0 && <button onClick={submit} className="btn waves-effect waves-light ">
-        Reservar
-      </button>}
+      {slots.length > 0 && (
+        <button onClick={submit} className="btn waves-effect waves-light ">
+          Reservar
+        </button>
+      )}
     </div>
   );
 };
