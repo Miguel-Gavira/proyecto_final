@@ -57,7 +57,9 @@ const AddUser: React.FC<
               companyId: ""
             };
             props.setUser(dataUser);
-            props.history.push("/addCompany");
+            if(props.location.pathname === "/add"){
+              props.history.push("/addCompany");
+            }
           }
         });
       }

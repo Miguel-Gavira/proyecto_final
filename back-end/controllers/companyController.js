@@ -35,7 +35,9 @@ companyController.edit = (req, res) => {
         ...(data.telephone && { telephone: data.telephone }),
         ...(data.type && { type: data.type }),
         ...(data.email && { email: data.email }),
-        ...(data.appointmentDuration && { appointmentDuration: data.appointmentDuration })
+        ...(data.appointmentDuration && {
+          appointmentDuration: data.appointmentDuration
+        })
       }
     },
     (err, raw) => {
@@ -70,6 +72,16 @@ companyController.listOne = (req, res) => {
 
 companyController.listAll = (req, res) => {
   CompanyModel.find({}, { companyName: 1 })
+    .then(result => {
+      res.send(result[0]);
+    })
+    .catch(err => {
+      res.send(err);
+    });
+};
+
+companyController.listWithoutOwner = (req, res) => {
+  CompanyModel.find({ _id: req.params.id }, { owner: 0 })
     .then(result => {
       res.send(result[0]);
     })

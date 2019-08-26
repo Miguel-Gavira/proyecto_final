@@ -5,6 +5,7 @@ import { IGlobalState } from "../reducers/reducers";
 import * as actions from "../actions";
 import { DateTime } from "luxon";
 import { IUser } from "../IUser";
+import { render } from "react-dom";
 const materialize = require("react-materialize");
 
 interface IProps {
@@ -34,16 +35,20 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
   ) => {
     setStartTimeMorning(event.target.value);
     setFinishTimeMorning(event.target.value);
-    setStartTimeAfternoon(event.target.value);
-    setFinishTimeAfternoon(event.target.value);
+    if (checked) {
+      setStartTimeAfternoon(event.target.value);
+      setFinishTimeAfternoon(event.target.value);
+    }
   };
 
   const updateFinishTimeMorning = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setFinishTimeMorning(event.target.value);
-    setStartTimeAfternoon(event.target.value);
-    setFinishTimeAfternoon(event.target.value);
+    if (checked) {
+      setStartTimeAfternoon(event.target.value);
+      setFinishTimeAfternoon(event.target.value);
+    }
   };
 
   const updateStartTimeAfternoon = (
@@ -206,7 +211,7 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
             <input
               checked={checked}
               type="checkbox"
-              className="filled-in"
+              className="filled-in black"
               onChange={updateChecked}
             />
             <span>¿Tienes jornada partida?</span>
@@ -214,7 +219,7 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
         </p>
       </div>
       <div>
-        <h5>Horario de mañana</h5>
+        <h5>Horario</h5>
       </div>
       <div>
         <materialize.Select

@@ -7,11 +7,13 @@ import { IGlobalState } from "../reducers/reducers";
 import { IUser } from "../IUser";
 import datepicker from "./datepicker";
 import HomeCompany from "./homeCompany";
+import { ICompany } from "../ICompany";
 
 interface IProps {}
 
 interface IPropsGlobal {
   user: IUser;
+  company: ICompany;
 }
 
 const CompanyProfile: React.FC<
@@ -21,7 +23,12 @@ const CompanyProfile: React.FC<
     <div className="companyProfile">
       <Switch>
         <Route
-          path={"/company/profile/" + props.user.companyId}
+          path={"/company/" + props.company._id}
+          exact
+          component={HomeCompany}
+        />
+        <Route
+          path={"/company/add/" + props.company._id}
           exact
           component={HomeCompany}
         />
@@ -46,7 +53,8 @@ const CompanyProfile: React.FC<
 };
 
 const mapStateToProps = (state: IGlobalState) => ({
-  user: state.user
+  user: state.user,
+  company: state.company
 });
 
 export default connect(mapStateToProps)(CompanyProfile);

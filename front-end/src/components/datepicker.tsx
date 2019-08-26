@@ -57,7 +57,7 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
                   )
                 }
                 className={`waves-effect colDatepicker ${props.appointment
-                  .day === d.day && "teal lighten-2 circle"}`}
+                  .day === d.day && "cyan darken-1 circle"}`}
               >
                 <p>{d.weekdayLong.toLocaleUpperCase()}</p>
                 <p>{d.day}</p>

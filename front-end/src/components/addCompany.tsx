@@ -111,7 +111,7 @@ const AddCompany: React.FC<
             props.setCompany(dataCompany);
             if (window.location.pathname === "/") {
               console.log(props.user.companyId);
-              props.history.push("/company/profile/" + d._id);
+              props.history.push("/company/" + d._id);
             }
           });
         }
@@ -306,12 +306,13 @@ const AddCompany: React.FC<
               disabled={true}
               required
             />
-            <label className={inputAppointmentDuration && " active"}>
+            <label className="active">
               Duración de una cita
             </label>
           </div>
           <div>
             <materialize.Range
+              className="cyan darken-1"
               min="5"
               max="120"
               step="5"
@@ -329,7 +330,10 @@ const AddCompany: React.FC<
 
         {(editMode || window.location.pathname === "/") && (
           <div className="center">
-            <button onClick={submit} className="btn waves-effect waves-light">
+            <button
+              onClick={submit}
+              className="btn waves-effect waves-light cyan darken-1"
+            >
               Enviar
             </button>
           </div>
@@ -351,7 +355,7 @@ const AddCompany: React.FC<
           <div className="center">
             <button
               onClick={updateEditMode}
-              className="btn waves-effect waves-light "
+              className="btn waves-effect waves-light cyan darken-1"
             >
               Editar
             </button>

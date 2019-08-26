@@ -15,6 +15,7 @@ interface IProps {}
 interface IPropsGlobal {
   token: string;
   user: IUser;
+  company: ICompany;
   setUser: (user: IUser) => void;
   setCompany: (company: ICompany) => void;
   setToken: (token: string) => void;
@@ -49,7 +50,6 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
       ]
     };
     props.setUser(dataUser);
-    props.setCompany(dataCompany);
     props.setToken("");
   };
 
@@ -66,9 +66,9 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
         className={"grey darken-4 myNavbar"}
         fixed={true}
         brand={
-          props.user.companyName && props.location.pathname !== "/" ? (
-            <Link to={"/company/profile/" + props.user.companyId}>
-              {props.user.companyName}
+          props.company.companyName && props.location.pathname !== "/" ? (
+            <Link to={"/company/" + props.company._id}>
+              {props.company.companyName}
             </Link>
           ) : (
             <Link to={"/"} className="brand-logo">
@@ -79,7 +79,7 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
         alignLinks="right"
       >
         <materialize.NavItem />
-        {props.token && !props.user.companyId && (
+        {!props.company._id && !props.user.companyId && props.token && (
           <materialize.NavItem>
             <materialize.Modal
               options={{ inDuration: 1000, outDuration: 1000 }}
@@ -87,7 +87,7 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
               bottomSheet
               fixedFooter={true}
               trigger={
-                <button className="waves-effect waves-light btn open">
+                <button className="waves-effect waves-light btn open cyan darken-1">
                   Crear empresa
                 </button>
               }
@@ -147,9 +147,9 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
           props.user.companyId &&
           props.location.pathname === "/" && (
             <materialize.NavItem
-              className="waves-effect waves-light btn"
+              className="waves-effect waves-light btn cyan darken-1"
               onClick={() =>
-                props.history.push("/company/profile/" + props.user.companyId)
+                props.history.push("/company/" + props.user.companyId)
               }
             >
               Ir a mi empresa
@@ -173,7 +173,8 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
 
 const mapStateToProps = (state: IGlobalState) => ({
   user: state.user,
-  token: state.token
+  token: state.token,
+  company: state.company
 });
 
 const mapDispatchToProps = {

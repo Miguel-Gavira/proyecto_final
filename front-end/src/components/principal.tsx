@@ -1,6 +1,5 @@
 import React from "react";
 import { Route } from "react-router";
-import Navbar from "./navbar";
 import Footer from "./footer";
 const materialize = require("react-materialize");
 const Flippy = require("react-flippy");

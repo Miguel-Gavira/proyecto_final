@@ -1,28 +1,113 @@
-import React from 'react';
+import React from "react";
 import { connect } from "react-redux";
-import { IGlobalState } from '../reducers/reducers';
-import { DateTime } from 'luxon';
-import { IUser } from '../IUser';
+import * as actions from "../actions";
+import { IGlobalState } from "../reducers/reducers";
+import { DateTime } from "luxon";
+import { ICompany } from "../ICompany";
+import { IUser } from "../IUser";
+import Footer from "./footer";
+import { RouteComponentProps, Route } from "react-router";
+import datepicker from "./datepicker";
+const materialize = require("react-materialize");
 
 interface IProps {}
 
 interface IPropsGlobal {
-    token: string;
-    user: IUser;
-    appointment: DateTime;
-}  
-
-const HomeCompany: React.FC<IProps & IPropsGlobal> = props => {
-    return (
-        <div>hola</div>
-    )
+  token: string;
+  user: IUser;
+  appointment: DateTime;
+  setCompany: (company: ICompany) => void;
 }
 
-const mapStateToProps = (state: IGlobalState) => ({
-    appointment: state.appointment,
-    user: state.user,
-    token: state.token
-  });
-  
+const HomeCompany: React.FC<
+  IProps & IPropsGlobal & RouteComponentProps
+> = props => {
+  React.useEffect(() => {
+    fetch(
+      "http://localhost:8080/api/company/withoutOwner/5d349aa535916f360895f61f",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    ).then(response => {
+      if (response.ok) {
+          console.log(response);
+        response.json().then(documents => {
+          const dataCompany: ICompany = {
+            _id: documents._id,
+            companyName: documents.companyName,
+            owner: "",
+            address: documents.address,
+            telephone: documents.telephone,
+            type: documents.type,
+            email: documents.email,
+            appointmentDuration: documents.appointmentDuration,
+            schedule: [
+              {
+                _id: "",
+                weekday: "",
+                startTime: "",
+                finishTime: ""
+              }
+            ]
+          };
+          props.setCompany(dataCompany);
+        });
+      }
+    });
+  }, []);
 
-export default connect(mapStateToProps)(HomeCompany);
+  return (
+    <div className="fondoCompanies">
+      <div className="principal">
+        <div className="introCompanies">
+          <h1 className="center eslogan container">
+            ¿Quieres reservar una cita?
+            {props.token && (
+              <materialize.Modal
+                options={{ inDuration: 500, outDuration: 500 }}
+                className="newCompany"
+                bottomSheet
+                fixedFooter={true}
+                trigger={
+                  <button className="waves-effect waves-light btn open cyan darken-1">
+                    Reservar una cita
+                  </button>
+                }
+                actions={
+                  <materialize.Button
+                    className="red waves-effect waves-light btn"
+                    modal="close"
+                  >
+                    Cerrar
+                  </materialize.Button>
+                }
+              >
+                <Route path="/" component={datepicker} />
+              </materialize.Modal>
+            )}
+          </h1>
+        </div>
+        <div className="section white z-depth-5"></div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+const mapStateToProps = (state: IGlobalState) => ({
+  appointment: state.appointment,
+  user: state.user,
+  token: state.token
+});
+
+const mapDispatchToProps = {
+  setCompany: actions.setCompany
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeCompany);

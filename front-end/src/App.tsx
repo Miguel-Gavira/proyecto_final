@@ -1,7 +1,6 @@
 import React from "react";
 import "./App.css";
 import Navbar from "./components/navbar";
-import Landing from "./components/landing";
 import * as actions from "./actions";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Principal from "./components/principal";
@@ -10,6 +9,7 @@ import { IGlobalState } from "./reducers/reducers";
 import { connect } from "react-redux";
 import { IUser } from "./IUser";
 import jwt from "jsonwebtoken";
+import homeCompany from "./components/homeCompany";
 
 interface IPropsGlobal {
   token: string;
@@ -49,12 +49,13 @@ const App: React.FC<IPropsGlobal> = props => {
 
   return (
     <BrowserRouter>
-        <Route component={Navbar} />
+      <Route component={Navbar} />
       <Switch>
         {props.token && (
           <Route path="/company/profile/" component={CompanyProfile} />
         )}
-        <Route path="/company/:companyId" exact component={Landing} />
+        <Route path="/company/add/:companyId" exact component={homeCompany} />
+        <Route path="/company/:companyId" exact component={homeCompany} />
         <Route path="/add" exact component={Principal} />
         <Route path="/" exact component={Principal} />
         <Redirect to="/" />

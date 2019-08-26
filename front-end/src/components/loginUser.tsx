@@ -53,7 +53,6 @@ const LoginUser: React.FC<
                 companyId: ""
               };
               props.setUser(dataUser);
-              props.history.push("/addCompany");
             } else {
               const dataUser = {
                 username: decode.username,
@@ -63,7 +62,7 @@ const LoginUser: React.FC<
                 companyId: decode.companyId
               };
               props.setUser(dataUser);
-              props.history.push("/company/profile/" + decode.companyId);
+              props.history.push("/company/" + decode.companyId);
             }
           }
         });

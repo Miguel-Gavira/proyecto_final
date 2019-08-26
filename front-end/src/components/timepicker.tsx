@@ -4,6 +4,7 @@ import { IGlobalState } from "../reducers/reducers";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import { IUser } from "../IUser";
+import { ICompany } from "../ICompany";
 
 interface IProps {
   isToday: Boolean;
@@ -13,6 +14,7 @@ interface IPropsGlobal {
   token: string;
   user: IUser;
   appointment: DateTime;
+  company: ICompany;
   setAppointment: (appointment: DateTime) => void;
 }
 
@@ -30,7 +32,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
     fetch(
       "http://localhost:8080/api/appointment/add" +
         "/" +
-        props.user.companyId +
+        props.company._id +
         "/" +
         props.user._id,
       {
@@ -54,7 +56,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
   React.useEffect(() => {
     fetch(
       "http://localhost:8080/api/schedule/" +
-        props.user.companyId +
+        props.company._id +
         "/" +
         props.appointment.weekday,
       {
@@ -76,7 +78,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       });
     fetch(
       "http://localhost:8080/api/appointment/" +
-        props.user.companyId +
+        props.company._id +
         "/" +
         props.appointment.toISODate(),
       {
@@ -119,7 +121,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
   return (
     <div>
       <div>
-        {slots.length === 0 && "Estamos cerrados"}
+        {slots.length === 0 && <h3>Estamos cerrados</h3>}
         {slots.length > 0 &&
           slots.map(slot => (
             <p key={slot + "-" + props.appointment}>
@@ -139,7 +141,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
           ))}
       </div>
       {slots.length > 0 && (
-        <button onClick={submit} className="btn waves-effect waves-light ">
+        <button onClick={submit} className="btn waves-effect waves-light cyan darken-1">
           Reservar
         </button>
       )}
@@ -150,7 +152,8 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
 const mapStateToProps = (state: IGlobalState) => ({
   appointment: state.appointment,
   user: state.user,
-  token: state.token
+  token: state.token,
+  company: state.company
 });
 
 const mapDispatchToProps = {
