@@ -23,22 +23,20 @@ const HomeCompany: React.FC<
   IProps & IPropsGlobal & RouteComponentProps
 > = props => {
   React.useEffect(() => {
-    fetch(
-      "http://localhost:8080/api/company/withoutOwner/5d349aa535916f360895f61f",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
+    const params: any = props.match.params;
+    fetch("http://localhost:8080/api/company/" + params.companyId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
       }
-    ).then(response => {
+    }).then(response => {
       if (response.ok) {
-          console.log(response);
         response.json().then(documents => {
           const dataCompany: ICompany = {
             _id: documents._id,
             companyName: documents.companyName,
-            owner: "",
+            owner:
+              (documents.owner === props.user._id) ? documents.owner : "",
             address: documents.address,
             telephone: documents.telephone,
             type: documents.type,

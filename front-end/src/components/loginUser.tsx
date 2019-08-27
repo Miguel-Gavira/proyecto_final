@@ -62,7 +62,9 @@ const LoginUser: React.FC<
                 companyId: decode.companyId
               };
               props.setUser(dataUser);
-              props.history.push("/company/" + decode.companyId);
+              if (props.location.pathname === "/") {
+                props.history.push("/company/" + decode.companyId);
+              }
             }
           }
         });
@@ -77,7 +79,7 @@ const LoginUser: React.FC<
       <div className="row margin">
         <div className="col s12 m12 l12 center">
           <img
-            src="images/Reserva-tu-cita.png"
+            src="http://localhost:3000/images/Reserva-tu-cita.png"
             alt="logo"
             className="responsive-img circle"
             width="150px"
@@ -113,7 +115,11 @@ const LoginUser: React.FC<
 
       <div className="center">
         <h3>{errorLogin}</h3>
-        <button onTouchStart={submit} onClick={submit} className="btn waves-effect waves-light ">
+        <button
+          onTouchStart={submit}
+          onClick={submit}
+          className="btn waves-effect waves-light "
+        >
           Enviar
         </button>
       </div>

@@ -79,17 +79,13 @@ router.put("/company/edit/:id", (req, res) => {
 
 router.get("/company/:id", (req, res) => {
   try {
-    const token = req.headers.authorization.replace("Bearer ", "");
-    let decoded = jwt.verify(token, secret);
-    decoded.companyId === req.params.id
-      ? companyController.listOne(req, res)
-      : res.send("Error");
+    companyController.listOne(req, res);
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
 });
 
-router.get("/company/withoutOwner/:id", companyController.listWithoutOwner);
+// router.get("/company/withoutOwner/:id", companyController.listWithoutOwner);
 
 //CRUD Appointment
 router.post("/appointment/add/:companyId/:userId", (req, res) => {
@@ -138,7 +134,7 @@ router.get("/appointment/:id", (req, res) => {
 });
 router.get("/appointment/:companyId/:day", (req, res) => {
   try {
-    appointmentController.listFromCompany(req,res);
+    appointmentController.listFromCompany(req, res);
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
@@ -185,7 +181,7 @@ router.delete("/schedule/delete/:companyId/:weekday", (req, res) => {
 
 router.get("/schedule/:companyId/:weekday", (req, res) => {
   try {
-    scheduleController.list(req,res);
+    scheduleController.list(req, res);
   } catch (error) {
     res.status(401).send("El token no es válido");
   }

@@ -76,7 +76,6 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
           });
         }
       });
-      console.log(props.company._id);
     fetch(
       "http://localhost:8080/api/appointment/" +
         props.company._id +

@@ -71,7 +71,7 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
             <td colSpan={9}>
               {DateTime.local().toFormat("yyyy LLL dd") >
               props.appointment.toFormat("yyyy LLL dd") ? (
-                <p>No puedes reservar citas anteriores a la fecha actual</p>
+                <h4>No puedes reservar citas anteriores a la fecha actual</h4>
               ) : (
                 <Timepicker
                   isToday={

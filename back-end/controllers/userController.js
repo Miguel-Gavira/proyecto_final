@@ -18,7 +18,6 @@ userController.add = (req, res) => {
     if (err) {
       res.send("DAMMMMN! There was an error", err);
     } else {
-      console.log(row);
       let token = jwt.sign(
         {
           _id: row._id,

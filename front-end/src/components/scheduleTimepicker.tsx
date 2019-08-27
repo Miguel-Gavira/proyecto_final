@@ -24,6 +24,7 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
   const [startTimeAfternoon, setStartTimeAfternoon] = React.useState("");
   const [finishTimeAfternoon, setFinishTimeAfternoon] = React.useState("");
   const [checked, setChecked] = React.useState(Boolean(startTimeAfternoon));
+  const [getUsed, setGetUsed] = React.useState(false);
 
   const updateChecked = () => {
     setChecked(c => !c);
@@ -93,7 +94,6 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
   };
 
   React.useEffect(() => {
-    console.log(props.company._id);
     fetch(
       "http://localhost:8080/api/schedule/" +
         props.company._id +
@@ -116,34 +116,37 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
         });
       }
     });
+    setGetUsed(true);
   }, []);
 
   React.useEffect(() => {
-    if (
-      startTimeMorning === "Borrar horario" ||
-      finishTimeMorning === "Borrar horario" ||
-      startTimeAfternoon === "Borrar horario" ||
-      finishTimeAfternoon === "Borrar horario"
-    ) {
-      fetch(
-        "http://localhost:8080/api/schedule/delete/" +
-          props.user.companyId +
-          "/" +
-          props.weekday,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + props.token
+    if (getUsed) {
+      if (
+        startTimeMorning === "Borrar horario" ||
+        finishTimeMorning === "Borrar horario" ||
+        startTimeAfternoon === "Borrar horario" ||
+        finishTimeAfternoon === "Borrar horario"
+      ) {
+        fetch(
+          "http://localhost:8080/api/schedule/delete/" +
+            props.user.companyId +
+            "/" +
+            props.weekday,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + props.token
+            }
           }
-        }
-      );
-      setStartTimeMorning("");
-      setFinishTimeMorning("");
-      setStartTimeAfternoon("");
-      setFinishTimeAfternoon("");
-    } else {
-      submit();
+        );
+        setStartTimeMorning("");
+        setFinishTimeMorning("");
+        setStartTimeAfternoon("");
+        setFinishTimeAfternoon("");
+      } else {
+        submit();
+      }
     }
   }, [
     startTimeMorning,
@@ -201,7 +204,6 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
       "Borrar horario"
     ];
   }, []);
-  
 
   return (
     <div className="scheduleCard">

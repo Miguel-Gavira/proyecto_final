@@ -31,30 +31,16 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
       companyName: "",
       companyId: ""
     };
-    const dataCompany: ICompany = {
-      _id: "",
-      companyName: "",
-      owner: "",
-      address: "",
-      telephone: 0,
-      type: "",
-      email: "",
-      appointmentDuration: 0,
-      schedule: [
-        {
-          _id: "",
-          weekday: "",
-          startTime: "",
-          finishTime: ""
-        }
-      ]
-    };
     props.setUser(dataUser);
     props.setToken("");
   };
 
   React.useEffect(() => {
-    if (props.token && !props.user.companyId) {
+    if (
+      props.token &&
+      !props.user.companyId &&
+      props.location.pathname === "/"
+    ) {
       const aux: any = document.getElementsByClassName("open")[0];
       aux.click();
     }
@@ -105,7 +91,7 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
           </materialize.NavItem>
         )}
         {props.token &&
-          props.user.companyId &&
+          props.user.companyId === props.company._id &&
           props.location.pathname !== "/" && (
             <materialize.NavItem
               onClick={() =>
@@ -118,7 +104,7 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
             </materialize.NavItem>
           )}
         {props.token &&
-          props.user.companyId &&
+          props.user.companyId === props.company._id &&
           props.location.pathname !== "/" && (
             <materialize.NavItem
               onClick={() =>
@@ -131,7 +117,7 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
             </materialize.NavItem>
           )}
         {props.token &&
-          props.user.companyId &&
+          props.user.companyId === props.company._id &&
           props.location.pathname !== "/" && (
             <materialize.NavItem
               onClick={() =>

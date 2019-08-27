@@ -80,14 +80,14 @@ companyController.listAll = (req, res) => {
     });
 };
 
-companyController.listWithoutOwner = (req, res) => {
-  CompanyModel.find({ _id: req.params.id }, { owner: 0 })
-    .then(result => {
-      res.send(result[0]);
-    })
-    .catch(err => {
-      res.send(err);
-    });
-};
+// companyController.listWithoutOwner = (req, res) => {
+//   CompanyModel.find({ _id: req.params.id }, { owner: 0 })
+//     .then(result => {
+//       res.send(result[0]);
+//     })
+//     .catch(err => {
+//       res.send(err);
+//     });
+// };
 
 module.exports = companyController;

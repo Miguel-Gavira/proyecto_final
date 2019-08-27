@@ -87,7 +87,6 @@ scheduleController.delete = (req, res) => {
 };
 
 scheduleController.list = (req, res) => {
-  console.log(req.params.companyId, req.params.weekday);
   ScheduleModel.find({ company: req.params.companyId, weekday: req.params.weekday })
     .populate("company")
     .then(result => {

@@ -37,7 +37,6 @@ authController.authUser = (req, res) => {
               },
               secret
             );
-            console.log(err);
             res.send(token);
             }); 
       } else {

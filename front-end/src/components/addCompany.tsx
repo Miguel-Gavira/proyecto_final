@@ -99,7 +99,6 @@ const AddCompany: React.FC<
                 }
               ]
             };
-            console.log(props.user);
             const dataUser: IUser = {
               username: props.user.username,
               email: props.user.email,
@@ -134,29 +133,8 @@ const AddCompany: React.FC<
       })
         .then(response => {
           if (response.ok) {
-            response.json().then(d => {
-              const dataCompany: ICompany = {
-                _id: d._id,
-                companyName: d.companyName,
-                owner: d.owner,
-                address: d.address,
-                telephone: d.telephone,
-                type: d.type,
-                email: d.email,
-                appointmentDuration: d.appointmentDuration,
-                schedule: [
-                  {
-                    _id: "",
-                    weekday: "",
-                    startTime: "",
-                    finishTime: ""
-                  }
-                ]
-              };
-              props.setCompany(dataCompany);
               updateEditMode();
-            });
-          }
+            };
         })
         .catch(error => {
           console.log(error);
@@ -181,6 +159,26 @@ const AddCompany: React.FC<
             setInputType(documents.type);
             setInputEmail(documents.email);
             setInputAppointmentDuration(documents.appointmentDuration);
+            const dataCompany: ICompany = {
+              _id: documents._id,
+              companyName: documents.companyName,
+              owner: documents.owner,
+              address: documents.address,
+              telephone: documents.telephone,
+              type: documents.type,
+              email: documents.email,
+              appointmentDuration: documents.appointmentDuration,
+              schedule: [
+                {
+                  _id: "",
+                  weekday: "",
+                  startTime: "",
+                  finishTime: ""
+                }
+              ]
+            };
+            console.log(dataCompany);
+            props.setCompany(dataCompany);
           });
         }
       });
