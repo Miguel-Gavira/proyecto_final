@@ -28,6 +28,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
     props.setAppointment(ap);
   };
 
+
   const submit = () => {
     fetch(
       "http://localhost:8080/api/appointment/add" +
@@ -58,12 +59,11 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       "http://localhost:8080/api/schedule/" +
         props.company._id +
         "/" +
-        props.appointment.weekday,
+       props.appointment.weekday,
       {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + props.token
+          "Content-Type": "application/json"
         }
       }
     )
@@ -76,16 +76,16 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
           });
         }
       });
+      console.log(props.company._id);
     fetch(
       "http://localhost:8080/api/appointment/" +
         props.company._id +
         "/" +
-        props.appointment.toISODate(),
+       props.appointment.toISODate(),
       {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + props.token
+          "Content-Type": "application/json"
         }
       }
     )

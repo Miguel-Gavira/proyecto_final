@@ -5,7 +5,6 @@ import { IGlobalState } from "../reducers/reducers";
 import * as actions from "../actions";
 import { DateTime } from "luxon";
 import { IUser } from "../IUser";
-import { render } from "react-dom";
 const materialize = require("react-materialize");
 
 interface IProps {
@@ -94,16 +93,16 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
   };
 
   React.useEffect(() => {
+    console.log(props.company._id);
     fetch(
       "http://localhost:8080/api/schedule/" +
-        props.user.companyId +
+        props.company._id +
         "/" +
         props.weekday,
       {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + props.token
+          "Content-Type": "application/json"
         }
       }
     ).then(response => {
@@ -202,6 +201,7 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
       "Borrar horario"
     ];
   }, []);
+  
 
   return (
     <div className="scheduleCard">

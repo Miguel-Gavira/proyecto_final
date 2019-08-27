@@ -58,7 +58,6 @@ const HomeCompany: React.FC<
       }
     });
   }, []);
-
   return (
     <div className="fondoCompanies">
       <div className="principal">

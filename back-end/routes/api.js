@@ -138,11 +138,7 @@ router.get("/appointment/:id", (req, res) => {
 });
 router.get("/appointment/:companyId/:day", (req, res) => {
   try {
-    const token = req.headers.authorization.replace("Bearer ", "");
-    let decoded = jwt.verify(token, secret);
-    decoded.companyId === req.params.companyId
-      ? appointmentController.listFromCompany(req, res)
-      : res.send("Error");
+    appointmentController.listFromCompany(req,res);
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
@@ -189,9 +185,7 @@ router.delete("/schedule/delete/:companyId/:weekday", (req, res) => {
 
 router.get("/schedule/:companyId/:weekday", (req, res) => {
   try {
-    const token = req.headers.authorization.replace("Bearer ", "");
-    jwt.verify(token, secret);
-    scheduleController.list;
+    scheduleController.list(req,res);
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
