@@ -88,6 +88,18 @@ router.get("/company/:id", (req, res) => {
 // router.get("/company/withoutOwner/:id", companyController.listWithoutOwner);
 
 //CRUD Appointment
+router.get("/appointment/:companyId/:userId", (req, res) => {
+  try {
+    const token = req.headers.authorization.replace("Bearer ", "");
+    let decoded = jwt.verify(token, secret);
+    decoded._id === req.params.userId
+      ? appointmentController.listToUser(req, res)
+      : res.send("Error");
+  } catch (error) {
+    res.status(401).send("El token no es válido");
+  }
+});
+
 router.post("/appointment/add/:companyId/:userId", (req, res) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
@@ -110,7 +122,7 @@ router.put("/appointment/edit/:id", (req, res) => {
     res.status(401).send("El token no es válido");
   }
 });
-router.delete("/appointment/delete/:id", (req, res) => {
+router.delete("/appointment/delete/:id/:userId", (req, res) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
     let decoded = jwt.verify(token, secret);

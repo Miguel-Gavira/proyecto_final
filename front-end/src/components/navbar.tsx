@@ -73,7 +73,7 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
               bottomSheet
               fixedFooter={true}
               trigger={
-                <button className="waves-effect waves-light btn open cyan darken-1">
+                <button className="waves-effect waves-light btn open">
                   Crear empresa
                 </button>
               }
@@ -133,7 +133,7 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
           props.user.companyId &&
           props.location.pathname === "/" && (
             <materialize.NavItem
-              className="waves-effect waves-light btn cyan darken-1"
+              className="waves-effect waves-light btn"
               onClick={() =>
                 props.history.push("/company/" + props.user.companyId)
               }

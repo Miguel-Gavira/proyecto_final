@@ -8,7 +8,6 @@ appointmentController.add = (req, res) => {
   const userId = req.params.userId;
   const newAppointment = new AppointmentModel({
     appointment: data.appointment,
-    service: data.service,
     company: companyId,
     user: userId
   });
@@ -28,7 +27,6 @@ appointmentController.edit = (req, res) => {
     {
       $set: {
         ...(data.appointment && { appointment: data.appointment }),
-        ...(data.service && { service: data.service })
       }
     },
     (err, raw) => {
@@ -63,11 +61,29 @@ appointmentController.listOne = (req, res) => {
     });
 };
 
+appointmentController.listToUser = (req, res) => {
+  AppointmentModel.find({
+    user: req.params.userId,
+    company: req.params.companyId
+  })
+    .populate("company")
+    .populate("user", { password: 0 })
+    .then(result => {
+      res.send(result.pop());
+    })
+    .catch(err => {
+      res.send(err);
+    });
+};
+
 appointmentController.listFromCompany = (req, res) => {
   const today = new Date(req.params.day);
   const tomorrow = new Date(req.params.day);
   tomorrow.setDate(tomorrow.getDate() + 1);
-  AppointmentModel.find({ company: req.params.companyId, appointment: { $gte: today, $lt: tomorrow } })
+  AppointmentModel.find({
+    company: req.params.companyId,
+    appointment: { $gte: today, $lt: tomorrow }
+  })
     // .populate("user", { username: 1 })
     .then(result => {
       res.send(result);

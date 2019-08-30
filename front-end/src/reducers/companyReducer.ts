@@ -9,15 +9,7 @@ const initialState: ICompany = {
   telephone: 0,
   type: "",
   email: "",
-  appointmentDuration: 0,
-  schedule: [
-    {
-      _id: "",
-      weekday: "",
-      startTime: "",
-      finishTime: ""
-    }
-  ]
+  appointmentDuration: 0
 };
 
 export const companyReducer = (

@@ -89,15 +89,7 @@ const AddCompany: React.FC<
               telephone: d.telephone,
               type: d.type,
               email: d.email,
-              appointmentDuration: d.appointmentDuration,
-              schedule: [
-                {
-                  _id: "",
-                  weekday: "",
-                  startTime: "",
-                  finishTime: ""
-                }
-              ]
+              appointmentDuration: d.appointmentDuration
             };
             const dataUser: IUser = {
               username: props.user.username,
@@ -133,8 +125,8 @@ const AddCompany: React.FC<
       })
         .then(response => {
           if (response.ok) {
-              updateEditMode();
-            };
+            updateEditMode();
+          }
         })
         .catch(error => {
           console.log(error);
@@ -167,15 +159,7 @@ const AddCompany: React.FC<
               telephone: documents.telephone,
               type: documents.type,
               email: documents.email,
-              appointmentDuration: documents.appointmentDuration,
-              schedule: [
-                {
-                  _id: "",
-                  weekday: "",
-                  startTime: "",
-                  finishTime: ""
-                }
-              ]
+              appointmentDuration: documents.appointmentDuration
             };
             console.log(dataCompany);
             props.setCompany(dataCompany);
@@ -304,9 +288,7 @@ const AddCompany: React.FC<
               disabled={true}
               required
             />
-            <label className="active">
-              Duración de una cita
-            </label>
+            <label className="active">Duración de una cita</label>
           </div>
           <div>
             <materialize.Range

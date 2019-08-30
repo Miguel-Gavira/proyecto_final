@@ -28,7 +28,6 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
     props.setAppointment(ap);
   };
 
-
   const submit = () => {
     fetch(
       "http://localhost:8080/api/appointment/add" +
@@ -43,8 +42,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
           Authorization: "Bearer " + props.token
         },
         body: JSON.stringify({
-          appointment: props.appointment,
-          service: "cosas"
+          appointment: props.appointment
         })
       }
     ).then(response => {
@@ -59,7 +57,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       "http://localhost:8080/api/schedule/" +
         props.company._id +
         "/" +
-       props.appointment.weekday,
+        props.appointment.weekday,
       {
         method: "GET",
         headers: {
@@ -80,7 +78,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       "http://localhost:8080/api/appointment/" +
         props.company._id +
         "/" +
-       props.appointment.toISODate(),
+        props.appointment.toISODate(),
       {
         method: "GET",
         headers: {
@@ -140,7 +138,10 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
           ))}
       </div>
       {slots.length > 0 && (
-        <button onClick={submit} className="btn waves-effect waves-light cyan darken-1">
+        <button
+          onClick={submit}
+          className="btn waves-effect waves-light cyan darken-1"
+        >
           Reservar
         </button>
       )}

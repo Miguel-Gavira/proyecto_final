@@ -7,12 +7,4 @@ export interface ICompany {
   type: string;
   email: string;
   appointmentDuration: number;
-  schedule: [
-    {
-      _id: string;
-      weekday: string;
-      startTime: string;
-      finishTime: string;
-    }
-  ];
 }
