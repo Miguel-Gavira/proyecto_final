@@ -39,7 +39,7 @@ const Principal: React.FC<IProps> = props => {
                 className="dark-text"
               >
                 <div className="white diapos diapo1 center row">
-                  <div className="col s4 offset-s1">
+                  <div className="col s12 l4 offset-l1">
                     <h2>
                       ¿Quieres que tus clientes reserven citas a cualquier hora
                       del día?
@@ -49,21 +49,21 @@ const Principal: React.FC<IProps> = props => {
                       empresa y actualiza tus horarios de apertura.
                     </p>
                   </div>
-                  <div className="col offset-s1 s3 left">
+                  <div className="col s12 offset-l1 l3 left">
                     <img
-                      src="http://localhost:3000/images/registro.png"
-                      alt="algo"
+                      src="/images/registro.png"
+                      alt="registro"
                     />
                   </div>
                 </div>
                 <div className="white diapos diapo2 center row">
-                  <div className="col s6 center ">
+                  <div className="col s12 l6 center ">
                     <img
-                      src="http://localhost:3000/images/nostrosnosencargamos.png"
-                      alt="algo"
+                      src="/images/nostrosnosencargamos.png"
+                      alt="nostrosnosencargamos"
                     />
                   </div>
-                  <div className="col s4 center texto">
+                  <div className="col s12 l4 center texto">
                     <h2>
                       Ya lo tienes todo listo, centrate en trabajar, nosotros nos
                       encargamos de todo.
@@ -78,9 +78,10 @@ const Principal: React.FC<IProps> = props => {
               </materialize.Carousel>
             </div>
           </Element>
+          <Element name="section2">
           <div className="white cardPanel">
             <materialize.Row className="container">
-              <materialize.Col m={4} s={12}>
+              <materialize.Col className="características" m={4} s={12}>
                 <Flippy.Flippy
                   style={{ width: "100%", height: "500px" }}
                   flipOnHover={true}
@@ -92,7 +93,7 @@ const Principal: React.FC<IProps> = props => {
                     <div>
                       <div>
                         <img
-                          src="https://www.factoriacreativabarcelona.es/wp-content/uploads/2018/09/web-responsive.png"
+                          src="/images/web-responsive.png"
                           width="100%"
                           alt="Diseño responsive"
                         />
@@ -122,7 +123,7 @@ const Principal: React.FC<IProps> = props => {
                   </Flippy.BackSide>
                 </Flippy.Flippy>
               </materialize.Col>
-              <materialize.Col m={4} s={12}>
+              <materialize.Col className="características" m={4} s={12}>
                 <Flippy.Flippy
                   style={{ width: "100%", height: "500px" }}
                   flipOnHover={true}
@@ -164,7 +165,7 @@ const Principal: React.FC<IProps> = props => {
                   </Flippy.BackSide>
                 </Flippy.Flippy>
               </materialize.Col>
-              <materialize.Col m={4} s={12}>
+              <materialize.Col className="características" m={4} s={12}>
                 <Flippy.Flippy
                   style={{ width: "100%", height: "500px" }}
                   flipOnHover={true}
@@ -208,6 +209,7 @@ const Principal: React.FC<IProps> = props => {
               </materialize.Col>
             </materialize.Row>
           </div>
+          </Element>
         </div>
         <Footer />
       </div>

@@ -54,7 +54,6 @@ const App: React.FC<IPropsGlobal> = props => {
         {props.token && (
           <Route path="/company/profile/" component={CompanyProfile} />
         )}
-        <Route path="/company/add/:companyId" exact component={homeCompany} />
         <Route path="/company/:companyId" exact component={homeCompany} />
         <Route path="/add" exact component={Principal} />
         <Route path="/" exact component={Principal} />

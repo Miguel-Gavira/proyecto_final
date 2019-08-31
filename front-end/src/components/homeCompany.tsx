@@ -72,6 +72,10 @@ const HomeCompany: React.FC<
   }, []);
 
   React.useEffect(() => {
+    if(!props.token){
+      setAppointmentReserved("");
+      setIdAppointmentReserved("");
+    }
     if (props.company._id && props.user._id) {
       fetch(
         "http://localhost:8080/api/appointment/" +
@@ -145,7 +149,7 @@ const HomeCompany: React.FC<
                     header={
                       <div className="insidePostit">
                         <img
-                          src="http://localhost:3000/images/postit.png"
+                          src="/images/postit.png"
                           width="100%"
                         />
                         <div className="cardText">

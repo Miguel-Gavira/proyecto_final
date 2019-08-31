@@ -7,6 +7,7 @@ import { IGlobalState } from "../reducers/reducers";
 import { connect } from "react-redux";
 import { ICompany } from "../ICompany";
 import AddCompany from "./addCompany";
+import { scroller } from "react-scroll";
 
 const materialize = require("react-materialize");
 
@@ -22,6 +23,26 @@ interface IPropsGlobal {
 }
 
 const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
+  const copyPath = () => {
+    const url = props.location.pathname;
+    navigator.clipboard.writeText("http://localhost:3000" + url);
+  };
+
+  const scrollType = {
+    duration: 500,
+    delay: 50,
+    smooth: true,
+    offset: -80
+  };
+
+  const goToSection1 = () => {
+    scroller.scrollTo("section1", scrollType);
+  };
+
+  const goToSection2 = () => {
+    scroller.scrollTo("section2", scrollType);
+  };
+
   const logout = () => {
     sessionStorage.clear();
     const dataUser: IUser = {
@@ -34,17 +55,6 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
     props.setUser(dataUser);
     props.setToken("");
   };
-
-  React.useEffect(() => {
-    if (
-      props.token &&
-      !props.user.companyId &&
-      props.location.pathname === "/"
-    ) {
-      const aux: any = document.getElementsByClassName("open")[0];
-      aux.click();
-    }
-  }, [props.token, props.user]);
 
   return (
     <div>
@@ -65,29 +75,22 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
         alignLinks="right"
       >
         <materialize.NavItem />
-        {!props.company._id && !props.user.companyId && props.token && (
+
+        {(props.location.pathname === "/" ||
+          props.location.pathname === "/add") && (
+          <materialize.NavItem onClick={goToSection1}>
+            ¿Cómo funciona?
+          </materialize.NavItem>
+        )}
+        {(props.location.pathname === "/" ||
+          props.location.pathname === "/add") && (
+          <materialize.NavItem onClick={goToSection2}>
+            Características
+          </materialize.NavItem>
+        )}
+        {!props.token && (
           <materialize.NavItem>
-            <materialize.Modal
-              options={{ inDuration: 1000, outDuration: 1000 }}
-              className="newCompany"
-              bottomSheet
-              fixedFooter={true}
-              trigger={
-                <button className="waves-effect waves-light btn open">
-                  Crear empresa
-                </button>
-              }
-              actions={
-                <materialize.Button
-                  className="red waves-effect waves-light btn"
-                  modal="close"
-                >
-                  Cerrar
-                </materialize.Button>
-              }
-            >
-              <Route path="/" exact component={AddCompany} />
-            </materialize.Modal>
+            <Route component={Login} />
           </materialize.NavItem>
         )}
         {props.token &&
@@ -100,7 +103,7 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
                 )
               }
             >
-              Mis citas
+              Reservar una cita
             </materialize.NavItem>
           )}
         {props.token &&
@@ -141,12 +144,40 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
               Ir a mi empresa
             </materialize.NavItem>
           )}
-
-        {!props.token && (
+        {!props.company._id && !props.user.companyId && props.token && (
           <materialize.NavItem>
-            <Route component={Login} />
+            <materialize.Modal
+              options={{ inDuration: 1000, outDuration: 1000 }}
+              className="newCompany"
+              bottomSheet
+              fixedFooter={true}
+              trigger={
+                <button className="waves-effect waves-light btn open">
+                  Crear empresa
+                </button>
+              }
+              actions={
+                <materialize.Button
+                  className="red waves-effect waves-light btn"
+                  modal="close"
+                >
+                  Cerrar
+                </materialize.Button>
+              }
+            >
+              <Route path="/" exact component={AddCompany} />
+            </materialize.Modal>
           </materialize.NavItem>
         )}
+        {props.token &&
+           props.user.companyId === props.company._id  &&
+          props.location.pathname !== "/" && (
+            <materialize.NavItem>
+              <button className="btn" onClick={copyPath}>
+                  Copiar mi enlace
+              </button>
+            </materialize.NavItem>
+          )}
         {props.token && (
           <materialize.NavItem onClick={logout}>
             <i className="material-icons">exit_to_app</i>

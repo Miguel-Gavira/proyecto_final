@@ -179,7 +179,7 @@ const AddCompany: React.FC<
         <div className="row margin">
           <div className="col s12 m12 l12 center">
             <img
-              src="http://localhost:3000/images/Reserva-tu-cita.png"
+              src="/images/Reserva-tu-cita.png"
               alt="logo"
               className="responsive-img circle"
               width="150px"

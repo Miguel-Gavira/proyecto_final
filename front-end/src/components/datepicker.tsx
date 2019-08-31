@@ -33,7 +33,7 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
 
   return (
     <div className="datepickerCompany">
-      <table className="centered backgroundCards container hoverable">
+      <table className="centered backgroundCards container hoverable datepicker">
         <thead>
           <tr>
             <th colSpan={9}>{props.appointment.monthLong.toLocaleUpperCase()} - {props.appointment.year}</th>
