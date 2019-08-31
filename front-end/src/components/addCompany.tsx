@@ -312,7 +312,7 @@ const AddCompany: React.FC<
           <div className="center">
             <button
               onClick={submit}
-              className="btn waves-effect waves-light cyan darken-1"
+              className="btn waves-effect waves-light"
             >
               Enviar
             </button>
@@ -335,7 +335,7 @@ const AddCompany: React.FC<
           <div className="center">
             <button
               onClick={updateEditMode}
-              className="btn waves-effect waves-light cyan darken-1"
+              className="btn waves-effect waves-light"
             >
               Editar
             </button>
