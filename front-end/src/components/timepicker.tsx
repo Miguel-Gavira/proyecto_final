@@ -21,6 +21,7 @@ interface IPropsGlobal {
 const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
   const [slots, setSlots] = useState<string[]>([]);
   const [fillSlots, setFillSlots] = useState<string[]>([]);
+  const [userReserved, setUserReserved] = useState<string[]>([]);
 
   const setTime = (slot: string) => {
     const [h, m] = slot.split(":");
@@ -75,7 +76,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
         }
       });
     fetch(
-      "http://localhost:8080/api/appointment/" +
+      "http://localhost:8080/api/appointment/getOneDay/" +
         props.company._id +
         "/" +
         props.appointment.toISODate(),
@@ -89,8 +90,11 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       .then(response => response.json())
       .then(reservedAppointments => {
         if (reservedAppointments) {
+          console.log(reservedAppointments);
           setFillSlots([]);
           calcFillsSlots(reservedAppointments);
+          setUserReserved([]);
+          setUserReserved([reservedAppointments.map((a: any) => a.user.username)]);
         }
       });
   }, [props.appointment]);
@@ -140,7 +144,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       {slots.length > 0 && (
         <button
           onClick={submit}
-          className="btn waves-effect waves-light cyan darken-1"
+          className="btn waves-effect waves-light"
         >
           Reservar
         </button>

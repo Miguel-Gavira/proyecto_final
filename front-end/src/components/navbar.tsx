@@ -57,7 +57,9 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
       email: "",
       _id: "",
       companyName: "",
-      companyId: ""
+      companyId: "",
+      appointment: "",
+      idAppointment: ""
     };
     props.setUser(dataUser);
     props.setToken("");
@@ -96,19 +98,18 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
           <Route component={Login} />
         </materialize.NavItem>
       )}
-      {props.token &&
-        props.user.companyId === props.company._id &&
-        props.location.pathname !== "/" && (
-          <materialize.NavItem
-            onClick={() =>
-              props.history.push(
-                "/company/profile/appointment/" + props.user.companyId
-              )
-            }
-          >
-            Reservar una cita
-          </materialize.NavItem>
-        )}
+      {props.token && props.location.pathname !== "/" && props.user.appointment === "" && (
+        <materialize.NavItem
+          className="btn waves-effect waves-light"
+          onClick={() =>
+            props.history.push(
+              "/company/profile/appointment/" + props.user.companyId
+            )
+          }
+        >
+          Reservar una cita
+        </materialize.NavItem>
+      )}
       {props.token &&
         props.user.companyId === props.company._id &&
         props.location.pathname !== "/" && (
@@ -172,9 +173,14 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
         props.user.companyId === props.company._id &&
         props.location.pathname !== "/" && (
           <materialize.NavItem>
-            <button className="btn" onClick={copyPath}>
+            <materialize.Button
+              className="btn"
+              onClick={copyPath}
+              tooltip="Dale esta URL a tus clientes para que reserven las citas en tu empresa"
+              tooltipOptions={{ position: "bottom" }}
+            >
               Copiar mi enlace
-            </button>
+            </materialize.Button>
           </materialize.NavItem>
         )}
       {props.token && (

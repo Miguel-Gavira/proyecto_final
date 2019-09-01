@@ -36,7 +36,10 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
       <table className="centered backgroundCards container hoverable datepicker">
         <thead>
           <tr>
-            <th colSpan={9}>{props.appointment.monthLong.toLocaleUpperCase()} - {props.appointment.year}</th>
+            <th colSpan={9}>
+              {props.appointment.monthLong.toLocaleUpperCase()} -{" "}
+              {props.appointment.year}
+            </th>
           </tr>
         </thead>
         <tbody>

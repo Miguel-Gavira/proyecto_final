@@ -49,15 +49,17 @@ const AddUser: React.FC<
           props.setToken(token);
           const decode = jwt.decode(token);
           if (decode !== null && typeof decode !== "string") {
-            const dataUser = {
+            const dataUser: IUser = {
               username: decode.username,
               email: decode.email,
               _id: decode._id,
               companyName: "",
-              companyId: ""
+              companyId: "",
+              appointment: "",
+              idAppointment: ""
             };
             props.setUser(dataUser);
-            if(props.location.pathname === "/add"){
+            if (props.location.pathname === "/add") {
               props.history.push("/addCompany");
             }
           }

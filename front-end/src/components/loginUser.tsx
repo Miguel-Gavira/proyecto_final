@@ -45,21 +45,25 @@ const LoginUser: React.FC<
           const decode = jwt.decode(token);
           if (decode !== null && typeof decode === "object") {
             if (decode.companyId === undefined) {
-              const dataUser = {
+              const dataUser: IUser = {
                 username: decode.username,
                 email: decode.email,
                 _id: decode._id,
                 companyName: "",
-                companyId: ""
+                companyId: "",
+                appointment: "",
+                idAppointment: ""
               };
               props.setUser(dataUser);
             } else {
-              const dataUser = {
+              const dataUser: IUser = {
                 username: decode.username,
                 email: decode.email,
                 _id: decode._id,
                 companyName: decode.companyName,
-                companyId: decode.companyId
+                companyId: decode.companyId,
+                appointment: "",
+                idAppointment: ""
               };
               props.setUser(dataUser);
               if (props.location.pathname === "/") {

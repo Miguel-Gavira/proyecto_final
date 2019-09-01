@@ -38,9 +38,7 @@ const Login: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
     <div>
       <materialize.Modal
         trigger={
-          <button className="waves-effect waves-light btn">
-            Login
-          </button>
+          <button className="waves-effect waves-light btn">Login</button>
         }
         className="LoginCard"
         options={{ closeOnClick: false, constrainWidth: false }}

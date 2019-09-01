@@ -84,7 +84,7 @@ appointmentController.listFromCompany = (req, res) => {
     company: req.params.companyId,
     appointment: { $gte: today, $lt: tomorrow }
   })
-    // .populate("user", { username: 1 })
+    .populate("user", { username: 1 })
     .then(result => {
       res.send(result);
     })

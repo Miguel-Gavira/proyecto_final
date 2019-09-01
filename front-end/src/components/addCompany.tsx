@@ -96,7 +96,9 @@ const AddCompany: React.FC<
               email: props.user.email,
               _id: props.user._id,
               companyName: d.companyName,
-              companyId: d._id
+              companyId: d._id,
+              appointment: "",
+              idAppointment: ""
             };
             props.setUser(dataUser);
             props.setCompany(dataCompany);
@@ -310,10 +312,7 @@ const AddCompany: React.FC<
 
         {(editMode || window.location.pathname === "/") && (
           <div className="center">
-            <button
-              onClick={submit}
-              className="btn waves-effect waves-light"
-            >
+            <button onClick={submit} className="btn waves-effect waves-light">
               Enviar
             </button>
           </div>

@@ -35,7 +35,7 @@ const Principal: React.FC<IProps> = props => {
           <Element name="section1">
             <div className="section white z-depth-5">
               <materialize.Carousel
-                options={{ fullWidth: true, indicators: true, duration: 100}}
+                options={{ fullWidth: true, indicators: true, duration: 100 }}
                 className="dark-text"
               >
                 <div className="white diapos diapo1 center row">
@@ -50,10 +50,7 @@ const Principal: React.FC<IProps> = props => {
                     </p>
                   </div>
                   <div className="col s12 offset-l1 l3 left">
-                    <img
-                      src="/images/registro.png"
-                      alt="registro"
-                    />
+                    <img src="/images/registro.png" alt="registro" />
                   </div>
                 </div>
                 <div className="white diapos diapo2 center row">
@@ -65,8 +62,8 @@ const Principal: React.FC<IProps> = props => {
                   </div>
                   <div className="col s12 l4 center texto">
                     <h2>
-                      Ya lo tienes todo listo, centrate en trabajar, nosotros nos
-                      encargamos de todo.
+                      Ya lo tienes todo listo, centrate en trabajar, nosotros
+                      nos encargamos de todo.
                     </h2>
                     <p>
                       La aplicación generará automáticamente una url
@@ -79,136 +76,136 @@ const Principal: React.FC<IProps> = props => {
             </div>
           </Element>
           <Element name="section2">
-          <div className="white cardPanel">
-            <materialize.Row className="container">
-              <materialize.Col className="características" m={4} s={12}>
-                <Flippy.Flippy
-                  style={{ width: "100%", height: "500px" }}
-                  flipOnHover={true}
-                  flipOnClick={true}
-                >
-                  <Flippy.FrontSide
-                    style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+            <div className="white cardPanel">
+              <materialize.Row className="container">
+                <materialize.Col className="características" m={4} s={12}>
+                  <Flippy.Flippy
+                    style={{ width: "100%", height: "500px" }}
+                    flipOnHover={true}
+                    flipOnClick={true}
                   >
-                    <div>
+                    <Flippy.FrontSide
+                      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                    >
                       <div>
-                        <img
-                          src="/images/web-responsive.png"
-                          width="100%"
-                          alt="Diseño responsive"
-                        />
+                        <div>
+                          <img
+                            src="/images/web-responsive.png"
+                            width="100%"
+                            alt="Diseño responsive"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="center grey-text text-darken-4">
+                            Diseño responsive
+                          </h4>
+                        </div>
                       </div>
+                    </Flippy.FrontSide>
+                    <Flippy.BackSide
+                      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                    >
                       <div>
-                        <h4 className="center grey-text text-darken-4">
-                          Diseño responsive
-                        </h4>
+                        <div>
+                          <h4 className="center grey-text text-darken-4">
+                            Diseño responsive
+                          </h4>
+                          <div className="divider"></div>
+                          <h5 className="center">
+                            Tus clientes podrán reservar las citas en tu empresa
+                            desde cualquier dispositivo
+                          </h5>
+                        </div>
                       </div>
-                    </div>
-                  </Flippy.FrontSide>
-                  <Flippy.BackSide
-                    style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                    </Flippy.BackSide>
+                  </Flippy.Flippy>
+                </materialize.Col>
+                <materialize.Col className="características" m={4} s={12}>
+                  <Flippy.Flippy
+                    style={{ width: "100%", height: "500px" }}
+                    flipOnHover={true}
+                    flipOnClick={true}
                   >
-                    <div>
+                    <Flippy.FrontSide
+                      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                    >
                       <div>
-                        <h4 className="center grey-text text-darken-4">
-                          Diseño responsive
-                        </h4>
-                        <div className="divider"></div>
-                        <h5 className="center">
-                          Tus clientes podrán reservar las citas en tu empresa
-                          desde cualquier dispositivo
-                        </h5>
+                        <div>
+                          <img
+                            src="/images/movil-agenda.png"
+                            alt="Céntrate sólo en tu trabajo"
+                            width="100%"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="center grey-text text-darken-4">
+                            Céntrate sólo en tu trabajo
+                          </h4>
+                        </div>
                       </div>
-                    </div>
-                  </Flippy.BackSide>
-                </Flippy.Flippy>
-              </materialize.Col>
-              <materialize.Col className="características" m={4} s={12}>
-                <Flippy.Flippy
-                  style={{ width: "100%", height: "500px" }}
-                  flipOnHover={true}
-                  flipOnClick={true}
-                >
-                  <Flippy.FrontSide
-                    style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                    </Flippy.FrontSide>
+                    <Flippy.BackSide
+                      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                    >
+                      <div>
+                        <div>
+                          <h4 className="center grey-text text-darken-4">
+                            Céntrate sólo en tu trabajo
+                          </h4>
+                          <div className="divider"></div>
+                          <h5 className="center">
+                            Olvídate de apuntar citas por teléfono. No dediques
+                            más tiempo a recitar tu disponibilidad
+                          </h5>
+                        </div>
+                      </div>
+                    </Flippy.BackSide>
+                  </Flippy.Flippy>
+                </materialize.Col>
+                <materialize.Col className="características" m={4} s={12}>
+                  <Flippy.Flippy
+                    style={{ width: "100%", height: "500px" }}
+                    flipOnHover={true}
+                    flipOnClick={true}
                   >
-                    <div>
+                    <Flippy.FrontSide
+                      style={{ backgroundColor: "rgb(255, 255, 255, 0.6" }}
+                    >
                       <div>
-                        <img
-                          src="/images/movil-agenda.png"
-                          alt="Céntrate sólo en tu trabajo"
-                          width="100%"
-                        />
+                        <div>
+                          <img
+                            src="/images/appointmentsetting.png"
+                            alt="Tu negocio disponible las 24 horas"
+                            width="100%"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="center grey-text text-darken-4">
+                            Tu negocio disponible las 24 horas
+                          </h4>
+                        </div>
                       </div>
+                    </Flippy.FrontSide>
+                    <Flippy.BackSide
+                      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                    >
                       <div>
-                        <h4 className="center grey-text text-darken-4">
-                          Céntrate sólo en tu trabajo
-                        </h4>
+                        <div>
+                          <h4 className="center grey-text text-darken-4">
+                            Tu negocio disponible las 24 horas
+                          </h4>
+                          <div className="divider"></div>
+                          <h5 className="center">
+                            Acepta reservas a cualquier hora del día, deja que
+                            sean tus clientes los que consulten los horarios
+                          </h5>
+                        </div>
                       </div>
-                    </div>
-                  </Flippy.FrontSide>
-                  <Flippy.BackSide
-                    style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
-                  >
-                    <div>
-                      <div>
-                        <h4 className="center grey-text text-darken-4">
-                          Céntrate sólo en tu trabajo
-                        </h4>
-                        <div className="divider"></div>
-                        <h5 className="center">
-                          Olvídate de apuntar citas por teléfono. No dediques
-                          más tiempo a recitar tu disponibilidad
-                        </h5>
-                      </div>
-                    </div>
-                  </Flippy.BackSide>
-                </Flippy.Flippy>
-              </materialize.Col>
-              <materialize.Col className="características" m={4} s={12}>
-                <Flippy.Flippy
-                  style={{ width: "100%", height: "500px" }}
-                  flipOnHover={true}
-                  flipOnClick={true}
-                >
-                  <Flippy.FrontSide
-                    style={{ backgroundColor: "rgb(255, 255, 255, 0.6" }}
-                  >
-                    <div>
-                      <div>
-                        <img
-                          src="/images/appointmentsetting.png"
-                          alt="Tu negocio disponible las 24 horas"
-                          width="100%"
-                        />
-                      </div>
-                      <div>
-                        <h4 className="center grey-text text-darken-4">
-                          Tu negocio disponible las 24 horas
-                        </h4>
-                      </div>
-                    </div>
-                  </Flippy.FrontSide>
-                  <Flippy.BackSide
-                    style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
-                  >
-                    <div>
-                      <div>
-                        <h4 className="center grey-text text-darken-4">
-                          Tu negocio disponible las 24 horas
-                        </h4>
-                        <div className="divider"></div>
-                        <h5 className="center">
-                          Acepta reservas a cualquier hora del día, deja que
-                          sean tus clientes los que consulten los horarios
-                        </h5>
-                      </div>
-                    </div>
-                  </Flippy.BackSide>
-                </Flippy.Flippy>
-              </materialize.Col>
-            </materialize.Row>
-          </div>
+                    </Flippy.BackSide>
+                  </Flippy.Flippy>
+                </materialize.Col>
+              </materialize.Row>
+            </div>
           </Element>
         </div>
         <Footer />

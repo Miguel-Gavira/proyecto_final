@@ -6,7 +6,9 @@ const initialState: IUser = {
     email: "",
     _id: "",
     companyId: "",
-    companyName:""
+    companyName:"",
+    appointment: "",
+    idAppointment: ""
 }
 
 export const userReducer = (

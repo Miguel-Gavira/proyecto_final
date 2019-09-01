@@ -88,6 +88,14 @@ router.get("/company/:id", (req, res) => {
 // router.get("/company/withoutOwner/:id", companyController.listWithoutOwner);
 
 //CRUD Appointment
+router.get("/appointment/getOneDay/:companyId/:day", (req, res) => {
+  try {
+    appointmentController.listFromCompany(req, res);
+  } catch (error) {
+    res.status(401).send("El token no es válido");
+  }
+});
+
 router.get("/appointment/:companyId/:userId", (req, res) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
@@ -144,13 +152,7 @@ router.get("/appointment/:id", (req, res) => {
     res.status(401).send("El token no es válido");
   }
 });
-router.get("/appointment/:companyId/:day", (req, res) => {
-  try {
-    appointmentController.listFromCompany(req, res);
-  } catch (error) {
-    res.status(401).send("El token no es válido");
-  }
-});
+
 
 //CRUD Schedule
 router.post("/schedule/add/:companyId", (req, res) => {

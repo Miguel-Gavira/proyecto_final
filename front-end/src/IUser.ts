@@ -4,4 +4,6 @@ export interface IUser{
     _id: string;
     companyName: string;
     companyId: string;
+    appointment: string;
+    idAppointment: string;
   }
