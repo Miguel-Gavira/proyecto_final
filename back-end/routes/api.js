@@ -108,6 +108,19 @@ router.get("/appointment/:companyId/:userId", (req, res) => {
   }
 });
 
+router.get("/appointment/:id", (req, res) => {
+  try {
+    const token = req.headers.authorization.replace("Bearer ", "");
+    let decoded = jwt.verify(token, secret);
+    decoded._id === req.params.userId
+      ? appointmentController.listOne(req, res)
+      : res.send("Error");
+  } catch (error) {
+    res.status(401).send("El token no es válido");
+  }
+});
+
+
 router.post("/appointment/add/:companyId/:userId", (req, res) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
@@ -119,6 +132,7 @@ router.post("/appointment/add/:companyId/:userId", (req, res) => {
     res.status(401).send("El token no es válido");
   }
 });
+
 router.put("/appointment/edit/:id", (req, res) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
@@ -130,24 +144,14 @@ router.put("/appointment/edit/:id", (req, res) => {
     res.status(401).send("El token no es válido");
   }
 });
+
 router.delete("/appointment/delete/:id/:userId", (req, res) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
     let decoded = jwt.verify(token, secret);
     decoded._id === req.params.userId
       ? appointmentController.delete(req, res)
-      : res.send("Error");
-  } catch (error) {
-    res.status(401).send("El token no es válido");
-  }
-});
-router.get("/appointment/:id", (req, res) => {
-  try {
-    const token = req.headers.authorization.replace("Bearer ", "");
-    let decoded = jwt.verify(token, secret);
-    decoded._id === req.params.userId
-      ? appointmentController.listOne(req, res)
-      : res.send("Error");
+      : res.status(401).send("Error");
   } catch (error) {
     res.status(401).send("El token no es válido");
   }

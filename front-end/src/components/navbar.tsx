@@ -63,6 +63,9 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
     };
     props.setUser(dataUser);
     props.setToken("");
+    if (props.location.pathname !== "/"){
+      props.history.push("/company/" + props.company._id);
+    }
   };
 
   return (

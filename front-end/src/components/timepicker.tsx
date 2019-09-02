@@ -15,6 +15,7 @@ interface IPropsGlobal {
   user: IUser;
   appointment: DateTime;
   company: ICompany;
+  setUser: (user: IUser) => void;
   setAppointment: (appointment: DateTime) => void;
 }
 
@@ -48,7 +49,20 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       }
     ).then(response => {
       if (response.ok) {
-        console.log("todo bien");
+        response.json().then(document => {
+          const dataUser: IUser = {
+            username: props.user.username,
+            email: props.user.email,
+            _id: props.user._id,
+            companyName: props.user.companyName,
+            companyId: props.user.companyId,
+            appointment: DateTime.fromISO(document.appointment).toString(),
+            idAppointment: document._id
+          };
+          props.setUser(dataUser);
+        });
+        const aux:any = document.getElementsByClassName('brand-logo')[0];
+        aux.click();
       }
     });
   };
@@ -90,11 +104,12 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       .then(response => response.json())
       .then(reservedAppointments => {
         if (reservedAppointments) {
-          console.log(reservedAppointments);
           setFillSlots([]);
           calcFillsSlots(reservedAppointments);
           setUserReserved([]);
-          setUserReserved([reservedAppointments.map((a: any) => a.user.username)]);
+          setUserReserved(
+            reservedAppointments.map((a: any) => a.user.username)
+          );
         }
       });
   }, [props.appointment]);
@@ -119,33 +134,38 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
     setFillSlots(s => [...s, ...aux]);
   }, []);
 
+  let index = 0;
   return (
     <div>
       <div>
         {slots.length === 0 && <h3>Estamos cerrados</h3>}
         {slots.length > 0 &&
-          slots.map(slot => (
-            <p key={slot + "-" + props.appointment}>
-              <label>
-                <input
-                  disabled={
-                    fillSlots.includes(slot) ||
-                    (props.isToday && slot < DateTime.local().toFormat("HH:mm"))
-                  }
-                  type="radio"
-                  checked={props.appointment.toFormat("HH:mm") === slot}
-                  onChange={() => setTime(slot)}
-                />
-                <span>{slot}</span>
-              </label>
-            </p>
-          ))}
+          slots.map(slot => {
+            return (
+              <p key={slot + "-" + props.appointment}>
+                <label>
+                  <input
+                    disabled={
+                      fillSlots.includes(slot) ||
+                      (props.isToday &&
+                        slot < DateTime.local().toFormat("HH:mm"))
+                    }
+                    type="radio"
+                    checked={props.appointment.toFormat("HH:mm") === slot}
+                    onChange={() => setTime(slot)}
+                  />
+                  <span className="black-text">
+                    {slot}
+                    {fillSlots.includes(slot) &&
+                      " Reservado por " + userReserved[index++]}
+                  </span>
+                </label>
+              </p>
+            );
+          })}
       </div>
       {slots.length > 0 && (
-        <button
-          onClick={submit}
-          className="btn waves-effect waves-light"
-        >
+        <button onClick={submit} className="btn waves-effect waves-light">
           Reservar
         </button>
       )}
@@ -161,7 +181,8 @@ const mapStateToProps = (state: IGlobalState) => ({
 });
 
 const mapDispatchToProps = {
-  setAppointment: actions.setAppointment
+  setAppointment: actions.setAppointment,
+  setUser: actions.setUser
 };
 
 export default connect(

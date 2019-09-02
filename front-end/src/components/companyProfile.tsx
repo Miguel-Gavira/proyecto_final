@@ -23,12 +23,12 @@ const CompanyProfile: React.FC<
     <div className="companyProfile">
       <Switch>
         <Route
-          path={"/company/" + props.company._id}
+          path={"/company/add/" + props.company._id}
           exact
           component={HomeCompany}
         />
         <Route
-          path={"/company/add/" + props.company._id}
+          path={"/company/" + props.company._id}
           exact
           component={HomeCompany}
         />

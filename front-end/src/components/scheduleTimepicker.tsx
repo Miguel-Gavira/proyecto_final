@@ -26,6 +26,49 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
   const [checked, setChecked] = React.useState(Boolean(startTimeAfternoon));
   const [getUsed, setGetUsed] = React.useState(false);
 
+  const slots = React.useMemo(() => {
+    return [
+      "06:00",
+      "06:30",
+      "07:00",
+      "07:30",
+      "08:00",
+      "08:30",
+      "09:00",
+      "09:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "12:00",
+      "12:30",
+      "13:00",
+      "13:30",
+      "14:00",
+      "14:30",
+      "15:00",
+      "15:30",
+      "16:00",
+      "16:30",
+      "17:00",
+      "17:30",
+      "18:00",
+      "18:30",
+      "19:00",
+      "19:30",
+      "20:00",
+      "20:30",
+      "21:00",
+      "21:30",
+      "22:00",
+      "22:30",
+      "23:00",
+      "23:30",
+      "00:00",
+      "Borrar horario"
+    ];
+  }, []);
+
   const updateChecked = () => {
     setChecked(c => !c);
   };
@@ -34,10 +77,11 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setStartTimeMorning(event.target.value);
-    setFinishTimeMorning(event.target.value);
+    const pos = slots.indexOf(event.target.value);
+    setFinishTimeMorning(slots[pos + 1]);
     if (checked) {
-      setStartTimeAfternoon(event.target.value);
-      setFinishTimeAfternoon(event.target.value);
+      setStartTimeAfternoon(slots[pos + 2]);
+      setFinishTimeAfternoon(slots[pos + 3]);
     }
   };
 
@@ -46,8 +90,9 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
   ) => {
     setFinishTimeMorning(event.target.value);
     if (checked) {
-      setStartTimeAfternoon(event.target.value);
-      setFinishTimeAfternoon(event.target.value);
+      const pos = slots.indexOf(event.target.value);
+      setStartTimeAfternoon(slots[pos + 1]);
+      setFinishTimeAfternoon(slots[pos + 2]);
     }
   };
 
@@ -55,7 +100,8 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setStartTimeAfternoon(event.target.value);
-    setFinishTimeAfternoon(event.target.value);
+    const pos = slots.indexOf(event.target.value);
+    setFinishTimeAfternoon(slots[pos + 1]);
   };
 
   const updateFinishTimeAfternoon = (
@@ -65,32 +111,35 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
   };
 
   const submit = () => {
-    fetch(
-      "http://localhost:8080/api/schedule/multipleAdd/" + props.user.companyId,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + props.token
-        },
-        body: JSON.stringify([
-          {
-            ...(startTimeMorning !== finishTimeMorning && {
-              weekday: props.weekday,
-              startTime: startTimeMorning,
-              finishTime: finishTimeMorning
-            })
+    if (getUsed) {
+      fetch(
+        "http://localhost:8080/api/schedule/multipleAdd/" +
+          props.user.companyId,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + props.token
           },
-          {
-            ...(startTimeAfternoon !== finishTimeAfternoon && {
-              weekday: props.weekday,
-              startTime: startTimeAfternoon,
-              finishTime: finishTimeAfternoon
-            })
-          }
-        ])
-      }
-    );
+          body: JSON.stringify([
+            {
+              ...(startTimeMorning !== finishTimeMorning && {
+                weekday: props.weekday,
+                startTime: startTimeMorning,
+                finishTime: finishTimeMorning
+              })
+            },
+            {
+              ...(startTimeAfternoon !== finishTimeAfternoon && {
+                weekday: props.weekday,
+                startTime: startTimeAfternoon,
+                finishTime: finishTimeAfternoon
+              })
+            }
+          ])
+        }
+      );
+    }
   };
 
   React.useEffect(() => {
@@ -110,8 +159,8 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
         response.json().then(documents => {
           documents[0] && setStartTimeMorning(documents[0].startTime);
           documents[0] && setFinishTimeMorning(documents[0].finishTime);
-          documents[1] && setStartTimeAfternoon(documents[1].startTime);
           documents[1] && setChecked(Boolean(documents[1].startTime));
+          documents[1] && setStartTimeAfternoon(documents[1].startTime);
           documents[1] && setFinishTimeAfternoon(documents[1].finishTime);
         });
       }
@@ -161,49 +210,6 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
       setFinishTimeAfternoon("");
     }
   }, [checked]);
-
-  const slots = React.useMemo(() => {
-    return [
-      "06:00",
-      "06:30",
-      "07:00",
-      "07:30",
-      "08:00",
-      "08:30",
-      "09:00",
-      "09:30",
-      "10:00",
-      "10:30",
-      "11:00",
-      "11:30",
-      "12:00",
-      "12:30",
-      "13:00",
-      "13:30",
-      "14:00",
-      "14:30",
-      "15:00",
-      "15:30",
-      "16:00",
-      "16:30",
-      "17:00",
-      "17:30",
-      "18:00",
-      "18:30",
-      "19:00",
-      "19:30",
-      "20:00",
-      "20:30",
-      "21:00",
-      "21:30",
-      "22:00",
-      "22:30",
-      "23:00",
-      "23:30",
-      "00:00",
-      "Borrar horario"
-    ];
-  }, []);
 
   return (
     <div className="scheduleCard">

@@ -19,7 +19,7 @@ const Login: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
   const changeUrl = () => {
     switch (props.location.pathname) {
       case "/add":
-        props.history.push("");
+        props.history.push("/");
         break;
       case "/":
         props.history.push("/add");
@@ -33,7 +33,6 @@ const Login: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
       default:
     }
   };
-
   return (
     <div>
       <materialize.Modal

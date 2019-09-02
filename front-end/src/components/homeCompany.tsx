@@ -110,11 +110,11 @@ const HomeCompany: React.FC<
           response.json().then(documents => {
             if (DateTime.local() < DateTime.fromISO(documents.appointment)) {
               const dataUser: IUser = {
-                username: documents.username,
-                email: documents.email,
-                _id: documents._id,
-                companyName: documents.companyName,
-                companyId: documents.companyId,
+                username: props.user.username,
+                email: props.user.email,
+                _id: props.user._id,
+                companyName: props.user.companyName,
+                companyId: props.user.companyId,
                 appointment: DateTime.fromISO(documents.appointment).toString(),
                 idAppointment: documents._id
               };
@@ -124,7 +124,7 @@ const HomeCompany: React.FC<
         }
       });
     }
-  }, [props.token, props.company]);
+  }, [props.token]);
 
   return (
     <div className="fondoCompanies">

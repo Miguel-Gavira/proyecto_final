@@ -21,7 +21,6 @@ const App: React.FC<IPropsGlobal> = props => {
   React.useEffect(() => {
     const token = sessionStorage.getItem("token");
     if (token) {
-      props.setToken(token);
       const decode = jwt.decode(token);
       if (decode !== null && typeof decode === "object") {
         if (decode.companyId === undefined) {
@@ -35,6 +34,7 @@ const App: React.FC<IPropsGlobal> = props => {
             idAppointment: ""
           };
           props.setUser(dataUser);
+          props.setToken(token);
         } else {
           const dataUser: IUser = {
             username: decode.username,
@@ -46,6 +46,7 @@ const App: React.FC<IPropsGlobal> = props => {
             idAppointment: ""
           };
           props.setUser(dataUser);
+          props.setToken(token);
         }
       }
     }
@@ -55,6 +56,7 @@ const App: React.FC<IPropsGlobal> = props => {
     <BrowserRouter>
       <Route component={Navbar} />
       <Switch>
+        <Route path="/company/add/:companyId" exact component={homeCompany} />
         {props.token && (
           <Route path="/company/profile/" component={CompanyProfile} />
         )}

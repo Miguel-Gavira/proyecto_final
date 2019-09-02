@@ -80,7 +80,7 @@ const Principal: React.FC<IProps> = props => {
               <materialize.Row className="container">
                 <materialize.Col className="características" m={4} s={12}>
                   <Flippy.Flippy
-                    style={{ width: "100%", height: "500px" }}
+                    style={{ width: "100%", height: "65vh" }}
                     flipOnHover={true}
                     flipOnClick={true}
                   >
@@ -122,7 +122,7 @@ const Principal: React.FC<IProps> = props => {
                 </materialize.Col>
                 <materialize.Col className="características" m={4} s={12}>
                   <Flippy.Flippy
-                    style={{ width: "100%", height: "500px" }}
+                    style={{ width: "100%", height: "65vh" }}
                     flipOnHover={true}
                     flipOnClick={true}
                   >
@@ -164,7 +164,7 @@ const Principal: React.FC<IProps> = props => {
                 </materialize.Col>
                 <materialize.Col className="características" m={4} s={12}>
                   <Flippy.Flippy
-                    style={{ width: "100%", height: "500px" }}
+                    style={{ width: "100%", height: "65vh" }}
                     flipOnHover={true}
                     flipOnClick={true}
                   >

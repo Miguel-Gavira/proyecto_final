@@ -11,11 +11,11 @@ appointmentController.add = (req, res) => {
     company: companyId,
     user: userId
   });
-  newAppointment.save(err => {
+  newAppointment.save((err,row) => {
     if (err) {
       res.send("DAMMMMN! There was an error", err);
     } else {
-      res.send("Añadido correctamente");
+      res.send(row);
     }
   });
 };
@@ -26,10 +26,10 @@ appointmentController.edit = (req, res) => {
     { _id: req.params.id },
     {
       $set: {
-        ...(data.appointment && { appointment: data.appointment }),
+        ...(data.appointment && { appointment: data.appointment })
       }
     },
-    (err, raw) => {
+    (err, row) => {
       if (err) {
         res.send("DAMMMMN! There was an error", err);
       } else {
@@ -84,6 +84,7 @@ appointmentController.listFromCompany = (req, res) => {
     company: req.params.companyId,
     appointment: { $gte: today, $lt: tomorrow }
   })
+    .sort({ appointment: 1 })
     .populate("user", { username: 1 })
     .then(result => {
       res.send(result);

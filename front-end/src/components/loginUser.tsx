@@ -41,7 +41,6 @@ const LoginUser: React.FC<
       if (response.ok) {
         response.text().then(token => {
           sessionStorage.setItem("token", token);
-          props.setToken(token);
           const decode = jwt.decode(token);
           if (decode !== null && typeof decode === "object") {
             if (decode.companyId === undefined) {
@@ -55,6 +54,7 @@ const LoginUser: React.FC<
                 idAppointment: ""
               };
               props.setUser(dataUser);
+              props.setToken(token);
             } else {
               const dataUser: IUser = {
                 username: decode.username,
@@ -66,9 +66,7 @@ const LoginUser: React.FC<
                 idAppointment: ""
               };
               props.setUser(dataUser);
-              if (props.location.pathname === "/") {
-                props.history.push("/company/" + decode.companyId);
-              }
+              props.setToken(token);
             }
           }
         });
