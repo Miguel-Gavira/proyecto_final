@@ -21,13 +21,16 @@ const LoginUser: React.FC<
 
   const updateInputUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputUsername(event.target.value);
+    setErrorLogin("");
   };
 
   const updateInputPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputPassword(event.target.value);
+    setErrorLogin("");
   };
 
   const submit = () => {
+    if(inputUsername &&  inputPassword){
     fetch("http://localhost:8080/api/auth/user", {
       method: "POST",
       headers: {
@@ -74,6 +77,9 @@ const LoginUser: React.FC<
         setErrorLogin("Usuario o contraseña incorrecta");
       }
     });
+  } else {
+    setErrorLogin("Por favor, completa todos los campos");
+  }
   };
 
   return (
@@ -83,7 +89,7 @@ const LoginUser: React.FC<
           <img
             src="http://localhost:3000/images/Reserva-tu-cita.png"
             alt="logo"
-            className="responsive-img circle"
+            className="responsive-img circle hoverable"
             width="150px"
           />
         </div>

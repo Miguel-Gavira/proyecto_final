@@ -49,7 +49,7 @@ const App: React.FC<IPropsGlobal> = props => {
           props.setToken(token);
         }
       }
-    }
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

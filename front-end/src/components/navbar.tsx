@@ -63,7 +63,7 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
     };
     props.setUser(dataUser);
     props.setToken("");
-    if (props.location.pathname !== "/"){
+    if (props.location.pathname !== "/") {
       props.history.push("/company/" + props.company._id);
     }
   };
@@ -86,65 +86,91 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
       alignLinks="right"
     >
       <materialize.NavItem />
-      <materialize.NavItem onClick={goToSection1}>
-        ¿Cómo funciona?
-      </materialize.NavItem>
-      <materialize.NavItem onClick={goToSection2}>
-        {(props.location.pathname === "/" ||
-          props.location.pathname === "/add") &&
-        !props.token
-          ? "Características"
-          : "Sobre nosotros"}
-      </materialize.NavItem>
+      {(props.location.pathname === "/" ||
+        props.location.pathname === "/add" ||
+        props.location.pathname === "/company/" + props.company._id) && (
+        <materialize.NavItem onClick={goToSection1}>
+          <materialize.Button className="btn-flat white-text waves-effect waves-light ">
+            ¿Cómo funciona?
+          </materialize.Button>
+        </materialize.NavItem>
+      )}
+      {(props.location.pathname === "/" ||
+        props.location.pathname === "/add" ||
+        props.location.pathname === "/company/" + props.company._id) && (
+        <materialize.NavItem onClick={goToSection2}>
+          <materialize.Button className="btn-flat white-text waves-effect waves-light ">
+            {(props.location.pathname === "/" ||
+              props.location.pathname === "/add") &&
+            !props.token
+              ? "Características"
+              : "Sobre nosotros"}
+          </materialize.Button>
+        </materialize.NavItem>
+      )}
       {!props.token && (
         <materialize.NavItem>
           <Route component={Login} />
         </materialize.NavItem>
       )}
-      {props.token && props.location.pathname !== "/" && props.user.appointment === "" && (
-        <materialize.NavItem
-          className="btn waves-effect waves-light"
-          onClick={() =>
-            props.history.push(
-              "/company/profile/appointment/" + props.user.companyId
-            )
-          }
-        >
-          Reservar una cita
-        </materialize.NavItem>
-      )}
       {props.token &&
         props.user.companyId === props.company._id &&
         props.location.pathname !== "/" && (
-          <materialize.NavItem
-            onClick={() =>
-              props.history.push(
-                "/company/profile/info/" + props.user.companyId
-              )
-            }
-          >
-            Datos de la empresa
+          <materialize.NavItem>
+            <materialize.Button
+              className="btn-flat white-text waves-effect waves-light "
+              onClick={() =>
+                props.history.push(
+                  "/company/profile/info/" + props.user.companyId
+                )
+              }
+            >
+              Modificar datos
+            </materialize.Button>
           </materialize.NavItem>
         )}
       {props.token &&
         props.user.companyId === props.company._id &&
         props.location.pathname !== "/" && (
-          <materialize.NavItem
-            onClick={() =>
-              props.history.push(
-                "/company/profile/schedule/" + props.user.companyId
-              )
-            }
-          >
-            Mi horario
+          <materialize.NavItem>
+            <materialize.Button
+              className="btn-flat white-text waves-effect waves-light "
+              onClick={() =>
+                props.history.push(
+                  "/company/profile/schedule/" + props.user.companyId
+                )
+              }
+            >
+              Modificar horario
+            </materialize.Button>
+          </materialize.NavItem>
+        )}
+      {props.token &&
+        props.location.pathname !== "/" &&
+        props.user.appointment === "" && (
+          <materialize.NavItem>
+            <materialize.Button
+              className="btn-flat white-text waves-effect waves-light "
+              onClick={() =>
+                props.history.push(
+                  "/company/profile/appointment/" + props.user.companyId
+                )
+              }
+            >
+              Reservar cita
+            </materialize.Button>
           </materialize.NavItem>
         )}
       {props.token && props.user.companyId && props.location.pathname === "/" && (
-        <materialize.NavItem
-          className="waves-effect waves-light btn"
-          onClick={() => props.history.push("/company/" + props.user.companyId)}
-        >
-          Ir a mi empresa
+        <materialize.NavItem>
+          <materialize.Button
+            className="btn-flat white-text waves-effect waves-light "
+            onClick={() =>
+              props.history.push("/company/" + props.user.companyId)
+            }
+          >
+            Ir a mi empresa
+          </materialize.Button>
         </materialize.NavItem>
       )}
       {!props.company._id && !props.user.companyId && props.token && (
@@ -155,9 +181,9 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
             bottomSheet
             fixedFooter={true}
             trigger={
-              <button className="waves-effect waves-light btn open">
+              <materialize.Button className="waves-effect waves-light btn-flat white-text open">
                 Crear empresa
-              </button>
+              </materialize.Button>
             }
             actions={
               <materialize.Button
@@ -177,17 +203,16 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
         props.location.pathname !== "/" && (
           <materialize.NavItem>
             <materialize.Button
-              className="btn"
+              className="btn-flat white-text"
               onClick={copyPath}
               tooltip="Dale esta URL a tus clientes para que reserven las citas en tu empresa"
-              tooltipOptions={{ position: "bottom" }}
             >
               Copiar mi enlace
             </materialize.Button>
           </materialize.NavItem>
         )}
       {props.token && (
-        <materialize.NavItem onClick={logout}>
+        <materialize.NavItem className="btn-floating" onClick={logout}>
           <i className="material-icons">exit_to_app</i>
         </materialize.NavItem>
       )}

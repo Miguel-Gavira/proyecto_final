@@ -13,7 +13,7 @@ scheduleController.add = (req, res) => {
   });
   newSchedule.save(err => {
     if (err) {
-      res.send("DAMMMMN! There was an error", err);
+      res.status(401).send("DAMMMMN! There was an error" + err);
     } else {
       res.send("Añadido correctamente");
     }
@@ -79,7 +79,7 @@ scheduleController.delete = (req, res) => {
   const weekday = req.params.weekday;
   ScheduleModel.deleteOne({  company: companyId, weekday: weekday }, (err, raw) => {
     if (err) {
-      res.send("DAMMMMN! There was an error", err);
+      res.status(401).send("DAMMMMN! There was an error" + err);
     } else {
       res.send("Eliminado");
     }

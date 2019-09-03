@@ -13,7 +13,7 @@ appointmentController.add = (req, res) => {
   });
   newAppointment.save((err,row) => {
     if (err) {
-      res.send("DAMMMMN! There was an error", err);
+      res.status(401).send("DAMMMMN! There was an error" + err);
     } else {
       res.send(row);
     }
@@ -31,7 +31,7 @@ appointmentController.edit = (req, res) => {
     },
     (err, row) => {
       if (err) {
-        res.send("DAMMMMN! There was an error", err);
+        res.status(401).send("DAMMMMN! There was an error" + err);
       } else {
         res.send("Modificado");
       }
@@ -42,7 +42,7 @@ appointmentController.edit = (req, res) => {
 appointmentController.delete = (req, res) => {
   AppointmentModel.deleteOne({ _id: req.params.id }, (err, raw) => {
     if (err) {
-      res.send("DAMMMMN! There was an error", err);
+      res.status(401).send("DAMMMMN! There was an error" + err);
     } else {
       res.send("Eliminado");
     }
@@ -57,7 +57,7 @@ appointmentController.listOne = (req, res) => {
       res.send(result[0]);
     })
     .catch(err => {
-      res.send(err);
+      res.status(401).send(err);
     });
 };
 
@@ -72,7 +72,7 @@ appointmentController.listToUser = (req, res) => {
       res.send(result.pop());
     })
     .catch(err => {
-      res.send(err);
+      res.status(401).send(err);
     });
 };
 
@@ -90,7 +90,7 @@ appointmentController.listFromCompany = (req, res) => {
       res.send(result);
     })
     .catch(err => {
-      res.send(err);
+      res.status(401).send(err);
     });
 };
 

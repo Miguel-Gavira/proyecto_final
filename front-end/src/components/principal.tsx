@@ -22,7 +22,7 @@ const Principal: React.FC<IProps> = props => {
       <div className="fondoCompanies">
         <div className="principal">
           <div className="introCompanies z-depth-5">
-            <h1 className="center eslogan container">
+            <h1 className="center eslogan container animated fadeInUp">
               Imagina poder atender a tus clientes las 24 horas
               <i
                 onClick={goToSection1}

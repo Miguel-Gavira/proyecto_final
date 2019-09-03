@@ -1,4 +1,4 @@
-const sha256 = require('sha256');
+const sha256 = require("sha256");
 const jwt = require("jsonwebtoken");
 
 const secret = "mysecret";
@@ -16,7 +16,7 @@ userController.add = (req, res) => {
   });
   newUser.save((err, row) => {
     if (err) {
-      res.send("DAMMMMN! There was an error", err);
+      res.status(401).send(err);
     } else {
       let token = jwt.sign(
         {
@@ -42,9 +42,9 @@ userController.edit = (req, res) => {
         ...(data.email && { email: data.email })
       }
     },
-    (err, raw) => {
+    (err, row) => {
       if (err) {
-        res.send("DAMMMMN! There was an error", err);
+        res.status(401).send("DAMMMMN! There was an error" + err);
       } else {
         res.send("Modificado");
       }
@@ -55,7 +55,7 @@ userController.edit = (req, res) => {
 userController.delete = (req, res) => {
   UserModel.deleteOne({ _id: req.params.id }, (err, raw) => {
     if (err) {
-      res.send("DAMMMMN! There was an error", err);
+      res.status(401).send("DAMMMMN! There was an error" + err);
     } else {
       res.send("Eliminado");
     }
@@ -68,9 +68,8 @@ userController.listOne = (req, res) => {
       res.send(result[0]);
     })
     .catch(err => {
-      res.send(err);
+      res.status(401).send(err);
     });
 };
-
 
 module.exports = userController;

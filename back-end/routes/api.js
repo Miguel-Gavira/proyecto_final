@@ -127,29 +127,29 @@ router.post("/appointment/add/:companyId/:userId", (req, res) => {
     let decoded = jwt.verify(token, secret);
     decoded._id === req.params.userId
       ? appointmentController.add(req, res)
-      : res.send("Error");
+      : res.status(401).send("Error");
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
 });
 
-router.put("/appointment/edit/:id", (req, res) => {
-  try {
-    const token = req.headers.authorization.replace("Bearer ", "");
-    let decoded = jwt.verify(token, secret);
-    decoded._id === req.params.userId
-      ? appointmentController.edit(req, res)
-      : res.send("Error");
-  } catch (error) {
-    res.status(401).send("El token no es válido");
-  }
-});
+// router.put("/appointment/edit/:id", (req, res) => {
+//   try {
+//     const token = req.headers.authorization.replace("Bearer ", "");
+//     let decoded = jwt.verify(token, secret);
+//     decoded._id === req.params.userId
+//       ? appointmentController.edit(req, res)
+//       : res.status(401).send("Error");
+//   } catch (error) {
+//     res.status(401).send("El token no es válido");
+//   }
+// });
 
 router.delete("/appointment/delete/:id/:userId", (req, res) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
     let decoded = jwt.verify(token, secret);
-    decoded._id === req.params.userId
+    (decoded._id === req.params.userId || decoded._id === req.body.owner)
       ? appointmentController.delete(req, res)
       : res.status(401).send("Error");
   } catch (error) {

@@ -22,12 +22,42 @@ interface IPropsGlobal {
 const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
   const [slots, setSlots] = useState<string[]>([]);
   const [fillSlots, setFillSlots] = useState<string[]>([]);
-  const [userReserved, setUserReserved] = useState<string[]>([]);
+  const [userReserved, setUserReserved] = useState<any[]>([]);
+  const [getUsed, setGetUsed] = useState<Boolean>(false);
+
+  console.log(userReserved);
+
+  const enseñaloqueviene = (uno: any, dos: any) => {
+    console.log(uno, dos);
+  };
 
   const setTime = (slot: string) => {
     const [h, m] = slot.split(":");
     const ap = props.appointment.set({ hour: +h, minute: +m });
     props.setAppointment(ap);
+  };
+
+  const deleteAppointment = (userId: string, appointmentId: string) => {
+    fetch(
+      "http://localhost:8080/api/appointment/delete/" +
+        appointmentId +
+        "/" +
+        userId,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + props.token
+        },
+        body: JSON.stringify({
+          owner: props.company.owner
+        })
+      }
+    ).then(response => {
+      if (response.ok) {
+        console.log("hola");
+      }
+    });
   };
 
   const submit = () => {
@@ -51,23 +81,20 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       if (response.ok) {
         response.json().then(document => {
           const dataUser: IUser = {
-            username: props.user.username,
-            email: props.user.email,
-            _id: props.user._id,
-            companyName: props.user.companyName,
-            companyId: props.user.companyId,
+            ...props.user,
             appointment: DateTime.fromISO(document.appointment).toString(),
             idAppointment: document._id
           };
           props.setUser(dataUser);
         });
-        const aux:any = document.getElementsByClassName('brand-logo')[0];
+        const aux: any = document.getElementsByClassName("brand-logo")[0];
         aux.click();
       }
     });
   };
 
   React.useEffect(() => {
+    setGetUsed(false);
     fetch(
       "http://localhost:8080/api/schedule/" +
         props.company._id +
@@ -84,7 +111,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       .then(schedules => {
         if (schedules) {
           setSlots([]);
-          schedules.map((s: any) => {
+          schedules.forEach((s: any) => {
             calcSlots(s.startTime, s.finishTime, s.company.appointmentDuration);
           });
         }
@@ -104,13 +131,19 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       .then(response => response.json())
       .then(reservedAppointments => {
         if (reservedAppointments) {
+          console.log(reservedAppointments);
           setFillSlots([]);
           calcFillsSlots(reservedAppointments);
           setUserReserved([]);
           setUserReserved(
-            reservedAppointments.map((a: any) => a.user.username)
+            reservedAppointments.map((a: any) => ({
+              username: a.user.username,
+              userId: a.user._id,
+              appointmentId: a._id
+            }))
           );
         }
+        setGetUsed(true); // eslint-disable-next-line react-hooks/exhaustive-deps
       });
   }, [props.appointment]);
 
@@ -134,7 +167,11 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
     setFillSlots(s => [...s, ...aux]);
   }, []);
 
+  if (!getUsed) {
+    return null;
+  }
   let index = 0;
+
   return (
     <div>
       <div>
@@ -156,8 +193,24 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
                   />
                   <span className="black-text">
                     {slot}
-                    {fillSlots.includes(slot) &&
-                      " Reservado por " + userReserved[index++]}
+                    {props.user._id === props.company.owner &&
+                      fillSlots.includes(slot) && (
+                        <div>
+                          <span>
+                            {" Cita reservada por " +
+                              userReserved[index].username}
+                          </span>
+                          <button
+                            onClick={() => enseñaloqueviene(index, index)}
+                          >
+                            Borrar
+                          </button>
+                          {index++}
+                        </div>
+                      )}
+                    {props.user._id !== props.company.owner &&
+                      fillSlots.includes(slot) &&
+                      " Cita reservada"}
                   </span>
                 </label>
               </p>

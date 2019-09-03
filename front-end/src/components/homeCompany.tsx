@@ -6,8 +6,9 @@ import { DateTime } from "luxon";
 import { ICompany } from "../ICompany";
 import { IUser } from "../IUser";
 import Footer from "./footer";
-import { Element, scroller, Button } from "react-scroll";
-import { RouteComponentProps, Route } from "react-router";
+import { Element, scroller } from "react-scroll";
+import { RouteComponentProps } from "react-router";
+
 const materialize = require("react-materialize");
 const Flippy = require("react-flippy");
 
@@ -25,6 +26,7 @@ interface IPropsGlobal {
 const HomeCompany: React.FC<
   IProps & IPropsGlobal & RouteComponentProps
 > = props => {
+  
   const scrollType = {
     duration: 500,
     delay: 50,
@@ -52,11 +54,7 @@ const HomeCompany: React.FC<
     ).then(response => {
       if (response.ok) {
         const dataUser: IUser = {
-          username: props.user.username,
-          email: props.user.email,
-          _id: props.user._id,
-          companyName: props.user.companyName,
-          companyId: props.user.companyId,
+          ...props.user,
           appointment: "",
           idAppointment: ""
         };
@@ -88,11 +86,11 @@ const HomeCompany: React.FC<
           props.setCompany(dataCompany);
         });
       }
-    });
-  }, []);
+    }); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.token]);
 
   React.useEffect(() => {
-    if (props.company._id && props.user._id) {
+    if (props.company._id && props.user._id && props.token) {
       fetch(
         "http://localhost:8080/api/appointment/" +
           props.company._id +
@@ -106,15 +104,11 @@ const HomeCompany: React.FC<
           }
         }
       ).then(response => {
-        if (response.ok) {
+        if (response.ok && response.bodyUsed) {
           response.json().then(documents => {
             if (DateTime.local() < DateTime.fromISO(documents.appointment)) {
               const dataUser: IUser = {
-                username: props.user.username,
-                email: props.user.email,
-                _id: props.user._id,
-                companyName: props.user.companyName,
-                companyId: props.user.companyId,
+                ...props.user,
                 appointment: DateTime.fromISO(documents.appointment).toString(),
                 idAppointment: documents._id
               };
@@ -123,8 +117,13 @@ const HomeCompany: React.FC<
           });
         }
       });
-    }
-  }, [props.token]);
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    props.token,
+    props.company._id,
+    props.user._id,
+    props.user.idAppointment
+  ]);
 
   return (
     <div className="fondoCompanies">
@@ -185,7 +184,11 @@ const HomeCompany: React.FC<
                       className="postit transparent z-depth-0"
                       header={
                         <div className="insidePostit">
-                          <img src="/images/postit.png" width="100%" />
+                          <img
+                            src="/images/postit.png"
+                            width="100%"
+                            alt="postit"
+                          />
                           <div className="cardText">
                             <h2 className="flow-text">Tienes una cita</h2>
                             <h5 className="flow-text">

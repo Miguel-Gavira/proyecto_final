@@ -165,7 +165,7 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
         });
       }
     });
-    setGetUsed(true);
+    setGetUsed(true); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
@@ -196,7 +196,7 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
       } else {
         submit();
       }
-    }
+    }// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     startTimeMorning,
     finishTimeMorning,

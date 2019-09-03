@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IGlobalState } from "../reducers/reducers";
 import { connect } from "react-redux";
 import { IUser } from "../IUser";
@@ -29,110 +29,130 @@ const AddCompany: React.FC<
     setInputAppointmentDuration
   ] = React.useState("0");
   const [editMode, setEditMode] = React.useState(false);
+  const [error, setError] = useState("");
 
   const updateEditMode = () => {
     setEditMode(e => !e);
+    setError("");
   };
 
   const updateInputCompanyName = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setInputCompanyName(event.target.value);
+    setError("");
   };
 
   const updateInputAddress = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputAddress(event.target.value);
+    setError("");
   };
 
   const updateInputTelephone = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputTelephone(event.target.value);
+    setError("");
   };
 
   const updateInputType = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputType(event.target.value);
+    setError("");
   };
 
   const updateInputEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputEmail(event.target.value);
+    setError("");
   };
 
   const updateInputAppointmentDuration = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setInputAppointmentDuration(event.target.value);
+    setError("");
   };
 
   const submit = () => {
-    if (!props.user.companyId) {
-      fetch("http://localhost:8080/api/company/add/" + props.user._id, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + props.token
-        },
-        body: JSON.stringify({
-          companyName: inputCompanyName,
-          address: inputAddress,
-          telephone: +inputTelephone,
-          type: inputType,
-          email: inputEmail,
-          appointmentDuration: +inputAppointmentDuration
-        })
-      }).then(response => {
-        if (response.ok) {
-          response.json().then(d => {
-            const dataCompany: ICompany = {
-              _id: d._id,
-              companyName: d.companyName,
-              owner: d.owner,
-              address: d.address,
-              telephone: d.telephone,
-              type: d.type,
-              email: d.email,
-              appointmentDuration: d.appointmentDuration
-            };
-            const dataUser: IUser = {
-              username: props.user.username,
-              email: props.user.email,
-              _id: props.user._id,
-              companyName: d.companyName,
-              companyId: d._id,
-              appointment: "",
-              idAppointment: ""
-            };
-            props.setUser(dataUser);
-            props.setCompany(dataCompany);
-            if (window.location.pathname === "/") {
-              console.log(props.user.companyId);
-              props.history.push("/company/" + d._id);
-            }
-          });
-        }
-      });
-    } else {
-      fetch("http://localhost:8080/api/company/edit/" + props.user.companyId, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + props.token
-        },
-        body: JSON.stringify({
-          companyName: inputCompanyName,
-          address: inputAddress,
-          telephone: +inputTelephone,
-          type: inputType,
-          email: inputEmail,
-          appointmentDuration: +inputAppointmentDuration
-        })
-      })
-        .then(response => {
+    if (
+      inputCompanyName &&
+      inputAddress &&
+      inputAppointmentDuration !== "0" &&
+      inputEmail &&
+      inputTelephone &&
+      inputType
+    ) {
+      if (!props.user.companyId) {
+        fetch("http://localhost:8080/api/company/add/" + props.user._id, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + props.token
+          },
+          body: JSON.stringify({
+            companyName: inputCompanyName,
+            address: inputAddress,
+            telephone: +inputTelephone,
+            type: inputType,
+            email: inputEmail,
+            appointmentDuration: +inputAppointmentDuration
+          })
+        }).then(response => {
           if (response.ok) {
-            updateEditMode();
+            response.json().then(d => {
+              const dataCompany: ICompany = {
+                _id: d._id,
+                companyName: d.companyName,
+                owner: d.owner,
+                address: d.address,
+                telephone: d.telephone,
+                type: d.type,
+                email: d.email,
+                appointmentDuration: d.appointmentDuration
+              };
+              const dataUser: IUser = {
+                ...props.user,
+                companyName: d.companyName,
+                companyId: d._id,
+                appointment: "",
+                idAppointment: ""
+              };
+              props.setUser(dataUser);
+              props.setCompany(dataCompany);
+              if (window.location.pathname === "/") {
+                console.log(props.user.companyId);
+                props.history.push("/company/" + d._id);
+              }
+            });
           }
-        })
-        .catch(error => {
-          console.log(error);
         });
+      } else {
+        fetch(
+          "http://localhost:8080/api/company/edit/" + props.user.companyId,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + props.token
+            },
+            body: JSON.stringify({
+              companyName: inputCompanyName,
+              address: inputAddress,
+              telephone: +inputTelephone,
+              type: inputType,
+              email: inputEmail,
+              appointmentDuration: +inputAppointmentDuration
+            })
+          }
+        )
+          .then(response => {
+            if (response.ok) {
+              updateEditMode();
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    } else {
+      setError("Por favor, rellena todos los campos");
     }
   };
 
@@ -163,12 +183,11 @@ const AddCompany: React.FC<
               email: documents.email,
               appointmentDuration: documents.appointmentDuration
             };
-            console.log(dataCompany);
             props.setCompany(dataCompany);
           });
         }
       });
-    }
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.user, editMode]);
 
   return (
@@ -282,19 +301,27 @@ const AddCompany: React.FC<
         </div>
 
         <div className="col m12 l12">
-          <div className="input-field">
+          <div className="input-field black-text">
             <i className="material-icons prefix">alarm</i>
             <input
               value={inputAppointmentDuration + " minutos"}
               type="text"
-              disabled={true}
+              disabled={
+                Boolean(inputAppointmentDuration) &&
+                !editMode &&
+                window.location.pathname !== "/"
+              }
               required
             />
             <label className="active">Duración de una cita</label>
+            {(editMode || window.location.pathname === "/") && (
+              <span className="helper-text">
+                Usa la barra para modificar la duración
+              </span>
+            )}
           </div>
           <div>
             <materialize.Range
-              className="cyan darken-1"
               min="5"
               max="120"
               step="5"
@@ -309,7 +336,7 @@ const AddCompany: React.FC<
             />
           </div>
         </div>
-
+        <h4>{error}</h4>
         {(editMode || window.location.pathname === "/") && (
           <div className="center">
             <button onClick={submit} className="btn waves-effect waves-light">

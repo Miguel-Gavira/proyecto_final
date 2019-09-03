@@ -43,19 +43,6 @@ body::-webkit-scrollbar-track,
   border-radius: 4px !important;
 }
 
-/* .red:hover {
-  background-color: #e57373 !important;
-} */
-/* 
-#wallpaper {
-  background-image: url("https://mybarbershopbroward.files.wordpress.com/2016/09/barber-wallpaper-23.jpg");
-  height: 100vh;
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-} */
-
 .LoginCard {
   width: 500px !important;
   border-radius: 15px !important;
@@ -65,10 +52,6 @@ body::-webkit-scrollbar-track,
 .LoginCard a {
   color: black;
 }
-
-/* .LoginCard input {
-  border-bottom: 1px solid #2bbbad !important;
-} */
 
 .navbarCompanies {
   background-color: transparent !important;
@@ -127,8 +110,8 @@ body::-webkit-scrollbar-track,
 
 .SignInCompanies {
   width: 100%;
-  height: 100%;
-  background-image: url("/images/63633.jpg");
+  height: 100vh;
+  background-image: url("/images/63633.png");
   background-attachment: fixed;
   background-size: cover;
   display: flex;
@@ -164,7 +147,7 @@ body::-webkit-scrollbar-track,
 .scheduleCompany {
   width: 100%;
   height: 100%;
-  background-image: url("/images/63633.jpg");
+  background-image: url("/images/63633.png");
   background-attachment: fixed;
   background-size: cover;
   display: flex;
@@ -174,8 +157,8 @@ body::-webkit-scrollbar-track,
 
 .datepickerCompany {
   width: 100%;
-  height: 100vh;
-  background-image: url("/images/63633.jpg");
+  height: 100%;
+  background-image: url("/images/63633.png");
   background-size: cover;
   background-attachment: fixed;
   display: flex;
@@ -197,6 +180,16 @@ body::-webkit-scrollbar-track,
   max-height: 600px !important;
   background-position-y: center;
   background-size: cover;
+  background-color: #212121 !important;
+}
+
+.sidenav a {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.sidenav a i {
+  color: white !important;
 }
 
 .sidenav a {
@@ -235,7 +228,7 @@ body::-webkit-scrollbar-track,
 .newCompany {
   max-height: 100% !important;
   height: 100% !important;
-  background-image: url("/images/63633.jpg");
+  background-image: url("/images/63633.png");
   background-size: cover;
   display: flex;
   flex-direction: row;

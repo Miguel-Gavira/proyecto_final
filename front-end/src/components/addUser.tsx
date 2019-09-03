@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import { IUser } from "../IUser";
@@ -18,20 +18,25 @@ const AddUser: React.FC<
   const [inputUsername, setInputUsername] = React.useState("");
   const [inputPassword, setInputPassword] = React.useState("");
   const [inputEmail, setInputEmail] = React.useState("");
+  const [error, setError] = useState("");
 
   const updateInputUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputUsername(event.target.value);
+    setError("");
   };
 
   const updateInputPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputPassword(event.target.value);
+    setError("");
   };
 
   const updateInputEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputEmail(event.target.value);
+    setError("");
   };
 
   const submit = () => {
+    if(inputUsername && inputPassword && inputEmail){
     fetch("http://localhost:8080/api/user/add", {
       method: "POST",
       headers: {
@@ -64,8 +69,17 @@ const AddUser: React.FC<
             }
           }
         });
+      } else {
+        response.json().then(e => {
+          if(e.code === 11000){
+            setError("El usuario ya exite");
+          }
+        })
       }
     });
+  } else {
+    setError("Por favor, rellena todos los campos");
+  }
   };
 
   return (
@@ -75,7 +89,7 @@ const AddUser: React.FC<
           <img
             src="/images/Reserva-tu-cita.png"
             alt="logo"
-            className="responsive-img circle"
+            className="responsive-img circle hoverable"
             width="150px"
           />
         </div>
@@ -119,7 +133,7 @@ const AddUser: React.FC<
           <label>Email</label>
         </div>
       </div>
-
+      <h3>{error}</h3>
       <div className="center">
         <button onClick={submit} className="btn waves-effect waves-light ">
           Enviar

@@ -28,7 +28,7 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
         days: props.appointment.weekday - i - 1
       });
     }
-    return days;
+    return days; // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.appointment.weekNumber]);
 
   return (
@@ -60,7 +60,7 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
                   )
                 }
                 className={`waves-effect colDatepicker ${props.appointment
-                  .day === d.day && "cyan darken-1 circle"}`}
+                  .day === d.day && "teal lighten-1 circle white-text"}`}
               >
                 <p>{d.weekdayLong.toLocaleUpperCase()}</p>
                 <p>{d.day}</p>
