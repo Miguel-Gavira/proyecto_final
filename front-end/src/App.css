@@ -154,10 +154,23 @@ body::-webkit-scrollbar-track,
   flex-direction: column;
   align-items: center;
 }
+.daysWeek{height: 120px;}
+.reservar{margin-left: 20px;}
+.cancelar{margin: 20px 0 50px 0 !important;}
+.userReserved{font-weight: bold;}
 
+[type="radio"]:not(:checked)+span:before, [type="radio"]:not(:checked)+span:after, [type="radio"]+span:after  {
+  height: 1.5rem !important;
+  width: 1.5rem !important;
+}
+.fontAppointment{
+  font-size: 20px !important;
+
+}
 .datepickerCompany {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 100vh;
   background-image: url("/images/63633.png");
   background-size: cover;
   background-attachment: fixed;
@@ -219,6 +232,11 @@ body::-webkit-scrollbar-track,
 
 .backgroundCards {
   background-color: rgb(255, 255, 255, 0.75) !important;
+  min-height: 40vh;
+}
+
+.datepicker {
+  min-height: 70vh;
 }
 
 .colDatepicker {
@@ -269,6 +287,7 @@ body::-webkit-scrollbar-track,
   position: relative;
   width: 100%;
   max-width: 600px;
+  margin: auto;
 }
 
 .deletePostit,
@@ -282,6 +301,8 @@ body::-webkit-scrollbar-track,
 
 .indicator-item {
   background-color: grey !important;
+  height: 23px !important;
+  width: 23px !important;
 }
 
 .indicator-item.active {
@@ -330,5 +351,8 @@ body::-webkit-scrollbar-track,
   }
   .características {
     margin: 20px;
+  }
+  .indicator-item {
+    margin: 1px 4px !important;
   }
 }

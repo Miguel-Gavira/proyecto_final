@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { DateTime, Interval } from "luxon";
 import { IGlobalState } from "../reducers/reducers";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import { IUser } from "../IUser";
 import { ICompany } from "../ICompany";
+
+const materialize = require("react-materialize");
 
 interface IProps {
   isToday: Boolean;
@@ -24,12 +26,6 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
   const [fillSlots, setFillSlots] = useState<string[]>([]);
   const [userReserved, setUserReserved] = useState<any[]>([]);
   const [getUsed, setGetUsed] = useState<Boolean>(false);
-
-  console.log(userReserved);
-
-  const enseñaloqueviene = (uno: any, dos: any) => {
-    console.log(uno, dos);
-  };
 
   const setTime = (slot: string) => {
     const [h, m] = slot.split(":");
@@ -55,7 +51,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       }
     ).then(response => {
       if (response.ok) {
-        console.log("hola");
+        fetches();
       }
     });
   };
@@ -89,12 +85,17 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
         });
         const aux: any = document.getElementsByClassName("brand-logo")[0];
         aux.click();
+        props.setAppointment(
+          DateTime.local().set({
+            second: 0,
+            millisecond: 0
+          })
+        );
       }
     });
   };
 
-  React.useEffect(() => {
-    setGetUsed(false);
+  const fetches = () => {
     fetch(
       "http://localhost:8080/api/schedule/" +
         props.company._id +
@@ -131,7 +132,6 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       .then(response => response.json())
       .then(reservedAppointments => {
         if (reservedAppointments) {
-          console.log(reservedAppointments);
           setFillSlots([]);
           calcFillsSlots(reservedAppointments);
           setUserReserved([]);
@@ -143,8 +143,15 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
             }))
           );
         }
-        setGetUsed(true); // eslint-disable-next-line react-hooks/exhaustive-deps
+        setTimeout(() => {
+          setGetUsed(true);
+        }, 400); // eslint-disable-next-line react-hooks/exhaustive-deps
       });
+  };
+
+  React.useEffect(() => {
+    setGetUsed(false);
+    fetches();
   }, [props.appointment]);
 
   const calcSlots = React.useCallback(
@@ -168,7 +175,11 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
   }, []);
 
   if (!getUsed) {
-    return null;
+    return (
+      <materialize.Col className="center" s={12}>
+        <materialize.Preloader flashing />
+      </materialize.Col>
+    );
   }
   let index = 0;
 
@@ -178,6 +189,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
         {slots.length === 0 && <h3>Estamos cerrados</h3>}
         {slots.length > 0 &&
           slots.map(slot => {
+            const i = index;
             return (
               <p key={slot + "-" + props.appointment}>
                 <label>
@@ -191,22 +203,36 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
                     checked={props.appointment.toFormat("HH:mm") === slot}
                     onChange={() => setTime(slot)}
                   />
-                  <span className="black-text">
+                  <span className="black-text fontAppointment">
                     {slot}
+                    {props.appointment.toFormat("HH:mm") === slot && (
+                      <button
+                        onClick={submit}
+                        className="reservar btn waves-effect waves-light"
+                      >
+                        Reservar
+                      </button>
+                    )}
                     {props.user._id === props.company.owner &&
                       fillSlots.includes(slot) && (
-                        <div>
-                          <span>
-                            {" Cita reservada por " +
-                              userReserved[index].username}
-                          </span>
+                        <Fragment>
+                          <span> Cita reservada por </span>
+                          <span className="userReserved">{userReserved[index].username}</span>
+                          <br />
                           <button
-                            onClick={() => enseñaloqueviene(index, index)}
+                            className="cancelar btn waves-effect waves-light red"
+                            onClick={() => {
+                              deleteAppointment(
+                                userReserved[i].userId,
+                                userReserved[i].appointmentId
+                              );
+                            }}
                           >
-                            Borrar
+                            Cancelar cita
                           </button>
-                          {index++}
-                        </div>
+
+                          {index++ || false}
+                        </Fragment>
                       )}
                     {props.user._id !== props.company.owner &&
                       fillSlots.includes(slot) &&
@@ -217,11 +243,11 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
             );
           })}
       </div>
-      {slots.length > 0 && (
+      {/* {slots.length > 0 && (
         <button onClick={submit} className="btn waves-effect waves-light">
           Reservar
         </button>
-      )}
+      )} */}
     </div>
   );
 };

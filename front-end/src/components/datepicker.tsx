@@ -43,7 +43,7 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr className="daysWeek">
             <td onClick={sub} className="colDatepicker waves-effect">
               <i className="material-icons">chevron_left</i>
             </td>
@@ -60,7 +60,7 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
                   )
                 }
                 className={`waves-effect colDatepicker ${props.appointment
-                  .day === d.day && "teal lighten-1 circle white-text"}`}
+                  .day === d.day && "teal lighten-1  white-text"}`}
               >
                 <p>{d.weekdayLong.toLocaleUpperCase()}</p>
                 <p>{d.day}</p>

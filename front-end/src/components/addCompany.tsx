@@ -305,6 +305,7 @@ const AddCompany: React.FC<
             <i className="material-icons prefix">alarm</i>
             <input
               value={inputAppointmentDuration + " minutos"}
+              readOnly
               type="text"
               disabled={
                 Boolean(inputAppointmentDuration) &&

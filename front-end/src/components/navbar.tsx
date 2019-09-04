@@ -145,9 +145,9 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
             </materialize.Button>
           </materialize.NavItem>
         )}
-      {props.token &&
+      {((props.token &&
         props.location.pathname !== "/" &&
-        props.user.appointment === "" && (
+        props.user.appointment === "" ) || (props.user.companyId === props.company._id && props.token)) && (
           <materialize.NavItem>
             <materialize.Button
               className="btn-flat white-text waves-effect waves-light "

@@ -165,7 +165,9 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
         });
       }
     });
-    setGetUsed(true); // eslint-disable-next-line react-hooks/exhaustive-deps
+    setTimeout(() => {
+      setGetUsed(true);
+    }, 400); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
@@ -193,10 +195,10 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
         setFinishTimeMorning("");
         setStartTimeAfternoon("");
         setFinishTimeAfternoon("");
-      } else {
-        submit();
       }
-    }// eslint-disable-next-line react-hooks/exhaustive-deps
+
+      return submit();
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     startTimeMorning,
     finishTimeMorning,
@@ -210,6 +212,15 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
       setFinishTimeAfternoon("");
     }
   }, [checked]);
+
+  if (!getUsed) {
+    return (
+      <materialize.Col s={12}>
+        <br />
+        <materialize.Preloader flashing />
+      </materialize.Col>
+    );
+  }
 
   return (
     <div className="scheduleCard">

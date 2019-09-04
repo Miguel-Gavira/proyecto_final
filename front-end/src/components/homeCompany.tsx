@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import { IGlobalState } from "../reducers/reducers";
@@ -26,7 +26,6 @@ interface IPropsGlobal {
 const HomeCompany: React.FC<
   IProps & IPropsGlobal & RouteComponentProps
 > = props => {
-  
   const scrollType = {
     duration: 500,
     delay: 50,
@@ -104,17 +103,23 @@ const HomeCompany: React.FC<
           }
         }
       ).then(response => {
-        if (response.ok && response.bodyUsed) {
-          response.json().then(documents => {
-            if (DateTime.local() < DateTime.fromISO(documents.appointment)) {
-              const dataUser: IUser = {
-                ...props.user,
-                appointment: DateTime.fromISO(documents.appointment).toString(),
-                idAppointment: documents._id
-              };
-              props.setUser(dataUser);
-            }
-          });
+        if (response.ok) {
+          response.json().then(
+            documents => {
+              console.log(documents);
+              if (DateTime.local() < DateTime.fromISO(documents.appointment)) {
+                const dataUser: IUser = {
+                  ...props.user,
+                  appointment: DateTime.fromISO(
+                    documents.appointment
+                  ).toString(),
+                  idAppointment: documents._id
+                };
+                props.setUser(dataUser);
+              }
+            },
+            () => {}
+          );
         }
       });
     } // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -139,7 +144,8 @@ const HomeCompany: React.FC<
           </h1>
         </div>
         <Element name="section1">
-          {props.user.appointment === "" && (
+          {(props.user.appointment === "" ||
+            props.company.owner === props.user._id) && (
             <div className="section white z-depth-5">
               <materialize.Carousel
                 options={{ fullWidth: true, indicators: true, duration: 100 }}
