@@ -21,7 +21,7 @@ router.put("/user/edit/:id", (req, res) => {
     let decoded = jwt.verify(token, secret);
     decoded._id == req.params.id
       ? userController.edit(req, res)
-      : res.send("Error");
+      : res.status(401).send("Error");
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
@@ -33,7 +33,7 @@ router.delete("/user/delete/:id", (req, res) => {
     let decoded = jwt.verify(token, secret);
     decoded._id == req.params.id
       ? userController.delete(req, res)
-      : res.send("Error");
+      : res.status(401).send("Error");
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
@@ -44,7 +44,7 @@ router.get("/user/:id", (req, res) => {
     let decoded = jwt.verify(token, secret);
     decoded._id == req.params.id
       ? userController.listOne(req, res)
-      : res.send("Error");
+      : res.status(401).send("Error");
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
@@ -57,7 +57,7 @@ router.post("/company/add/:userId", (req, res) => {
     let decoded = jwt.verify(token, secret);
     decoded._id === req.params.userId
       ? companyController.add(req, res)
-      : res.send("Error");
+      : res.status(401).send("Error");
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
@@ -68,7 +68,7 @@ router.put("/company/edit/:id", (req, res) => {
     let decoded = jwt.verify(token, secret);
     decoded.companyId === req.params.id
       ? companyController.edit(req, res)
-      : res.send("Error");
+      : res.status(401).send("Error");
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
@@ -102,7 +102,7 @@ router.get("/appointment/:companyId/:userId", (req, res) => {
     let decoded = jwt.verify(token, secret);
     decoded._id === req.params.userId
       ? appointmentController.listToUser(req, res)
-      : res.send("Error");
+      : res.status(401).send("Error");
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
@@ -114,7 +114,7 @@ router.get("/appointment/:id", (req, res) => {
     let decoded = jwt.verify(token, secret);
     decoded._id === req.params.userId
       ? appointmentController.listOne(req, res)
-      : res.send("Error");
+      : res.status(401).send("Error");
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
@@ -165,7 +165,7 @@ router.post("/schedule/add/:companyId", (req, res) => {
     let decoded = jwt.verify(token, secret);
     decoded.companyId === req.params.companyId
       ? scheduleController.add(req, res)
-      : res.send("Error");
+      : res.status(401).send("Error");
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
@@ -177,7 +177,7 @@ router.post("/schedule/multipleAdd/:companyId", (req, res) => {
     let decoded = jwt.verify(token, secret);
     decoded.companyId === req.params.companyId
       ? scheduleController.multipleAdd(req, res)
-      : res.send("Error");
+      : res.status(401).send("No añade");
   } catch (error) {
     res.status(401).send("El token no es válido");
   }
@@ -191,7 +191,7 @@ router.delete("/schedule/delete/:companyId/:weekday", (req, res) => {
     let decoded = jwt.verify(token, secret);
     decoded.companyId === req.params.companyId
       ? scheduleController.delete(req, res)
-      : res.send("Error");
+      : res.status(401).send("No borra");
   } catch (error) {
     res.status(401).send("El token no es válido");
   }

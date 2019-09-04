@@ -163,11 +163,10 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
           documents[1] && setStartTimeAfternoon(documents[1].startTime);
           documents[1] && setFinishTimeAfternoon(documents[1].finishTime);
         });
+          setGetUsed(true);
       }
     });
-    setTimeout(() => {
-      setGetUsed(true);
-    }, 400); // eslint-disable-next-line react-hooks/exhaustive-deps
+// eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {

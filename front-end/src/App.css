@@ -49,6 +49,7 @@ body::-webkit-scrollbar-track,
   max-height: min-content !important;
 }
 
+
 .LoginCard a {
   color: black;
 }
@@ -354,5 +355,8 @@ body::-webkit-scrollbar-track,
   }
   .indicator-item {
     margin: 1px 4px !important;
+  }
+  .nav-wrapper a{
+    font-size: 95% !important;
   }
 }

@@ -44,7 +44,7 @@ userController.edit = (req, res) => {
     },
     (err, row) => {
       if (err) {
-        res.status(401).send("DAMMMMN! There was an error" + err);
+        res.status(401).send(err);
       } else {
         res.send("Modificado");
       }
@@ -55,7 +55,7 @@ userController.edit = (req, res) => {
 userController.delete = (req, res) => {
   UserModel.deleteOne({ _id: req.params.id }, (err, raw) => {
     if (err) {
-      res.status(401).send("DAMMMMN! There was an error" + err);
+      res.status(401).send(err);
     } else {
       res.send("Eliminado");
     }

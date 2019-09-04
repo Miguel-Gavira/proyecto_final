@@ -86,18 +86,20 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
       alignLinks="right"
     >
       <materialize.NavItem />
-      {(props.location.pathname === "/" ||
+      {(props.user._id !== props.company.owner || !props.user._id) && (props.location.pathname === "/" ||
         props.location.pathname === "/add" ||
-        props.location.pathname === "/company/" + props.company._id) && (
+        props.location.pathname === "/company/" + props.company._id ||
+        props.location.pathname === "/company/add/" + props.company._id) && (
         <materialize.NavItem onClick={goToSection1}>
           <materialize.Button className="btn-flat white-text waves-effect waves-light ">
-            ¿Cómo funciona?
+            {props.user.appointment && props.user._id !== props.company.owner ? "Tienes una cita reservada" : "¿Cómo funciona?"}
           </materialize.Button>
         </materialize.NavItem>
       )}
-      {(props.location.pathname === "/" ||
+      {(props.user._id !== props.company.owner || !props.user._id) && (props.location.pathname === "/" ||
         props.location.pathname === "/add" ||
-        props.location.pathname === "/company/" + props.company._id) && (
+        props.location.pathname === "/company/" + props.company._id ||
+        props.location.pathname === "/company/add/" + props.company._id) && (
         <materialize.NavItem onClick={goToSection2}>
           <materialize.Button className="btn-flat white-text waves-effect waves-light ">
             {(props.location.pathname === "/" ||
@@ -147,20 +149,21 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
         )}
       {((props.token &&
         props.location.pathname !== "/" &&
-        props.user.appointment === "" ) || (props.user.companyId === props.company._id && props.token)) && (
-          <materialize.NavItem>
-            <materialize.Button
-              className="btn-flat white-text waves-effect waves-light "
-              onClick={() =>
-                props.history.push(
-                  "/company/profile/appointment/" + props.user.companyId
-                )
-              }
-            >
-              Reservar cita
-            </materialize.Button>
-          </materialize.NavItem>
-        )}
+        props.user.appointment === "") ||
+        (props.user.companyId === props.company._id && props.token)) && (
+        <materialize.NavItem>
+          <materialize.Button
+            className="btn-flat white-text waves-effect waves-light "
+            onClick={() =>
+              props.history.push(
+                "/company/profile/appointment/" + props.user.companyId
+              )
+            }
+          >
+            Reservar cita
+          </materialize.Button>
+        </materialize.NavItem>
+      )}
       {props.token && props.user.companyId && props.location.pathname === "/" && (
         <materialize.NavItem>
           <materialize.Button

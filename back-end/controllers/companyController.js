@@ -16,7 +16,7 @@ companyController.add = (req, res) => {
   });
   newCompany.save((err, raw) => {
     if (err) {
-      res.status(401).send("DAMMMMN! There was an error: " + err);
+      res.status(401).send(err);
     } else {
       res.status(200).send(raw);
     }
@@ -42,7 +42,7 @@ companyController.edit = (req, res) => {
     },
     (err, raw) => {
       if (err) {
-        res.status(401).send("DAMMMMN! There was an error" + err);
+        res.status(401).send(err);
       } else {
         res.status(200).send(raw);
       }
@@ -53,7 +53,7 @@ companyController.edit = (req, res) => {
 companyController.delete = (req, res) => {
   CompanyModel.deleteOne({ _id: req.params.id }, (err, raw) => {
     if (err) {
-      res.status(401).send("DAMMMMN! There was an error" + err);
+      res.status(401).send(err);
     } else {
       res.send("Eliminado");
     }
@@ -66,7 +66,7 @@ companyController.listOne = (req, res) => {
       res.send(result[0]);
     })
     .catch(err => {
-      res.send(err);
+      res.status(401).send(err);
     });
 };
 
@@ -76,7 +76,7 @@ companyController.listAll = (req, res) => {
       res.send(result[0]);
     })
     .catch(err => {
-      res.send(err);
+      res.status(401).send(err);
     });
 };
 

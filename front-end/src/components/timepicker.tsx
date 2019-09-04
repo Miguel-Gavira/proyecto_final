@@ -83,10 +83,14 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
           };
           props.setUser(dataUser);
         });
-        const aux: any = document.getElementsByClassName("brand-logo")[0];
-        aux.click();
+        if (props.company.owner !== props.user._id) {
+          const aux: any = document.getElementsByClassName("brand-logo")[0];
+          aux.click();
+        }
         props.setAppointment(
-          DateTime.local().set({
+          props.appointment.set({
+            hour: 0,
+            minute: 0,
             second: 0,
             millisecond: 0
           })
@@ -143,16 +147,19 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
             }))
           );
         }
-        setTimeout(() => {
-          setGetUsed(true);
-        }, 400); // eslint-disable-next-line react-hooks/exhaustive-deps
       });
   };
 
   React.useEffect(() => {
-    setGetUsed(false);
-    fetches();
+    fetches();// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.appointment]);
+
+  React.useEffect(() => {
+    setGetUsed(false);
+    setTimeout(() => {
+      setGetUsed(true);
+    }, 400); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.appointment.day]);
 
   const calcSlots = React.useCallback(
     (startTime: string, finishTime: string, duration_minutes: number) => {
@@ -181,6 +188,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
       </materialize.Col>
     );
   }
+
   let index = 0;
 
   return (
@@ -217,7 +225,9 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
                       fillSlots.includes(slot) && (
                         <Fragment>
                           <span> Cita reservada por </span>
-                          <span className="userReserved">{userReserved[index].username}</span>
+                          <span className="userReserved">
+                            {userReserved[i] && userReserved[i].username}
+                          </span>
                           <br />
                           <button
                             className="cancelar btn waves-effect waves-light red"
@@ -231,7 +241,7 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
                             Cancelar cita
                           </button>
 
-                          {index++ || false}
+                          {(index++ && false) || false}
                         </Fragment>
                       )}
                     {props.user._id !== props.company.owner &&

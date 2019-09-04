@@ -121,6 +121,12 @@ const AddCompany: React.FC<
                 props.history.push("/company/" + d._id);
               }
             });
+          } else {
+            response.json().then(e => {
+              if (e.code === 11000) {
+                setError("La empresa ya exite");
+              }
+            });
           }
         });
       } else {
@@ -145,6 +151,12 @@ const AddCompany: React.FC<
           .then(response => {
             if (response.ok) {
               updateEditMode();
+            } else {
+              response.json().then(e => {
+                if (e.code === 11000) {
+                  setError("La empresa ya exite");
+                }
+              });
             }
           })
           .catch(error => {
@@ -161,8 +173,7 @@ const AddCompany: React.FC<
       fetch("http://localhost:8080/api/company/" + props.user.companyId, {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + props.token
+          "Content-Type": "application/json"
         }
       }).then(response => {
         if (response.ok) {

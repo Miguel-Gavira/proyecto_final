@@ -47,7 +47,7 @@ scheduleController.multipleAdd = (req, res) => {
     }
   })
   if (err) {
-    res.send("ERROR " + err);
+    res.status(401).send("ERROR " + err);
   } else {
     res.sendStatus(200);
   }

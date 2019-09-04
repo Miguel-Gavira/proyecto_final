@@ -13,7 +13,7 @@ appointmentController.add = (req, res) => {
   });
   newAppointment.save((err,row) => {
     if (err) {
-      res.status(401).send("DAMMMMN! There was an error" + err);
+      res.status(401).send(err);
     } else {
       res.send(row);
     }
@@ -31,7 +31,7 @@ appointmentController.edit = (req, res) => {
     },
     (err, row) => {
       if (err) {
-        res.status(401).send("DAMMMMN! There was an error" + err);
+        res.status(401).send(err);
       } else {
         res.send("Modificado");
       }
@@ -42,7 +42,7 @@ appointmentController.edit = (req, res) => {
 appointmentController.delete = (req, res) => {
   AppointmentModel.deleteOne({ _id: req.params.id }, (err, raw) => {
     if (err) {
-      res.status(401).send("DAMMMMN! There was an error" + err);
+      res.status(401).send(err);
     } else {
       res.send("Eliminado");
     }

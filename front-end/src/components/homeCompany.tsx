@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import { IGlobalState } from "../reducers/reducers";
@@ -106,7 +106,6 @@ const HomeCompany: React.FC<
         if (response.ok) {
           response.json().then(
             documents => {
-              console.log(documents);
               if (DateTime.local() < DateTime.fromISO(documents.appointment)) {
                 const dataUser: IUser = {
                   ...props.user,

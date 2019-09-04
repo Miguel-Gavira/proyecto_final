@@ -64,9 +64,6 @@ const AddUser: React.FC<
               idAppointment: ""
             };
             props.setUser(dataUser);
-            if (props.location.pathname === "/add") {
-              props.history.push("/addCompany");
-            }
           }
         });
       } else {
