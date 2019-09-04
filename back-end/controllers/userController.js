@@ -14,15 +14,15 @@ userController.add = (req, res) => {
     password: sha256(data.password),
     email: data.email
   });
-  newUser.save((err, row) => {
+  newUser.save((err, raw) => {
     if (err) {
       res.status(401).send(err);
     } else {
       let token = jwt.sign(
         {
-          _id: row._id,
-          username: row.username,
-          email: row.email
+          _id: raw._id,
+          username: raw.username,
+          email: raw.email
         },
         secret
       );
@@ -42,11 +42,11 @@ userController.edit = (req, res) => {
         ...(data.email && { email: data.email })
       }
     },
-    (err, row) => {
+    (err, raw) => {
       if (err) {
         res.status(401).send(err);
       } else {
-        res.send("Modificado");
+        res.send(raw);
       }
     }
   );
@@ -57,7 +57,7 @@ userController.delete = (req, res) => {
     if (err) {
       res.status(401).send(err);
     } else {
-      res.send("Eliminado");
+      res.send(raw);
     }
   });
 };

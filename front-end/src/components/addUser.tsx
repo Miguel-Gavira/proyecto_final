@@ -64,6 +64,7 @@ const AddUser: React.FC<
               idAppointment: ""
             };
             props.setUser(dataUser);
+            props.history.push("/");
           }
         });
       } else {

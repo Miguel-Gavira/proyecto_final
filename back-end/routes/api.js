@@ -62,11 +62,11 @@ router.post("/company/add/:userId", (req, res) => {
     res.status(401).send("El token no es válido");
   }
 });
-router.put("/company/edit/:id", (req, res) => {
+router.put("/company/edit/:id/:owner", (req, res) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
     let decoded = jwt.verify(token, secret);
-    decoded.companyId === req.params.id
+    decoded._id === req.params.owner
       ? companyController.edit(req, res)
       : res.status(401).send("Error");
   } catch (error) {
@@ -120,7 +120,6 @@ router.get("/appointment/:id", (req, res) => {
   }
 });
 
-
 router.post("/appointment/add/:companyId/:userId", (req, res) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
@@ -149,7 +148,7 @@ router.delete("/appointment/delete/:id/:userId", (req, res) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
     let decoded = jwt.verify(token, secret);
-    (decoded._id === req.params.userId || decoded._id === req.body.owner)
+    decoded._id === req.params.userId || decoded._id === req.body.owner
       ? appointmentController.delete(req, res)
       : res.status(401).send("Error");
   } catch (error) {
@@ -157,25 +156,25 @@ router.delete("/appointment/delete/:id/:userId", (req, res) => {
   }
 });
 
-
 //CRUD Schedule
-router.post("/schedule/add/:companyId", (req, res) => {
-  try {
-    const token = req.headers.authorization.replace("Bearer ", "");
-    let decoded = jwt.verify(token, secret);
-    decoded.companyId === req.params.companyId
-      ? scheduleController.add(req, res)
-      : res.status(401).send("Error");
-  } catch (error) {
-    res.status(401).send("El token no es válido");
-  }
-});
+// router.post("/schedule/add/:companyId", (req, res) => {
+//   try {
+//     const token = req.headers.authorization.replace("Bearer ", "");
+//     let decoded = jwt.verify(token, secret);
+//     decoded.companyId === req.params.companyId
+//       ? scheduleController.add(req, res)
+//       : res.status(401).send("Error");
+//   } catch (error) {
+//     res.status(401).send("El token no es válido");
+//   }
+// });
 
-router.post("/schedule/multipleAdd/:companyId", (req, res) => {
+router.post("/schedule/multipleAdd/:companyId/:owner", (req, res) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
     let decoded = jwt.verify(token, secret);
-    decoded.companyId === req.params.companyId
+    console.log(decoded);
+    decoded._id === req.params.owner
       ? scheduleController.multipleAdd(req, res)
       : res.status(401).send("No añade");
   } catch (error) {
@@ -189,7 +188,7 @@ router.delete("/schedule/delete/:companyId/:weekday", (req, res) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
     let decoded = jwt.verify(token, secret);
-    decoded.companyId === req.params.companyId
+    decoded._id === req.body.owner
       ? scheduleController.delete(req, res)
       : res.status(401).send("No borra");
   } catch (error) {

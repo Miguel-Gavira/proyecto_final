@@ -62,8 +62,8 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
                 className={`waves-effect colDatepicker ${props.appointment
                   .day === d.day && "teal lighten-1  white-text"}`}
               >
-                <p>{d.weekdayLong.toLocaleUpperCase()}</p>
-                <p>{d.day}</p>
+                <p className="weekdayLong">{d.weekdayShort.toLocaleUpperCase()}</p>
+                <h5>{d.day}</h5>
               </td>
             ))}
             <td onClick={add} className="colDatepicker waves-effect">

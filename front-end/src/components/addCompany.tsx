@@ -11,6 +11,7 @@ interface IProps {}
 
 interface IPropsGlobal {
   token: string;
+  company: ICompany;
   user: IUser;
   setUser: (user: IUser) => void;
   setCompany: (company: ICompany) => void;
@@ -131,7 +132,7 @@ const AddCompany: React.FC<
         });
       } else {
         fetch(
-          "http://localhost:8080/api/company/edit/" + props.user.companyId,
+          "http://localhost:8080/api/company/edit/" + props.user.companyId + "/" + props.company.owner,
           {
             method: "PUT",
             headers: {
@@ -213,7 +214,7 @@ const AddCompany: React.FC<
             <img
               src="/images/Reserva-tu-cita.png"
               alt="logo"
-              className="responsive-img circle"
+              className="responsive-img circle hoverable"
               width="150px"
             />
           </div>
@@ -226,6 +227,7 @@ const AddCompany: React.FC<
               onChange={updateInputCompanyName}
               value={inputCompanyName}
               type="text"
+              maxLength={15}
               disabled={
                 Boolean(inputCompanyName) &&
                 !editMode &&
@@ -386,7 +388,8 @@ const AddCompany: React.FC<
 
 const mapStateToProps = (state: IGlobalState) => ({
   user: state.user,
-  token: state.token
+  token: state.token,
+  company: state.company
 });
 
 const mapDispatchToProps = {

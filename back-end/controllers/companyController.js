@@ -55,7 +55,7 @@ companyController.delete = (req, res) => {
     if (err) {
       res.status(401).send(err);
     } else {
-      res.send("Eliminado");
+      res.send(raw);
     }
   });
 };

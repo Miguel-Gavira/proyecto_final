@@ -114,7 +114,8 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
     if (getUsed) {
       fetch(
         "http://localhost:8080/api/schedule/multipleAdd/" +
-          props.user.companyId,
+          props.user.companyId + "/" + props.company.owner
+          ,
         {
           method: "POST",
           headers: {
@@ -187,7 +188,10 @@ const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
             headers: {
               "Content-Type": "application/json",
               Authorization: "Bearer " + props.token
-            }
+            },
+            body: JSON.stringify({
+              owner: props.company.owner
+            })    
           }
         );
         setStartTimeMorning("");

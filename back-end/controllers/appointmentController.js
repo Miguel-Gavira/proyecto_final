@@ -11,11 +11,11 @@ appointmentController.add = (req, res) => {
     company: companyId,
     user: userId
   });
-  newAppointment.save((err,row) => {
+  newAppointment.save((err,raw) => {
     if (err) {
       res.status(401).send(err);
     } else {
-      res.send(row);
+      res.send(raw);
     }
   });
 };
@@ -29,11 +29,11 @@ appointmentController.edit = (req, res) => {
         ...(data.appointment && { appointment: data.appointment })
       }
     },
-    (err, row) => {
+    (err, raw) => {
       if (err) {
         res.status(401).send(err);
       } else {
-        res.send("Modificado");
+        res.send(raw);
       }
     }
   );

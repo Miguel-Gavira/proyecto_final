@@ -183,6 +183,10 @@ body::-webkit-scrollbar-track,
   padding: 5% 0;
 }
 
+.myNavbar {
+  font-family: "Montserrat", sans-serif !important;
+}
+
 .sidenavCompany {
   z-index: 99999 !important;
 }
@@ -192,12 +196,10 @@ body::-webkit-scrollbar-track,
   border-radius: 0 25px 25px 0;
   height: auto !important;
   max-height: 600px !important;
-  background-position-y: center;
-  background-size: cover;
   background-color: #212121 !important;
 }
 
-.sidenav a {
+.sidenav a, .sidenav .btn {
   background: none !important;
   border: none !important;
   box-shadow: none !important;
@@ -210,11 +212,6 @@ body::-webkit-scrollbar-track,
   font-size: 20px !important;
   line-height: 1.1em !important;
   font-family: "Montserrat", sans-serif;
-}
-
-.sidenavButton {
-  position: fixed;
-  z-index: 998 !important;
 }
 
 .scheduleCard {
@@ -330,6 +327,10 @@ body::-webkit-scrollbar-track,
   background-color: rgb(255, 255, 255, 0.65) !important;
 }
 
+.weekdayLong {
+  font-size: 20px;
+}
+
 .características span {
   font-weight: bold;
 }
@@ -357,6 +358,9 @@ body::-webkit-scrollbar-track,
     margin: 1px 4px !important;
   }
   .nav-wrapper a{
-    font-size: 95% !important;
+    font-size: 150% !important;
+  }
+  .weekdayLong{
+    font-size: 10px;
   }
 }

@@ -43,6 +43,10 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
   };
 
   const goToSection1 = () => {
+    const aux: any = document.getElementById('mobile-nav');
+    aux.transform = 'translateX(-105%)';
+    document.body.style.overflow = 'none'; 
+
     scroller.scrollTo("section1", scrollType1);
   };
 
@@ -117,7 +121,8 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
       )}
       {props.token &&
         props.user.companyId === props.company._id &&
-        props.location.pathname !== "/" && (
+        props.location.pathname !== "/" && 
+        props.location.pathname !== "/add" && (
           <materialize.NavItem>
             <materialize.Button
               className="btn-flat white-text waves-effect waves-light "
@@ -133,7 +138,8 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
         )}
       {props.token &&
         props.user.companyId === props.company._id &&
-        props.location.pathname !== "/" && (
+        props.location.pathname !== "/" && 
+        props.location.pathname !== "/add" && (
           <materialize.NavItem>
             <materialize.Button
               className="btn-flat white-text waves-effect waves-light "
@@ -149,8 +155,9 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
         )}
       {((props.token &&
         props.location.pathname !== "/" &&
+        props.location.pathname !== "/add" &&
         props.user.appointment === "") ||
-        (props.user.companyId === props.company._id && props.token)) && (
+        (props.user.companyId === props.company._id && props.user.companyId && props.token)) && (
         <materialize.NavItem>
           <materialize.Button
             className="btn-flat white-text waves-effect waves-light "
@@ -203,7 +210,8 @@ const Navbar: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
       )}
       {props.token &&
         props.user.companyId === props.company._id &&
-        props.location.pathname !== "/" && (
+        props.location.pathname !== "/" &&
+        props.location.pathname !== "/add" && (
           <materialize.NavItem>
             <materialize.Button
               className="btn-flat white-text"
