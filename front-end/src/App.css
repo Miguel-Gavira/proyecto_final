@@ -380,3 +380,8 @@ body::-webkit-scrollbar-track,
     font-size: 10px;
   }
 }
+
+.companyData{
+  word-break: break-all;
+  hyphens: auto;
+}

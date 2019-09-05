@@ -20,6 +20,19 @@ const AddUser: React.FC<
   const [inputEmail, setInputEmail] = React.useState("");
   const [error, setError] = useState("");
 
+  const validEmailRegex = new RegExp(
+    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i //eslint-disable-line
+  );
+  const validateEmail = (e: string) => validEmailRegex.test(e);
+
+  const validUsernameRegex = new RegExp(/^([a-zA-Z0-9' ]+)$/);
+  const validateUsername = (e: string) => validUsernameRegex.test(e);
+
+  const mediumRegex = new RegExp(
+    "^(((?=.[a-z])(?=.[A-Z]))((?=.[a-z])(?=.[0-9]))((?=.[A-Z])(?=.[0-9])))(?=.{6,})" //eslint-disable-line
+  );
+  const validatePassword = (p: any) => mediumRegex.test(p);
+
   const updateInputUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputUsername(event.target.value);
     setError("");
@@ -36,48 +49,62 @@ const AddUser: React.FC<
   };
 
   const submit = () => {
-    if(inputUsername && inputPassword && inputEmail){
-    fetch("http://localhost:8080/api/user/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username: inputUsername,
-        password: inputPassword,
-        email: inputEmail
-      })
-    }).then(response => {
-      if (response.ok) {
-        response.text().then(token => {
-          sessionStorage.setItem("token", token);
-          props.setToken(token);
-          const decode = jwt.decode(token);
-          if (decode !== null && typeof decode !== "string") {
-            const dataUser: IUser = {
-              username: decode.username,
-              email: decode.email,
-              _id: decode._id,
-              companyName: "",
-              companyId: "",
-              appointment: "",
-              idAppointment: ""
-            };
-            props.setUser(dataUser);
-            props.history.push("/");
+    if (inputUsername && inputPassword && inputEmail) {
+      if (
+        validateEmail(inputEmail) &&
+        validateUsername(inputUsername) &&
+        validatePassword(inputPassword)
+      ) {
+        fetch("http://localhost:8080/api/user/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            username: inputUsername,
+            password: inputPassword,
+            email: inputEmail
+          })
+        }).then(response => {
+          if (response.ok) {
+            response.text().then(token => {
+              sessionStorage.setItem("token", token);
+              props.setToken(token);
+              const decode = jwt.decode(token);
+              if (decode !== null && typeof decode !== "string") {
+                const dataUser: IUser = {
+                  username: decode.username,
+                  email: decode.email,
+                  _id: decode._id,
+                  companyName: "",
+                  companyId: "",
+                  appointment: "",
+                  idAppointment: ""
+                };
+                props.setUser(dataUser);
+                props.history.push("/");
+              }
+            });
+          } else {
+            response.json().then(e => {
+              if (e.code === 11000) {
+                setError("El usuario ya exite");
+              }
+            });
           }
         });
       } else {
-        response.json().then(e => {
-          if(e.code === 11000){
-            setError("El usuario ya exite");
-          }
-        })
+        if (!validateEmail(inputEmail)) {
+          setError("El email no tiene un formato válido");
+        } else if (!validateUsername(inputUsername)) {
+          setError("El usuario no tiene un formato válido");
+        } else if (!validatePassword(inputPassword)) {
+          setError("El password no tiene un formato válido");
+        }
       }
-    });
-  } else {
-    setError("Por favor, rellena todos los campos");
-  }
+    } else {
+      setError("Por favor, rellena todos los campos");
+    }
   };
 
   return (
@@ -99,10 +126,12 @@ const AddUser: React.FC<
           <input
             onChange={updateInputUsername}
             value={inputUsername}
+            maxLength={20}
             type="text"
             required
           />
           <label>Usuario</label>
+          <span className="helper-text">Máx. 15 caracteres</span>
         </div>
       </div>
 
@@ -113,9 +142,13 @@ const AddUser: React.FC<
             onChange={updateInputPassword}
             value={inputPassword}
             type="password"
+            maxLength={20}
             required
           />
           <label>Password</label>
+          <span className="helper-text">
+            Min. 8 caracteres + mayúscula + minúscula + un número y sin símbolos
+          </span>
         </div>
       </div>
 
@@ -125,13 +158,14 @@ const AddUser: React.FC<
           <input
             onChange={updateInputEmail}
             value={inputEmail}
+            maxLength={20}
             type="email"
             required
           />
           <label>Email</label>
         </div>
       </div>
-      <h3>{error}</h3>
+      <h5 className="red-text center">{error}</h5>
       <div className="center">
         <button onClick={submit} className="btn waves-effect waves-light ">
           Enviar

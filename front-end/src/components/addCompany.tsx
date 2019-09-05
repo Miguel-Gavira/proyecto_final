@@ -79,6 +79,11 @@ const AddCompany: React.FC<
   const validComanyNameRegex = new RegExp(/^([a-zA-Z0-9' ]+)$/);
   const validateCompanyName = (e: string) => validComanyNameRegex.test(e);
 
+  const validatePhone: any = (value: number) => {
+    const str = value.toString().replace(/\s/g, "");
+    return str.length === 9 && /^[679]{1}[0-9]{8}$/.test(str);
+  };
+
   const submit = () => {
     if (
       inputCompanyName &&
@@ -88,7 +93,12 @@ const AddCompany: React.FC<
       inputTelephone &&
       inputType
     ) {
-      if (validateEmail(inputEmail) && validateCompanyName(inputCompanyName)) {
+      if (
+        validateEmail(inputEmail) &&
+        validateCompanyName(inputCompanyName) &&
+        validatePhone(inputTelephone) &&
+        validateCompanyName(inputType)
+      ) {
         if (!props.user.companyId) {
           fetch("http://localhost:8080/api/company/add/" + props.user._id, {
             method: "POST",
@@ -183,6 +193,10 @@ const AddCompany: React.FC<
           setError(
             "El nombre de la empresa sólo puede contener letras y números"
           );
+        } else if (!validatePhone(inputTelephone)) {
+          setError("El teléfono no tiene un formato válido");
+        } else if (!validateCompanyName(inputType)) {
+          setError("El sector no tiene un formato válido");
         }
       }
     } else {
@@ -268,6 +282,7 @@ const AddCompany: React.FC<
             <input
               onChange={updateInputAddress}
               value={inputAddress}
+              maxLength={40}
               type="text"
               disabled={
                 Boolean(inputAddress) &&
@@ -286,7 +301,8 @@ const AddCompany: React.FC<
             <input
               onChange={updateInputTelephone}
               value={inputTelephone}
-              type="number"
+              type="text"
+              maxLength={9}
               disabled={
                 Boolean(inputTelephone) &&
                 !editMode &&
@@ -305,6 +321,7 @@ const AddCompany: React.FC<
               onChange={updateInputType}
               value={inputType}
               type="text"
+              maxLength={20}
               disabled={
                 Boolean(inputType) &&
                 !editMode &&
@@ -323,6 +340,7 @@ const AddCompany: React.FC<
               onChange={updateInputEmail}
               value={inputEmail}
               type="text"
+              maxLength={30}
               disabled={
                 Boolean(inputEmail) &&
                 !editMode &&
@@ -371,7 +389,7 @@ const AddCompany: React.FC<
             />
           </div>
         </div>
-        <h4>{error}</h4>
+        <h5 className="red-text center">{error}</h5>
         {(editMode || window.location.pathname === "/") && (
           <div className="center">
             <button onClick={submit} className="btn waves-effect waves-light">
