@@ -37,6 +37,16 @@ const HomeCompany: React.FC<
     scroller.scrollTo("section1", scrollType);
   };
 
+  const addClass = (i: number) => {
+    const el: any = document.getElementsByClassName("flippy-cardContainer")[i];
+    el.classList.add("isActive");
+  };
+
+  const removeClass = (i: number) => {
+    const el: any = document.getElementsByClassName("flippy-cardContainer")[i];
+    el.classList.remove("isActive");
+  };
+
   const deleteAppointment = () => {
     fetch(
       "http://localhost:8080/api/appointment/delete/" +
@@ -218,12 +228,12 @@ const HomeCompany: React.FC<
                                   .toLocaleUpperCase()}
                               </span>
                             </h5>
-                            <h4
+                            <h5
                               className="deletePostit flow-text"
                               onClick={deleteAppointment}
                             >
                               Eliminar
-                            </h4>
+                            </h5>
                           </div>
                         </div>
                       }
@@ -238,164 +248,132 @@ const HomeCompany: React.FC<
           <div className="white cardPanel">
             <materialize.Row className="container">
               <materialize.Col className="características" m={4} s={12}>
-                <Flippy.Flippy
-                  style={{ width: "100%", height: "500px" }}
-                  flipOnHover={true}
-                  flipOnClick={true}
+                <div
+                  onPointerEnter={() => addClass(0)}
+                  onTouchStart={() => addClass(0)}
+                  onPointerLeave={() => removeClass(0)}
+                  onTouchEnd={() => removeClass(0)}
                 >
-                  <Flippy.FrontSide
-                    style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                  <Flippy.Flippy
+                    style={{ width: "100%", height: "500px" }}
+                    flipOnHover={false}
+                    flipOnClick={false}
                   >
-                    <div>
-                      <div>
-                        <img
-                          src="/images/place.png"
-                          width="100%"
-                          alt="dirección"
-                        />
-                      </div>
-                      <div>
-                        <h4 className="center grey-text text-darken-4">
-                          ¿Dónde estamos?
-                        </h4>
-                      </div>
-                    </div>
-                  </Flippy.FrontSide>
-                  <Flippy.BackSide
-                    style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
-                  >
-                    <div>
-                      <div>
-                        <h4 className="center grey-text text-darken-4">
-                          ¿Dónde estamos?
-                        </h4>
-                        <div className="divider"></div>
-                        <h5 className="center">
-                          Te esperamos en{" "}
-                          <span className="companyData">
-                            {props.company.address}
-                          </span>
-                        </h5>
-                      </div>
-                    </div>
-                  </Flippy.BackSide>
-                </Flippy.Flippy>
+                    <Flippy.FrontSide
+                      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                    >
+                      <img
+                        src="/images/place.png"
+                        width="100%"
+                        alt="dirección"
+                      />
+
+                      <h4 className="center grey-text text-darken-4">
+                        ¿Dónde estamos?
+                      </h4>
+                    </Flippy.FrontSide>
+                    <Flippy.BackSide
+                      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                    >
+                      <h4 className="center grey-text text-darken-4">
+                        ¿Dónde estamos?
+                      </h4>
+                      <div className="divider"></div>
+                      <h5 className="center">
+                        Te esperamos en
+                        <span className="companyData">
+                          {" " + props.company.address}
+                        </span>
+                      </h5>
+                    </Flippy.BackSide>
+                  </Flippy.Flippy>
+                </div>
               </materialize.Col>
               <materialize.Col className="características" m={4} s={12}>
-                <Flippy.Flippy
-                  style={{ width: "100%", height: "500px" }}
-                  flipOnHover={true}
-                  flipOnClick={true}
+                <div
+                  onPointerEnter={() => addClass(1)}
+                  onTouchStart={() => addClass(1)}
+                  onPointerLeave={() => removeClass(1)}
+                  onTouchEnd={() => removeClass(1)}
                 >
-                  <Flippy.FrontSide
-                    style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                  <Flippy.Flippy
+                    style={{ width: "100%", height: "500px" }}
+                    flipOnHover={false}
+                    flipOnClick={false}
                   >
-                    <div>
-                      <div>
-                        <img src="/images/email.png" alt="email" width="100%" />
-                      </div>
-                      <div>
-                        <h4 className="center grey-text text-darken-4">
-                          Contacta con nosotros
-                        </h4>
-                      </div>
-                    </div>
-                  </Flippy.FrontSide>
-                  <Flippy.BackSide
-                    style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
-                  >
-                    <div>
-                      <div>
-                        <h4 className="center grey-text text-darken-4">
-                          Contacta con nosotros
-                        </h4>
-                        <div className="divider"></div>
-                        <h5 className="center">
-                          Si tienes cualquier duda, ponte en contacto con
-                          nosotros en{" "}
-                          <span className="companyData">
-                            {props.company.email}
-                          </span>
-                        </h5>
-                      </div>
-                    </div>
-                  </Flippy.BackSide>
-                </Flippy.Flippy>
+                    <Flippy.FrontSide
+                      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                    >
+                      <img src="/images/email.png" alt="email" width="100%" />
+
+                      <h4 className="center grey-text text-darken-4">
+                        Contacta con nosotros
+                      </h4>
+                    </Flippy.FrontSide>
+                    <Flippy.BackSide
+                      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                    >
+                      <h4 className="center grey-text text-darken-4">
+                        Contacta con nosotros
+                      </h4>
+                      <div className="divider"></div>
+                      <h5 className="center">
+                        Si tienes cualquier duda, ponte en contacto con nosotros
+                        en
+                        <span className="companyData">
+                          {" " + props.company.email}
+                        </span>
+                      </h5>
+                    </Flippy.BackSide>
+                  </Flippy.Flippy>
+                </div>
               </materialize.Col>
               <materialize.Col className="características" m={4} s={12}>
-                <Flippy.Flippy
-                  style={{ width: "100%", height: "500px" }}
-                  flipOnHover={true}
-                  flipOnClick={true}
+                <div
+                  onPointerEnter={() => addClass(2)}
+                  onTouchStart={() => addClass(2)}
+                  onPointerLeave={() => removeClass(2)}
+                  onTouchEnd={() => removeClass(2)}
                 >
-                  <Flippy.FrontSide
-                    style={{ backgroundColor: "rgb(255, 255, 255, 0.6" }}
+                  <Flippy.Flippy
+                    style={{ width: "100%", height: "500px" }}
+                    flipOnHover={false}
+                    flipOnClick={false}
                   >
-                    <div>
-                      <div>
-                        <img
-                          src="/images/telephone.png"
-                          alt="teléfono"
-                          width="100%"
-                        />
-                      </div>
-                      <div>
-                        <h4 className="center grey-text text-darken-4">
-                          Llámanos
-                        </h4>
-                      </div>
-                    </div>
-                  </Flippy.FrontSide>
-                  <Flippy.BackSide
-                    style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
-                  >
-                    <div>
-                      <div>
-                        <h4 className="center grey-text text-darken-4">
-                          Llámanos
-                        </h4>
-                        <div className="divider"></div>
-                        <h5 className="center">
-                          También puedes llamarnos por teléfono en horario
-                          laboral al{" "}
-                          <span className="companyData">
-                            {props.company.telephone}
-                          </span>
-                        </h5>
-                      </div>
-                    </div>
-                  </Flippy.BackSide>
-                </Flippy.Flippy>
+                    <Flippy.FrontSide
+                      style={{ backgroundColor: "rgb(255, 255, 255, 0.6" }}
+                    >
+                      <img
+                        src="/images/telephone.png"
+                        alt="teléfono"
+                        width="100%"
+                      />
+
+                      <h4 className="center grey-text text-darken-4">
+                        Llámanos
+                      </h4>
+                    </Flippy.FrontSide>
+                    <Flippy.BackSide
+                      style={{ backgroundColor: "rgb(255, 255, 255, 0.6)" }}
+                    >
+                      <h4 className="center grey-text text-darken-4">
+                        Llámanos
+                      </h4>
+                      <div className="divider"></div>
+                      <h5 className="center">
+                        También puedes llamarnos por teléfono en horario laboral
+                        al
+                        <span className="companyData">
+                          {" " + props.company.telephone}
+                        </span>
+                      </h5>
+                    </Flippy.BackSide>
+                  </Flippy.Flippy>
+                </div>
               </materialize.Col>
             </materialize.Row>
           </div>
         </Element>
-
-        {/* <div>
-          {props.token && !props.user.appointment && (
-            <materialize.Modal
-              options={{ inDuration: 500, outDuration: 500 }}
-              className="newCompany"
-              bottomSheet
-              fixedFooter={true}
-              trigger={
-                <button className="waves-effect waves-light btn">
-                  Reservar una cita
-                </button>
-              }
-              actions={
-                <materialize.Button
-                  className="red waves-effect waves-light btn"
-                  modal="close"
-                >
-                  Cerrar
-                </materialize.Button>
-              }
-            >
-              <Route path="/" component={datepicker} />
-            </materialize.Modal>
-          )}
-        </div> */}
       </div>
       <Footer />
     </div>

@@ -102,7 +102,7 @@ const AddUser: React.FC<
             type="text"
             required
           />
-          <label>Username</label>
+          <label>Usuario</label>
         </div>
       </div>
 

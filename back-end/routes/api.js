@@ -104,7 +104,7 @@ router.get("/appointment/:companyId/:userId", (req, res) => {
       ? appointmentController.listToUser(req, res)
       : res.status(401).send("Error");
   } catch (error) {
-    res.status(401).send("El token no es válido");
+    res.status(401).send(error);
   }
 });
 
@@ -116,7 +116,7 @@ router.get("/appointment/:id", (req, res) => {
       ? appointmentController.listOne(req, res)
       : res.status(401).send("Error");
   } catch (error) {
-    res.status(401).send("El token no es válido");
+    res.status(401).send(error);
   }
 });
 
@@ -128,7 +128,7 @@ router.post("/appointment/add/:companyId/:userId", (req, res) => {
       ? appointmentController.add(req, res)
       : res.status(401).send("Error");
   } catch (error) {
-    res.status(401).send("El token no es válido");
+    res.status(401).send(error);
   }
 });
 
@@ -152,7 +152,7 @@ router.delete("/appointment/delete/:id/:userId", (req, res) => {
       ? appointmentController.delete(req, res)
       : res.status(401).send("Error");
   } catch (error) {
-    res.status(401).send("El token no es válido");
+    res.status(401).send(error);
   }
 });
 
@@ -173,12 +173,11 @@ router.post("/schedule/multipleAdd/:companyId/:owner", (req, res) => {
   try {
     const token = req.headers.authorization.replace("Bearer ", "");
     let decoded = jwt.verify(token, secret);
-    console.log(decoded);
     decoded._id === req.params.owner
       ? scheduleController.multipleAdd(req, res)
       : res.status(401).send("No añade");
   } catch (error) {
-    res.status(401).send("El token no es válido");
+    res.status(401).send(error);
   }
 });
 
@@ -192,7 +191,7 @@ router.delete("/schedule/delete/:companyId/:weekday", (req, res) => {
       ? scheduleController.delete(req, res)
       : res.status(401).send("No borra");
   } catch (error) {
-    res.status(401).send("El token no es válido");
+    res.status(401).send(error);
   }
 });
 
@@ -200,7 +199,7 @@ router.get("/schedule/:companyId/:weekday", (req, res) => {
   try {
     scheduleController.list(req, res);
   } catch (error) {
-    res.status(401).send("El token no es válido");
+    res.status(401).send(error);
   }
 });
 

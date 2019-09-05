@@ -71,6 +71,14 @@ const AddCompany: React.FC<
     setError("");
   };
 
+  const validEmailRegex = new RegExp(
+    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i //eslint-disable-line
+  );
+  const validateEmail = (e: string) => validEmailRegex.test(e);
+
+  const validComanyNameRegex = new RegExp(/^([a-zA-Z0-9' ]+)$/);
+  const validateCompanyName = (e: string) => validComanyNameRegex.test(e);
+
   const submit = () => {
     if (
       inputCompanyName &&
@@ -80,61 +88,10 @@ const AddCompany: React.FC<
       inputTelephone &&
       inputType
     ) {
-      if (!props.user.companyId) {
-        fetch("http://localhost:8080/api/company/add/" + props.user._id, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + props.token
-          },
-          body: JSON.stringify({
-            companyName: inputCompanyName,
-            address: inputAddress,
-            telephone: +inputTelephone,
-            type: inputType,
-            email: inputEmail,
-            appointmentDuration: +inputAppointmentDuration
-          })
-        }).then(response => {
-          if (response.ok) {
-            response.json().then(d => {
-              const dataCompany: ICompany = {
-                _id: d._id,
-                companyName: d.companyName,
-                owner: d.owner,
-                address: d.address,
-                telephone: d.telephone,
-                type: d.type,
-                email: d.email,
-                appointmentDuration: d.appointmentDuration
-              };
-              const dataUser: IUser = {
-                ...props.user,
-                companyName: d.companyName,
-                companyId: d._id,
-                appointment: "",
-                idAppointment: ""
-              };
-              props.setUser(dataUser);
-              props.setCompany(dataCompany);
-              if (window.location.pathname === "/") {
-                console.log(props.user.companyId);
-                props.history.push("/company/" + d._id);
-              }
-            });
-          } else {
-            response.json().then(e => {
-              if (e.code === 11000) {
-                setError("La empresa ya exite");
-              }
-            });
-          }
-        });
-      } else {
-        fetch(
-          "http://localhost:8080/api/company/edit/" + props.user.companyId + "/" + props.company.owner,
-          {
-            method: "PUT",
+      if (validateEmail(inputEmail) && validateCompanyName(inputCompanyName)) {
+        if (!props.user.companyId) {
+          fetch("http://localhost:8080/api/company/add/" + props.user._id, {
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
               Authorization: "Bearer " + props.token
@@ -147,11 +104,33 @@ const AddCompany: React.FC<
               email: inputEmail,
               appointmentDuration: +inputAppointmentDuration
             })
-          }
-        )
-          .then(response => {
+          }).then(response => {
             if (response.ok) {
-              updateEditMode();
+              response.json().then(d => {
+                const dataCompany: ICompany = {
+                  _id: d._id,
+                  companyName: d.companyName,
+                  owner: d.owner,
+                  address: d.address,
+                  telephone: d.telephone,
+                  type: d.type,
+                  email: d.email,
+                  appointmentDuration: d.appointmentDuration
+                };
+                const dataUser: IUser = {
+                  ...props.user,
+                  companyName: d.companyName,
+                  companyId: d._id,
+                  appointment: "",
+                  idAppointment: ""
+                };
+                props.setUser(dataUser);
+                props.setCompany(dataCompany);
+                if (window.location.pathname === "/") {
+                  console.log(props.user.companyId);
+                  props.history.push("/company/" + d._id);
+                }
+              });
             } else {
               response.json().then(e => {
                 if (e.code === 11000) {
@@ -159,10 +138,52 @@ const AddCompany: React.FC<
                 }
               });
             }
-          })
-          .catch(error => {
-            console.log(error);
           });
+        } else {
+          fetch(
+            "http://localhost:8080/api/company/edit/" +
+              props.user.companyId +
+              "/" +
+              props.company.owner,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + props.token
+              },
+              body: JSON.stringify({
+                companyName: inputCompanyName,
+                address: inputAddress,
+                telephone: +inputTelephone,
+                type: inputType,
+                email: inputEmail,
+                appointmentDuration: +inputAppointmentDuration
+              })
+            }
+          )
+            .then(response => {
+              if (response.ok) {
+                updateEditMode();
+              } else {
+                response.json().then(e => {
+                  if (e.code === 11000) {
+                    setError("La empresa ya exite");
+                  }
+                });
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+      } else {
+        if (!validateEmail(inputEmail)) {
+          setError("El email no tiene un formato válido");
+        } else if (!validateCompanyName(inputCompanyName)) {
+          setError(
+            "El nombre de la empresa sólo puede contener letras y números"
+          );
+        }
       }
     } else {
       setError("Por favor, rellena todos los campos");

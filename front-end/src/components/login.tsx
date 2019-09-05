@@ -42,7 +42,7 @@ const Login: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
         className="LoginCard"
         options={{ closeOnClick: false, constrainWidth: false }}
         actions={
-          <materialize.Button waves="green" modal="close" flat>
+          <materialize.Button waves="red" modal="close" flat>
             Cerrar
           </materialize.Button>
         }

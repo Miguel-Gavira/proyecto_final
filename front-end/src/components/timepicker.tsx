@@ -151,14 +151,15 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
   };
 
   React.useEffect(() => {
-    fetches();// eslint-disable-next-line react-hooks/exhaustive-deps
+    fetches(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.appointment]);
 
   React.useEffect(() => {
     setGetUsed(false);
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setGetUsed(true);
-    }, 400); // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, 400);
+    return () => clearTimeout(timeout); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.appointment.day]);
 
   const calcSlots = React.useCallback(

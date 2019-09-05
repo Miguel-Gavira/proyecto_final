@@ -35,19 +35,19 @@ const Footer: React.FC<IProps & IPropsGlobal> = props => {
           <materialize.Col s={12} className="white-text">
             <h6>
               <materialize.Icon tiny>location_on</materialize.Icon>
-              {props.company.address}
+              {" " + props.company.address}
             </h6>
           </materialize.Col>
           <materialize.Col s={12} className="white-text">
             <h6>
               <materialize.Icon tiny>email</materialize.Icon>
-              {props.company.email}
+              {" " + props.company.email}
             </h6>
           </materialize.Col>
           <materialize.Col s={12} className="white-text">
             <h6>
               <materialize.Icon tiny>phone</materialize.Icon>
-              {props.company.telephone}
+              {" " + props.company.telephone}
             </h6>
           </materialize.Col>
         </materialize.Row>

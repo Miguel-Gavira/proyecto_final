@@ -49,7 +49,6 @@ body::-webkit-scrollbar-track,
   max-height: min-content !important;
 }
 
-
 .LoginCard a {
   color: black;
 }
@@ -155,18 +154,27 @@ body::-webkit-scrollbar-track,
   flex-direction: column;
   align-items: center;
 }
-.daysWeek{height: 120px;}
-.reservar{margin-left: 20px;}
-.cancelar{margin: 20px 0 50px 0 !important;}
-.userReserved{font-weight: bold;}
+.daysWeek {
+  height: 120px;
+}
+.reservar {
+  margin-left: 20px;
+}
+.cancelar {
+  margin: 20px 0 50px 0 !important;
+}
+.userReserved {
+  font-weight: bold;
+}
 
-[type="radio"]:not(:checked)+span:before, [type="radio"]:not(:checked)+span:after, [type="radio"]+span:after  {
+[type="radio"]:not(:checked) + span:before,
+[type="radio"]:not(:checked) + span:after,
+[type="radio"] + span:after {
   height: 1.5rem !important;
   width: 1.5rem !important;
 }
-.fontAppointment{
+.fontAppointment {
   font-size: 20px !important;
-
 }
 .datepickerCompany {
   width: 100%;
@@ -183,12 +191,9 @@ body::-webkit-scrollbar-track,
   padding: 5% 0;
 }
 
-.myNavbar {
+.navbar-fixed {
   font-family: "Montserrat", sans-serif !important;
-}
-
-.sidenavCompany {
-  z-index: 99999 !important;
+  z-index: 9997 !important;
 }
 
 .sidenav {
@@ -197,9 +202,11 @@ body::-webkit-scrollbar-track,
   height: auto !important;
   max-height: 600px !important;
   background-color: #212121 !important;
+  z-index: 9999 !important;
 }
 
-.sidenav a, .sidenav .btn {
+.sidenav a,
+.sidenav .btn {
   background: none !important;
   border: none !important;
   box-shadow: none !important;
@@ -279,6 +286,11 @@ body::-webkit-scrollbar-track,
   height: 100%;
   width: 100%;
   font-family: "Gloria Hallelujah", cursive;
+  z-index: 999;
+}
+
+.cardText h5 {
+  z-index: 8999;
 }
 
 .insidePostit {
@@ -288,7 +300,11 @@ body::-webkit-scrollbar-track,
   margin: auto;
 }
 
-.deletePostit,
+.deletePostit {
+  cursor: pointer;
+  color: red;
+}
+
 .iconDown {
   cursor: pointer;
 }
@@ -357,10 +373,10 @@ body::-webkit-scrollbar-track,
   .indicator-item {
     margin: 1px 4px !important;
   }
-  .nav-wrapper a{
+  .nav-wrapper a {
     font-size: 150% !important;
   }
-  .weekdayLong{
+  .weekdayLong {
     font-size: 10px;
   }
 }

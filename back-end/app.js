@@ -15,7 +15,7 @@ app.use(cors());
 mongoose
   .connect("mongodb://@localhost/finalProyect", { useNewUrlParser: true })
   .then(() => console.log("You are now connected to Mongo!"))
-  .catch(err => console.log("Something went wrong", err));
+  .catch(err => console.log("Something went wrong" + err));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
