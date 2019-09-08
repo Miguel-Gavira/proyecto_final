@@ -126,7 +126,7 @@ const AddUser: React.FC<
           <input
             onChange={updateInputUsername}
             value={inputUsername}
-            maxLength={20}
+            maxLength={15}
             type="text"
             required
           />
@@ -142,7 +142,7 @@ const AddUser: React.FC<
             onChange={updateInputPassword}
             value={inputPassword}
             type="password"
-            maxLength={20}
+            maxLength={30}
             required
           />
           <label>Password</label>
@@ -158,7 +158,7 @@ const AddUser: React.FC<
           <input
             onChange={updateInputEmail}
             value={inputEmail}
-            maxLength={20}
+            maxLength={30}
             type="email"
             required
           />

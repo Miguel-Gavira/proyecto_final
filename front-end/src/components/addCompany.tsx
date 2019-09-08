@@ -273,6 +273,7 @@ const AddCompany: React.FC<
             <label className={inputCompanyName && " active"}>
               Nombre de la empresa
             </label>
+            <span className="helper-text">Máx. 15 caracteres</span>
           </div>
         </div>
 

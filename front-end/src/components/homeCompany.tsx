@@ -143,7 +143,7 @@ const HomeCompany: React.FC<
     <div className="fondoCompanies">
       <div className="principal">
         <div className="introCompanies z-depth-5">
-          <h1 className="center eslogan container">
+          <h1 className="center eslogan container animated fadeInUp">
             {props.user.appointment && props.company.owner !== props.user._id
               ? "Ya tienes una cita con nosotros"
               : "¿Quieres reservar una cita?"}
@@ -169,7 +169,7 @@ const HomeCompany: React.FC<
                     </p>
                   </div>
                   <div className="col s12 offset-l1 l3 left">
-                    <img src="/images/registro.png" alt="registro" />
+                    <img src="/images/registro2.png" alt="registro" />
                   </div>
                 </div>
                 <div className="white diapos diapo2 center row">
