@@ -62,7 +62,9 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
                 className={`waves-effect colDatepicker ${props.appointment
                   .day === d.day && "teal lighten-1  white-text"}`}
               >
-                <p className="weekdayLong">{d.weekdayShort.toLocaleUpperCase()}</p>
+                <p className="weekdayLong">
+                  {d.weekdayShort.toLocaleUpperCase()}
+                </p>
                 <h5>{d.day}</h5>
               </td>
             ))}
@@ -72,8 +74,15 @@ const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
           </tr>
           <tr>
             <td colSpan={9}>
-              {DateTime.local().toFormat("yyyy LLL dd") >
-              props.appointment.toFormat("yyyy LLL dd") ? (
+              {DateTime.local()
+                  .set({
+                    hour: 0,
+                    minute: 0,
+                    second: 0,
+                    millisecond: 0
+                  })
+                  .toISO() >
+                  props.appointment.toISO() ? (
                 <h4>No puedes reservar citas anteriores a la fecha actual</h4>
               ) : (
                 <Timepicker

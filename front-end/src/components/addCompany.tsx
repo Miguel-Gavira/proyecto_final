@@ -76,7 +76,7 @@ const AddCompany: React.FC<
   );
   const validateEmail = (e: string) => validEmailRegex.test(e);
 
-  const validComanyNameRegex = new RegExp(/^([a-zA-Z0-9' ]+)$/);
+  const validComanyNameRegex = new RegExp(/^([a-zA-ZÁ-ÿ0-9' ]+)$/);
   const validateCompanyName = (e: string) => validComanyNameRegex.test(e);
 
   const validatePhone: any = (value: number) => {
@@ -137,7 +137,6 @@ const AddCompany: React.FC<
                 props.setUser(dataUser);
                 props.setCompany(dataCompany);
                 if (window.location.pathname === "/") {
-                  console.log(props.user.companyId);
                   props.history.push("/company/" + d._id);
                 }
               });

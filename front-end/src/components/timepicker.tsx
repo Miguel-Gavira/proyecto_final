@@ -254,11 +254,6 @@ const Timepicker: React.FC<IProps & IPropsGlobal> = props => {
             );
           })}
       </div>
-      {/* {slots.length > 0 && (
-        <button onClick={submit} className="btn waves-effect waves-light">
-          Reservar
-        </button>
-      )} */}
     </div>
   );
 };

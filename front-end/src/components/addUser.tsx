@@ -4,10 +4,13 @@ import * as actions from "../actions";
 import { IUser } from "../IUser";
 import jwt from "jsonwebtoken";
 import { RouteComponentProps } from "react-router";
+import { ICompany } from "../ICompany";
+import { IGlobalState } from "../reducers/reducers";
 
 interface IProps {}
 
 interface IPropsGlobal {
+  company: ICompany;
   setToken: (token: string) => void;
   setUser: (user: IUser) => void;
 }
@@ -25,11 +28,11 @@ const AddUser: React.FC<
   );
   const validateEmail = (e: string) => validEmailRegex.test(e);
 
-  const validUsernameRegex = new RegExp(/^([a-zA-Z0-9' ]+)$/);
+  const validUsernameRegex = new RegExp(/^([a-zA-ZÁ-ÿ0-9' ]+)$/);
   const validateUsername = (e: string) => validUsernameRegex.test(e);
 
   const mediumRegex = new RegExp(
-    "^(((?=.[a-z])(?=.[A-Z]))((?=.[a-z])(?=.[0-9]))((?=.[A-Z])(?=.[0-9])))(?=.{6,})" //eslint-disable-line
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/ //eslint-disable-line
   );
   const validatePassword = (p: any) => mediumRegex.test(p);
 
@@ -82,7 +85,11 @@ const AddUser: React.FC<
                   idAppointment: ""
                 };
                 props.setUser(dataUser);
-                props.history.push("/");
+                if (props.location.pathname === "/add") {
+                  props.history.push("/");
+                } else if (props.location.pathname === "/company/add/" + props.company._id) {
+                  props.history.push("/company/" + props.company._id);
+                }
               }
             });
           } else {
@@ -147,7 +154,7 @@ const AddUser: React.FC<
           />
           <label>Password</label>
           <span className="helper-text">
-            Min. 8 caracteres + mayúscula + minúscula + un número y sin símbolos
+            Min. 8 caracteres + mayúscula + minúscula + un número
           </span>
         </div>
       </div>
@@ -176,12 +183,16 @@ const AddUser: React.FC<
   );
 };
 
+const mapStateToProps = (state: IGlobalState) => ({
+  company: state.company
+});
+
 const mapDispatchToProps = {
   setToken: actions.setToken,
   setUser: actions.setUser
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AddUser);
