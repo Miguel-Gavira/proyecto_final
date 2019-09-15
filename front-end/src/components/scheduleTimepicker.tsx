@@ -18,6 +18,7 @@ interface IPropsGlobal {
   setCompany: (company: ICompany) => void;
 }
 
+//Este componente se encarga de guardar los horarios de las empresas
 const ScheduleTimepicker: React.FC<IProps & IPropsGlobal> = props => {
   const [startTimeMorning, setStartTimeMorning] = React.useState("");
   const [finishTimeMorning, setFinishTimeMorning] = React.useState("");

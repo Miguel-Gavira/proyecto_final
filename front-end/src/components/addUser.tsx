@@ -15,6 +15,7 @@ interface IPropsGlobal {
   setUser: (user: IUser) => void;
 }
 
+//Este componente añade a los usuarios
 const AddUser: React.FC<
   IProps & IPropsGlobal & RouteComponentProps
 > = props => {
@@ -23,34 +24,42 @@ const AddUser: React.FC<
   const [inputEmail, setInputEmail] = React.useState("");
   const [error, setError] = useState("");
 
+  //Función para validar que el email tenga un formato lógico
   const validEmailRegex = new RegExp(
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i //eslint-disable-line
   );
   const validateEmail = (e: string) => validEmailRegex.test(e);
 
+  //Función para validar que el nombre tenga un formato sin símbolos
   const validUsernameRegex = new RegExp(/^([a-zA-ZÁ-ÿ0-9' ]+)$/);
   const validateUsername = (e: string) => validUsernameRegex.test(e);
 
+  //Función para validar que la contraseña tenga más de 8 caracteres
+  //al menos una mayúscul, una minúscula y un número
   const mediumRegex = new RegExp(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/ //eslint-disable-line
   );
   const validatePassword = (p: any) => mediumRegex.test(p);
 
+  //Control del input del nombre de usuario
   const updateInputUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputUsername(event.target.value);
     setError("");
   };
 
+  //Control del input del password
   const updateInputPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputPassword(event.target.value);
     setError("");
   };
 
+  //Control del input del email
   const updateInputEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputEmail(event.target.value);
     setError("");
   };
 
+  //Función para enviar los datos del formulario al back
   const submit = () => {
     if (inputUsername && inputPassword && inputEmail) {
       if (
@@ -87,7 +96,10 @@ const AddUser: React.FC<
                 props.setUser(dataUser);
                 if (props.location.pathname === "/add") {
                   props.history.push("/");
-                } else if (props.location.pathname === "/company/add/" + props.company._id) {
+                } else if (
+                  props.location.pathname ===
+                  "/company/add/" + props.company._id
+                ) {
                   props.history.push("/company/" + props.company._id);
                 }
               }
@@ -100,7 +112,9 @@ const AddUser: React.FC<
             });
           }
         });
-      } else {
+      }
+      //Validación de errores y mensaje para el usuario
+      else {
         if (!validateEmail(inputEmail)) {
           setError("El email no tiene un formato válido");
         } else if (!validateUsername(inputUsername)) {

@@ -12,6 +12,7 @@ interface IPropsGlobal {
   setUser: (user: IUser) => void;
 }
 
+//Este componente loguea al usuario
 const LoginUser: React.FC<
   IProps & IPropsGlobal & RouteComponentProps
 > = props => {
@@ -19,16 +20,19 @@ const LoginUser: React.FC<
   const [inputPassword, setInputPassword] = React.useState("");
   const [errorLogin, setErrorLogin] = React.useState("");
 
+  //Control del input del nombre
   const updateInputUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputUsername(event.target.value);
     setErrorLogin("");
   };
 
+  //Control del input del password
   const updateInputPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputPassword(event.target.value);
     setErrorLogin("");
   };
 
+  //El back-end devuelve si el usuario tiene empresa y lo carga en el token
   const submit = () => {
     if(inputUsername &&  inputPassword){
     fetch("http://localhost:8080/api/auth/user", {

@@ -16,6 +16,7 @@ interface IPropsGlobal {
   company: ICompany;
 }
 
+//Este carga las distintas rutas de las páginas de empresas
 const CompanyProfile: React.FC<
   IProps & IPropsGlobal & RouteComponentProps
 > = props => {

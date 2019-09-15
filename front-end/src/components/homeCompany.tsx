@@ -26,6 +26,8 @@ interface IPropsGlobal {
 const HomeCompany: React.FC<
   IProps & IPropsGlobal & RouteComponentProps
 > = props => {
+
+  //Datos del scroll
   const scrollType = {
     duration: 500,
     delay: 50,
@@ -33,20 +35,24 @@ const HomeCompany: React.FC<
     offset: -80
   };
 
+  //Función para hacer scroll auto al carrusel
   const goToSection1 = () => {
     scroller.scrollTo("section1", scrollType);
   };
 
+  //Función para voltear una card
   const addClass = (i: number) => {
     const el: any = document.getElementsByClassName("flippy-cardContainer")[i];
     el.classList.add("isActive");
   };
 
+  //Función para volver al estado inicial una card
   const removeClass = (i: number) => {
     const el: any = document.getElementsByClassName("flippy-cardContainer")[i];
     el.classList.remove("isActive");
   };
 
+  //Función para eliminar una cita por parte del usuario
   const deleteAppointment = () => {
     fetch(
       "http://localhost:8080/api/appointment/delete/" +
@@ -72,6 +78,7 @@ const HomeCompany: React.FC<
     });
   };
 
+  //Hook para cargar los datos de la empresa
   React.useEffect(() => {
     const params: any = props.match.params;
     fetch("http://localhost:8080/api/company/" + params.companyId, {
@@ -98,6 +105,8 @@ const HomeCompany: React.FC<
     }); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.token]);
 
+  //Hook para verificar si el usuario registrado tiene cita y en caso
+  //afirmativo cargar los datos en redux
   React.useEffect(() => {
     if (props.company._id && props.user._id && props.token) {
       fetch(

@@ -4,6 +4,8 @@ const materialize = require("react-materialize");
 
 interface IProps {}
 
+//Este componente carga las cards para elegir el horario y le pasa el día
+//a cada scheduletimepicker
 const Schedule: React.FC<IProps> = props => {
   return (
     <div className="scheduleCompany">

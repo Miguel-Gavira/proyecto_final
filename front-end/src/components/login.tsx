@@ -15,6 +15,7 @@ interface IPropsGlobal {
   company: ICompany;
 }
 
+//Este componente carga el registro de usuario o añadir usuario
 const Login: React.FC<IProps & IPropsGlobal & RouteComponentProps> = props => {
   const changeUrl = () => {
     switch (props.location.pathname) {

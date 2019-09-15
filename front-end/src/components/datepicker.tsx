@@ -12,6 +12,7 @@ interface IPropsGlobal {
   setAppointment: (appointment: DateTime) => void;
 }
 
+//Este componente se encarga de pintar los días semana a semana
 const Datepicker: React.FC<IProps & IPropsGlobal> = props => {
   const add = () => {
     props.setAppointment(props.appointment.plus({ week: 1 }));

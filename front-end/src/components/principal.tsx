@@ -6,7 +6,10 @@ const Flippy = require("react-flippy");
 
 interface IProps {}
 
+//Este componente carga la página principal
 const Principal: React.FC<IProps> = props => {
+
+  //Condiciones del auto-scroll
   const scrollType = {
     duration: 500,
     delay: 50,
@@ -14,15 +17,18 @@ const Principal: React.FC<IProps> = props => {
     offset: -80
   };
 
+  //Función para hacer auto-scroll al carrusel
   const goToSection1 = () => {
     scroller.scrollTo("section1", scrollType);
   };
 
+  //Función para voltear una card
   const addClass = (i: number) => {
     const el: any = document.getElementsByClassName("flippy-cardContainer")[i];
     el.classList.add("isActive");
   };
 
+  //Función para volver a la posición inicial la card
   const removeClass = (i: number) => {
     const el: any = document.getElementsByClassName("flippy-cardContainer")[i];
     el.classList.remove("isActive");

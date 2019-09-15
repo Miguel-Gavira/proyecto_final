@@ -12,6 +12,7 @@ interface IPropsGlobal {
   company: ICompany;
 }
 
+//Este componente carga los datos de las empresas
 const Footer: React.FC<IProps & IPropsGlobal> = props => {
   return (
     <materialize.Footer

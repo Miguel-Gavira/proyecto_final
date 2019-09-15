@@ -17,6 +17,7 @@ interface IPropsGlobal {
   setCompany: (company: ICompany) => void;
 }
 
+//Este componente se usa para crear una nueva empresa o para editarla
 const AddCompany: React.FC<
   IProps & IPropsGlobal & RouteComponentProps
 > = props => {
@@ -32,11 +33,13 @@ const AddCompany: React.FC<
   const [editMode, setEditMode] = React.useState(false);
   const [error, setError] = useState("");
 
+  //Función para cambiar el modo edición
   const updateEditMode = () => {
     setEditMode(e => !e);
     setError("");
   };
 
+  //Control del input del nombre de la compañía
   const updateInputCompanyName = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -44,26 +47,31 @@ const AddCompany: React.FC<
     setError("");
   };
 
+  //Control del input de la dirección
   const updateInputAddress = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputAddress(event.target.value);
     setError("");
   };
 
+  //Control del input del teléfono
   const updateInputTelephone = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputTelephone(event.target.value);
     setError("");
   };
 
+  //Control del input del sector
   const updateInputType = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputType(event.target.value);
     setError("");
   };
 
+  //Control del input del email
   const updateInputEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputEmail(event.target.value);
     setError("");
   };
 
+  //Control del input de la duración de las citas
   const updateInputAppointmentDuration = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -71,19 +79,26 @@ const AddCompany: React.FC<
     setError("");
   };
 
+  //Función para validar que el email tenga un formato lógico
   const validEmailRegex = new RegExp(
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i //eslint-disable-line
   );
   const validateEmail = (e: string) => validEmailRegex.test(e);
 
+  //Función para validar que el nombre tenga un formato sin símbolos
   const validComanyNameRegex = new RegExp(/^([a-zA-ZÁ-ÿ0-9' ]+)$/);
   const validateCompanyName = (e: string) => validComanyNameRegex.test(e);
 
+  //Función para validar el formato del teléfono
   const validatePhone: any = (value: number) => {
     const str = value.toString().replace(/\s/g, "");
     return str.length === 9 && /^[679]{1}[0-9]{8}$/.test(str);
   };
 
+  //Función para enviar los datos del formulario al back. Como el componente
+  //se utiliza para añadir o editar los datos de las empresas primero valida
+  //si existe un id de empresa en redux, si no hay la creará y en caso contrario
+  //modificará la existente. Además actualiza los datos de empresa en redux.
   const submit = () => {
     if (
       inputCompanyName &&
@@ -185,7 +200,9 @@ const AddCompany: React.FC<
               console.log(error);
             });
         }
-      } else {
+      }
+      //Validación de errores
+      else {
         if (!validateEmail(inputEmail)) {
           setError("El email no tiene un formato válido");
         } else if (!validateCompanyName(inputCompanyName)) {
@@ -203,6 +220,8 @@ const AddCompany: React.FC<
     }
   };
 
+  //Hook para traernos los datos de la empresa en el caso que exista y actulizar
+  //los inputs
   React.useEffect(() => {
     if (props.user.companyId) {
       fetch("http://localhost:8080/api/company/" + props.user.companyId, {
